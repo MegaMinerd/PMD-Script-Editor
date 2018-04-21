@@ -1,0 +1,163 @@
+package com.mega.pmds.util;
+
+import java.io.IOException;
+import java.util.PriorityQueue;
+
+import javax.swing.tree.TreePath;
+
+import com.mega.pmds.CodeConverter;
+import com.mega.pmds.InvalidPointerException;
+import com.mega.pmds.RomManipulator;
+import com.mega.pmds.data.Actor;
+import com.mega.pmds.data.Direction;
+import com.mega.pmds.gui.CodePanelInitializer;
+import com.mega.pmds.gui.PmdScriptEditorWindow;
+import com.mega.pmds.gui.ScriptTreeNode;
+
+/**
+ * Used to keep track of what needs to be loaded from a ROM
+ */
+public class LoadTask implements Comparable<LoadTask>{
+	private final Type type;
+	private final  ScriptTreeNode parent;
+	private final int offset, size;
+	
+	public enum Type{
+		AREA,
+		WAYPOINT_LIST,
+		SCENE_LIST,
+		SCENE_DATA,
+		ACTOR,
+		SCRIPT,
+		CAMERA_DATA,
+		FOOTER_POINTER,
+		MAIN_THREAD
+	}
+	
+	public LoadTask(Type typeIn, ScriptTreeNode parentIn, int sizeIn, int offsetIn) {
+		this.type = typeIn;
+		this.parent = parentIn;
+		this.size = sizeIn;
+		this.offset = offsetIn;
+	}
+	
+	public void load(PriorityQueue<LoadTask> tasks) throws IOException, InvalidPointerException {
+		if(this.type==Type.AREA) {
+			String name = ConfigHandler.nameFromTypeAndOffset(type, offset);
+			if(name.equals(""))
+				name = "Unknown Area (0x" + Integer.toHexString(this.offset) + ")";
+			ScriptTreeNode node = new ScriptTreeNode(name, true);
+			parent.add(node);
+			RomManipulator.seek(offset);
+			int size = RomManipulator.readInt();
+			tasks.add(new LoadTask(Type.SCENE_LIST, node, size, RomManipulator.parsePointer()));
+			int pointer = RomManipulator.parsePointer();
+			tasks.add(new LoadTask(Type.WAYPOINT_LIST, node, (offset-pointer)/8, pointer));
+		}else if(this.type==Type.WAYPOINT_LIST) {
+			ScriptTreeNode node = new ScriptTreeNode("Waypoints", true);
+			parent.add(node);
+			RomManipulator.seek(offset);
+			for(int i=0; i<size; i++) {
+				ScriptTreeNode waypoint = new ScriptTreeNode("Waypoint " + i, true);
+				waypoint.add(new ScriptTreeNode("Location: (" + RomManipulator.readByte() + ", " + RomManipulator.readByte() + ")"));
+				byte[] data = new byte[6];
+				RomManipulator.read(data);
+				waypoint.add(new ScriptTreeNode("Unknown data:" + CodeConverter.bytesToString(data)));
+				node.add(waypoint);
+			}
+		}else if(this.type==Type.SCENE_LIST) {
+			ScriptTreeNode node = new ScriptTreeNode("Scenes", true);
+			parent.add(node);
+			RomManipulator.seek(offset);
+			for(int i=0; i<size; i++) {
+				int nextSize = RomManipulator.readInt();
+				int pointer = RomManipulator.parsePointer();
+				String name = ConfigHandler.nameFromTypeAndOffset(type, pointer);
+				if(name.equals(""))
+					name = "Unknown Scene (0x" + Integer.toHexString(pointer) + ")";
+				ScriptTreeNode scene = new ScriptTreeNode(name, true);
+				node.add(scene);
+				tasks.add(new LoadTask(Type.SCENE_DATA, scene, nextSize, pointer));
+			}
+		}else if(this.type==Type.SCENE_DATA) {
+			RomManipulator.seek(offset);
+			for(int i=0; i<size; i++) {
+				try {
+					ScriptTreeNode node = new ScriptTreeNode("Call " + i, true);
+					tasks.add(new LoadTask(Type.ACTOR, node, RomManipulator.readInt(), RomManipulator.parsePointer()));
+					parent.add(node);
+				}catch(InvalidPointerException ipe) {
+				
+				}
+				RomManipulator.skip(8);
+				try {
+					tasks.add(new LoadTask(Type.CAMERA_DATA, parent, RomManipulator.readInt(), RomManipulator.parsePointer()));
+				}catch(InvalidPointerException ipe) {
+				
+				}
+				RomManipulator.skip(8);
+				try {
+					tasks.add(new LoadTask(Type.FOOTER_POINTER, parent, RomManipulator.readInt(), RomManipulator.parsePointer()));
+				}catch(InvalidPointerException ipe) {
+				}
+			}
+		}else if(this.type==Type.ACTOR) {
+			RomManipulator.seek(offset);
+			for(int i=0; i<size; i++) {
+				ScriptTreeNode node;
+				try {
+					node = new ScriptTreeNode(Actor.fromID(RomManipulator.readByte()).toString(), true);
+				}catch(NullPointerException npe) {
+					node = new ScriptTreeNode("Actor" + parent.getChildCount(), true);
+				}
+				node.add(new ScriptTreeNode("Direction: " + Direction.fromID(RomManipulator.readByte()).toString()));
+				RomManipulator.skip(2);
+				node.add(new ScriptTreeNode("Location: (" + RomManipulator.readByte() + ", " + RomManipulator.readByte() + ")"));
+				byte[] data = new byte[2];
+				RomManipulator.read(data);
+				node.add(new ScriptTreeNode("Unknown data: " + CodeConverter.bytesToString(data)));
+				parent.add(node);
+				tasks.add(new LoadTask(Type.SCRIPT, node, 1, RomManipulator.parsePointer()));
+				RomManipulator.skip(12);
+			}
+		}else if(this.type==Type.SCRIPT) {
+			PmdScriptEditorWindow.addTreeAction(new TreePath(parent.getPath()), new CodePanelInitializer(offset));
+		}else if(this.type==Type.CAMERA_DATA) {
+			ScriptTreeNode node = new ScriptTreeNode("Camera", true);
+			RomManipulator.seek(offset);
+			byte[] data = new byte[4];
+			RomManipulator.read(data);
+			node.add(new ScriptTreeNode("Unknown data: " + CodeConverter.bytesToString(data)));
+			node.add(new ScriptTreeNode("Location: (" + RomManipulator.readByte() + ", " + RomManipulator.readByte() + ")"));
+			data = new byte[2];
+			RomManipulator.read(data);
+			node.add(new ScriptTreeNode("Unknown data: " + CodeConverter.bytesToString(data)));
+			try {
+				tasks.add(new LoadTask(Type.SCRIPT, node, 1, RomManipulator.parsePointer()));
+			}catch(InvalidPointerException ipe) {
+				
+			}
+			parent.add(node);
+		}else if(this.type==Type.FOOTER_POINTER) {
+			RomManipulator.seek(offset);
+			tasks.add(new LoadTask(Type.MAIN_THREAD, parent, 1, RomManipulator.parsePointer()));
+		}else if(this.type==Type.MAIN_THREAD) {
+			RomManipulator.seek(offset);
+			ScriptTreeNode node = new ScriptTreeNode("Main thread", true);
+			parent.add(node);
+			byte[] data = new byte[8];
+			RomManipulator.read(data);
+			node.add(new ScriptTreeNode("Unknown data: " + CodeConverter.bytesToString(data)));
+			tasks.add(new LoadTask(Type.SCRIPT, node, 1, RomManipulator.parsePointer()));
+		}
+	}
+	
+	protected int getOffset() {
+		return offset;
+	}
+
+	@Override
+	public int compareTo(LoadTask other) {
+		return this.offset-other.getOffset();
+	}
+}
