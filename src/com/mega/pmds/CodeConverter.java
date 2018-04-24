@@ -35,13 +35,18 @@ public class CodeConverter {
 				return command;
 			case 0x30:
 				return "ExitMsg";
+			case 0x32:
+				command = "Message\tplain, ";
+				command += interpretActorID(data[2]) + ", ";
+				command += parsePointer(data);
+				return command;
 			case 0x33:
-				command = "Message\tnoName, ";
+				command = "Message\tthought, ";
 				command += interpretActorID(data[2]) + ", ";
 				command += parsePointer(data);
 				return command;
 			case 0x34:
-				command = "Message\tnormal, ";
+				command = "Message\tspeech, ";
 				command += interpretActorID(data[2]) + ", ";
 				command += parsePointer(data);
 				return command;
