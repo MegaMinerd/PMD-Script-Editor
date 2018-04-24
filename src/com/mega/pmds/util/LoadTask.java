@@ -31,7 +31,8 @@ public class LoadTask implements Comparable<LoadTask>{
 		SCRIPT,
 		CAMERA_DATA,
 		FOOTER_POINTER,
-		MAIN_THREAD
+		MAIN_THREAD,
+		INTERACTION
 	}
 	
 	public LoadTask(Type typeIn, ScriptTreeNode parentIn, int sizeIn, int offsetIn) {
@@ -89,7 +90,11 @@ public class LoadTask implements Comparable<LoadTask>{
 				}catch(InvalidPointerException ipe) {
 				
 				}
-				RomManipulator.skip(8);
+				try {
+					tasks.add(new LoadTask(Type.INTERACTION, parent, RomManipulator.readInt(), RomManipulator.parsePointer()));
+				}catch(InvalidPointerException ipe) {
+				
+				}
 				try {
 					tasks.add(new LoadTask(Type.CAMERA_DATA, parent, RomManipulator.readInt(), RomManipulator.parsePointer()));
 				}catch(InvalidPointerException ipe) {
@@ -149,6 +154,29 @@ public class LoadTask implements Comparable<LoadTask>{
 			RomManipulator.read(data);
 			node.add(new ScriptTreeNode("Unknown data: " + CodeConverter.bytesToString(data)));
 			tasks.add(new LoadTask(Type.SCRIPT, node, 1, RomManipulator.parsePointer()));
+		}else if(this.type==Type.INTERACTION) {
+			RomManipulator.seek(offset);
+			for(int i=0; i<size; i++) {
+				ScriptTreeNode node = new ScriptTreeNode("Interaction " + i, true);
+				node.add(new ScriptTreeNode("Size: (" + RomManipulator.readByte() + ", " + RomManipulator.readByte() + ")"));
+				byte[] data = new byte[2];
+				RomManipulator.read(data);
+				node.add(new ScriptTreeNode("Unknown data: " + CodeConverter.bytesToString(data)));
+				node.add(new ScriptTreeNode("Location: (" + RomManipulator.readByte() + ", " + RomManipulator.readByte() + ")"));
+				RomManipulator.read(data);
+				node.add(new ScriptTreeNode("Unknown data: " + CodeConverter.bytesToString(data)));
+				for(int j=0; j<3; j++) {
+					try {
+						ScriptTreeNode script = new ScriptTreeNode("Script " + j);
+						tasks.add(new LoadTask(Type.SCRIPT, script, 1, RomManipulator.parsePointer()));
+						node.add(script);
+					}catch(InvalidPointerException ipe) {
+						
+					}
+				}
+				RomManipulator.skip(4);
+				parent.add(node);
+			}
 		}
 	}
 	
