@@ -29,7 +29,7 @@ public class Main {
 	}
 	
 	private static void init() throws IOException {
-		frame = new PmdScriptEditorWindow("Mega's PMD Script Editing Tool");
+		frame = new PmdScriptEditorWindow("PMD Script Editing Tool");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(750, 750));
 		frame.pack();
