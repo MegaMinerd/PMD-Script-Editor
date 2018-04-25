@@ -58,7 +58,7 @@ public class CodeConverter {
 				return "StopSng";
 			case 0x44:
 				command = "PlaySng\t";
-				command += parseUnsignedShort(data, 2);
+				command += parseUnsignedShort(data, 4);
 				return command;
 			case 0x45:
 				command = "FadeIn\t";
@@ -154,6 +154,7 @@ public class CodeConverter {
 		byte[] data = new byte[16];
 		RomManipulator.seek(offset);
 		do {
+			output += Integer.toHexString(RomManipulator.getFilePointer()) + "\t";
 			RomManipulator.read(data);
 			output += interpretCommand(data) + "\n";
 		}while(!output.endsWith("Close\n") && !output.endsWith("End\n"));
