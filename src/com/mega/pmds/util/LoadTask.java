@@ -47,6 +47,8 @@ public class LoadTask implements Comparable<LoadTask>{
 			String name = ConfigHandler.nameFromTypeAndOffset(type, offset);
 			if(name.equals(""))
 				name = "Unknown Area (0x" + Integer.toHexString(this.offset) + ")";
+			else
+				name += " (0x" + Integer.toHexString(offset) + ")";
 			ScriptTreeNode node = new ScriptTreeNode(name, true);
 			parent.add(node);
 			RomManipulator.seek(offset);
@@ -55,11 +57,11 @@ public class LoadTask implements Comparable<LoadTask>{
 			int pointer = RomManipulator.parsePointer();
 			tasks.add(new LoadTask(Type.WAYPOINT_LIST, node, (offset-pointer)/8, pointer));
 		}else if(this.type==Type.WAYPOINT_LIST) {
-			ScriptTreeNode node = new ScriptTreeNode("Waypoints", true);
+			ScriptTreeNode node = new ScriptTreeNode("Waypoints" + " (0x" + Integer.toHexString(offset) + ")", true);
 			parent.add(node);
 			RomManipulator.seek(offset);
 			for(int i=0; i<size; i++) {
-				ScriptTreeNode waypoint = new ScriptTreeNode("Waypoint " + i, true);
+				ScriptTreeNode waypoint = new ScriptTreeNode("Waypoint " + i + " (0x" + Integer.toHexString(offset) + ")", true);
 				waypoint.add(new ScriptTreeNode("Location: (" + RomManipulator.readByte() + ", " + RomManipulator.readByte() + ")"));
 				byte[] data = new byte[6];
 				RomManipulator.read(data);
@@ -67,7 +69,7 @@ public class LoadTask implements Comparable<LoadTask>{
 				node.add(waypoint);
 			}
 		}else if(this.type==Type.SCENE_LIST) {
-			ScriptTreeNode node = new ScriptTreeNode("Scenes", true);
+			ScriptTreeNode node = new ScriptTreeNode("Scenes (0x" + Integer.toHexString(offset) + ")", true);
 			parent.add(node);
 			RomManipulator.seek(offset);
 			for(int i=0; i<size; i++) {
@@ -76,6 +78,8 @@ public class LoadTask implements Comparable<LoadTask>{
 				String name = ConfigHandler.nameFromTypeAndOffset(type, pointer);
 				if(name.equals(""))
 					name = "Unknown Scene (0x" + Integer.toHexString(pointer) + ")";
+				else
+					name += " (0x" + Integer.toHexString(offset) + ")";
 				ScriptTreeNode scene = new ScriptTreeNode(name, true);
 				node.add(scene);
 				tasks.add(new LoadTask(Type.SCENE_DATA, scene, nextSize, pointer));
@@ -84,7 +88,7 @@ public class LoadTask implements Comparable<LoadTask>{
 			RomManipulator.seek(offset);
 			for(int i=0; i<size; i++) {
 				try {
-					ScriptTreeNode node = new ScriptTreeNode("Call " + i, true);
+					ScriptTreeNode node = new ScriptTreeNode("Call " + i + " (0x" + Integer.toHexString(offset) + ")", true);
 					tasks.add(new LoadTask(Type.ACTOR, node, RomManipulator.readInt(), RomManipulator.parsePointer()));
 					parent.add(node);
 				}catch(InvalidPointerException ipe) {
@@ -128,7 +132,7 @@ public class LoadTask implements Comparable<LoadTask>{
 		}else if(this.type==Type.SCRIPT) {
 			PmdScriptEditorWindow.addTreeAction(new TreePath(parent.getPath()), new CodePanelInitializer(offset));
 		}else if(this.type==Type.CAMERA_DATA) {
-			ScriptTreeNode node = new ScriptTreeNode("Camera", true);
+			ScriptTreeNode node = new ScriptTreeNode("Camera (0x" + Integer.toHexString(offset) + ")", true);
 			RomManipulator.seek(offset);
 			byte[] data = new byte[4];
 			RomManipulator.read(data);
@@ -148,7 +152,7 @@ public class LoadTask implements Comparable<LoadTask>{
 			tasks.add(new LoadTask(Type.MAIN_THREAD, parent, 1, RomManipulator.parsePointer()));
 		}else if(this.type==Type.MAIN_THREAD) {
 			RomManipulator.seek(offset);
-			ScriptTreeNode node = new ScriptTreeNode("Main thread", true);
+			ScriptTreeNode node = new ScriptTreeNode("Main thread (0x" + Integer.toHexString(offset) + ")", true);
 			parent.add(node);
 			byte[] data = new byte[8];
 			RomManipulator.read(data);
@@ -157,7 +161,7 @@ public class LoadTask implements Comparable<LoadTask>{
 		}else if(this.type==Type.INTERACTION) {
 			RomManipulator.seek(offset);
 			for(int i=0; i<size; i++) {
-				ScriptTreeNode node = new ScriptTreeNode("Interaction " + i, true);
+				ScriptTreeNode node = new ScriptTreeNode("Interaction " + i + " (0x" + Integer.toHexString(offset) + ")", true);
 				node.add(new ScriptTreeNode("Size: (" + RomManipulator.readByte() + ", " + RomManipulator.readByte() + ")"));
 				byte[] data = new byte[2];
 				RomManipulator.read(data);
