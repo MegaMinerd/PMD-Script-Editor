@@ -5,6 +5,10 @@ import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -12,15 +16,19 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.mega.pmds.RomManipulator;
+
 public class ConfigHandler {
 	private static ConfigHandler instance = null;
 	private Document names;
+	private XPath xpath;
 	DocumentBuilder builder;
 	
 	private ConfigHandler() {
 		try {
 			builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			names = builder.parse("names.xml");
+			xpath = XPathFactory.newInstance().newXPath();
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -49,6 +57,17 @@ public class ConfigHandler {
 	
 	public static String nameFromTypeAndOffset(LoadTask.Type type, int offset) {
 		verifyInit();
+		//Select data based on filename
+		String fName = ((RomManipulator.getFilename()).split("\\."))[0];
+		Element rom = null;
+		try {
+			rom = (Element)instance.xpath.evaluate("//*[@id='" + fName + "']", instance.names, XPathConstants.NODE);
+		} catch (XPathExpressionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(rom==null)
+			return defaultNameFromTypeAndOffset(type, offset);
 		String str = "";
 		switch(type) {
 			case AREA:
@@ -60,7 +79,7 @@ public class ConfigHandler {
 			default:
 				return "";
 		}
-		NodeList nameList = instance.names.getElementsByTagName(str);
+		NodeList nameList = rom.getElementsByTagName(str);
 		for(int i=0; i<nameList.getLength(); i++) {
 			if(nameList.item(i).getNodeType()==Node.ELEMENT_NODE) {
 				Element name = (Element)nameList.item(i);
@@ -68,7 +87,37 @@ public class ConfigHandler {
 					return name.getAttribute("name");
 			}
 		}
-		
+		return defaultNameFromTypeAndOffset(type, offset);
+	}
+	
+	//Used if the target data is undefined for the specific filename
+	private static String defaultNameFromTypeAndOffset(LoadTask.Type type, int offset) {
+		Element rom = null;
+		try {
+			rom = (Element)instance.xpath.evaluate("//*[@id='Unmodified']", instance.names, XPathConstants.NODE);
+		} catch (XPathExpressionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String str = "";
+		switch(type) {
+			case AREA:
+				str = "area";
+				break;
+			case SCENE_LIST:
+				str = "scene";
+				break;
+			default:
+				return "";
+		}
+		NodeList nameList = rom.getElementsByTagName(str);
+		for(int i=0; i<nameList.getLength(); i++) {
+			if(nameList.item(i).getNodeType()==Node.ELEMENT_NODE) {
+				Element name = (Element)nameList.item(i);
+				if(Integer.parseInt(name.getAttribute("offset"), 16)==offset)
+					return name.getAttribute("name");
+			}
+		}
 		return "";
 	}
 	
