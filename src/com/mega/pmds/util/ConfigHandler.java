@@ -76,6 +76,12 @@ public class ConfigHandler {
 			case SCENE_LIST:
 				str = "scene";
 				break;
+			case SCENE_DATA:
+				str = "call";
+				break;
+			case INTERACTION:
+				str = "interaction";
+				break;
 			default:
 				return "";
 		}

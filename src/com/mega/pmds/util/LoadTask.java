@@ -61,7 +61,7 @@ public class LoadTask implements Comparable<LoadTask>{
 			parent.add(node);
 			RomManipulator.seek(offset);
 			for(int i=0; i<size; i++) {
-				ScriptTreeNode waypoint = new ScriptTreeNode("Waypoint " + i + " (0x" + Integer.toHexString(offset) + ")", true);
+				ScriptTreeNode waypoint = new ScriptTreeNode("Waypoint " + i + " (0x" + Integer.toHexString(RomManipulator.getFilePointer()) + ")", true);
 				waypoint.add(new ScriptTreeNode("Location: (" + RomManipulator.readByte() + ", " + RomManipulator.readByte() + ")"));
 				byte[] data = new byte[6];
 				RomManipulator.read(data);
@@ -88,7 +88,12 @@ public class LoadTask implements Comparable<LoadTask>{
 			RomManipulator.seek(offset);
 			for(int i=0; i<size; i++) {
 				try {
-					ScriptTreeNode node = new ScriptTreeNode("Call " + i + " (0x" + Integer.toHexString(offset) + ")", true);
+					String name = ConfigHandler.nameFromTypeAndOffset(type, RomManipulator.getFilePointer());
+					if(name.equals(""))
+						name = "Call " + i + " (0x" + Integer.toHexString(RomManipulator.getFilePointer()) + ")";
+					else
+						name += " (0x" + Integer.toHexString(RomManipulator.getFilePointer()) + ")";
+					ScriptTreeNode node = new ScriptTreeNode(name, true);
 					tasks.add(new LoadTask(Type.ACTOR, node, RomManipulator.readInt(), RomManipulator.parsePointer()));
 					parent.add(node);
 				}catch(InvalidPointerException ipe) {
@@ -161,7 +166,12 @@ public class LoadTask implements Comparable<LoadTask>{
 		}else if(this.type==Type.INTERACTION) {
 			RomManipulator.seek(offset);
 			for(int i=0; i<size; i++) {
-				ScriptTreeNode node = new ScriptTreeNode("Interaction " + i + " (0x" + Integer.toHexString(offset) + ")", true);
+				String name = ConfigHandler.nameFromTypeAndOffset(type, offset);
+				if(name.equals(""))
+					name = "Interaction " + i + " (0x" + Integer.toHexString(offset) + ")";
+				else
+					name += " (0x" + Integer.toHexString(offset) + ")";
+				ScriptTreeNode node = new ScriptTreeNode(name, true);
 				node.add(new ScriptTreeNode("Size: (" + RomManipulator.readByte() + ", " + RomManipulator.readByte() + ")"));
 				byte[] data = new byte[2];
 				RomManipulator.read(data);

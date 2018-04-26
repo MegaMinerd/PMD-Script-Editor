@@ -5,7 +5,12 @@ The debug attribute only serves to make note of selection in the debug room that
 	<rom id="Unmodified">
 		<area name="Town Square" offset="17D5F8" />
 		<area name="Wishcash Pond" offset="189954" />
-		<area name="Pelipper Post Office Exterior" offset="197A08" />
+		<area name="Pelipper Post Office Exterior" offset="197A08">
+			<scene name="" offset="1970D0">
+				<call name="Pelipper Behavior" offset="1970D0" />
+				<inter name="Bulletin Board" offset="196F94" />
+			</scene>
+		</area>
 		<area name="Pelipper Post Office Interior" offset="198E0C" />
 		<area name="Makuhita Dojo" offset="19A3C4" />
 		<area name="Team Base Exterior" offset="1E1940">
