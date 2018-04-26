@@ -8,7 +8,6 @@ import java.io.RandomAccessFile;
 
 /**
  * A singleton encapsulation for the ROM file
- * @author MegaMinerd
  */
 public class RomManipulator {
 	private RandomAccessFile file;
@@ -31,6 +30,16 @@ public class RomManipulator {
 	
 	public static void seek(int offset) throws IOException{
 		instance.file.seek(offset);
+	}
+	
+	/**
+	 * Reads the next byte and returns the file pointer. Used by CodeConverter to check if the next command is a label.
+	 * @return The next byte in the file 
+	 */
+	public static int peek() throws IOException {
+		int data = instance.file.readUnsignedByte();
+		seek(getFilePointer()-1);
+		return data;
 	}
 	
 	public static int getFilePointer() throws IOException {

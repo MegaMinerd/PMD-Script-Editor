@@ -179,8 +179,20 @@ public class CodeConverter {
 			output += Integer.toHexString(RomManipulator.getFilePointer()) + "\t";
 			RomManipulator.read(data);
 			output += interpretCommand(data) + "\n";
-		}while(!output.endsWith("Close\n") && !output.endsWith("End\n"));
+			try{
+				if(isTerminator(data[0]) && RomManipulator.peek()!=0xF4)
+					break;
+			}catch(IOException ioe) {
+				ioe.printStackTrace();
+				break;
+			}
+		}while(true);
 		return output;
+	}
+	
+	private static boolean isTerminator(byte in) {
+		int command = ((int)in)&0xFF;
+		return (command==0xE9 || (0xEE<=command && command<=0xF1));
 	}
 	
 	public static String bytesToString(byte[] data) {
