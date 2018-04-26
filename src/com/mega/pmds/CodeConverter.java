@@ -1,7 +1,6 @@
 package com.mega.pmds;
 
 import java.io.IOException;
-import java.io.RandomAccessFile;
 
 import com.mega.pmds.data.Direction;
 import com.mega.pmds.data.Face;

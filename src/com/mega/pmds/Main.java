@@ -1,13 +1,10 @@
 package com.mega.pmds;
 
 import java.awt.Dimension;
-import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 
 import javax.swing.JFrame;
 
-import com.mega.pmds.data.Actor;
 import com.mega.pmds.gui.PmdScriptEditorWindow;
 
 public class Main {

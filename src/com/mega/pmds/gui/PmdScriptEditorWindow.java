@@ -92,7 +92,7 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 		instance = this;
 	}
 	
-	public static void addTreeAction(TreePath path, Callable action) {
+	public static void addTreeAction(TreePath path, Callable<ScriptContentPanel> action) {
 		instance.treeActions.put(path, action);
 	}
 	
@@ -112,7 +112,7 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 	}
 	
 	public void updateTree() throws IOException {
-		ScriptTreeNode root = new ScriptTreeNode(rom.getFilename(), true);
+		ScriptTreeNode root = new ScriptTreeNode(RomManipulator.getFilename(), true);
 		treeModel.setRoot(root);
 		PriorityQueue<LoadTask> tasks = new PriorityQueue<LoadTask>();
 		RomManipulator.seek(0x11E258);
@@ -152,10 +152,8 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 				try {
 					rom = new RomManipulator(fc.getSelectedFile());
 					updateAll();
-				}catch (FileNotFoundException fnf) {
-					
+				}catch (FileNotFoundException fnfe) {
 				}catch (IOException ioe) {
-					
 				}
 			}
 		}else if(event.getSource().equals(reloadConfig)) {
