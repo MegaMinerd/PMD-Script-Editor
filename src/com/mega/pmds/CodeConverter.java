@@ -76,8 +76,21 @@ public class CodeConverter {
 				command = "StopSnd\t";
 				command += parseUnsignedShort(data, 4);
 				return command;
+			case 0x52:
+				command = "Hide\t0x";
+				command += Integer.toHexString(parseUnsignedInt(data, 4));
+				return command;
+			case 0x53:
+				command = "Show\t0x";
+				command += Integer.toHexString(parseUnsignedInt(data, 4));
+				return command;
 			case 0x6B:
-				command = "MoveTo\t";
+				command = "MoveTo\tgrid, ";
+				command += parseUnsignedShort(data, 2) + ", ";
+				command += data[4];
+				return command;
+			case 0x7A:
+				command = "MoveTo\tdirect, ";
 				command += parseUnsignedShort(data, 2) + ", ";
 				command += data[4];
 				return command;
@@ -131,14 +144,24 @@ public class CodeConverter {
 				command = "SetFlag\t";
 				command += data[2];
 				return command;
+			case 0xE7:
+				command = "Loop\t";
+				command += data[2];
+				return command;
 			case 0xE8:
 				command = "Execute\t";
 				command += Function.fromID(parseUnsignedShort(data, 2));
 				return command;
+			case 0xE9:
+				return "MsgEnd";
+			case 0xEE:
+				return "Return";
 			case 0xEF:
 				return "End";
 			case 0xF0:
 				return "Close";
+			case 0xF1:
+				return "Remove";
 			case 0xF4:
 				command = "Label\t";
 				command += data[2];
@@ -194,6 +217,14 @@ public class CodeConverter {
 	public static int parseUnsignedShort(byte[] data, int offset) {
 		int value = data[offset]&0xFF;
 		value += (data[offset+1]&0xFF)<<8;
+		return value;
+	}
+	
+	public static int parseUnsignedInt(byte[] data, int offset) {
+		int value = data[offset]&0xFF;
+		value += (data[offset+1]&0xFF)<<8;
+		value += (data[offset+2]&0xFF)<<16;
+		value += (data[offset+3]&0xFF)<<24;
 		return value;
 	}
 	
