@@ -1,10 +1,12 @@
 package com.mega.pmds.util;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.validation.SchemaFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -22,11 +24,15 @@ public class ConfigHandler {
 	private static ConfigHandler instance = null;
 	private Document names;
 	private XPath xpath;
+	DocumentBuilderFactory factory;
 	DocumentBuilder builder;
 	
 	private ConfigHandler() {
 		try {
-			builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			factory = DocumentBuilderFactory.newInstance();
+			factory.setNamespaceAware(true);
+			factory.setSchema(SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema").newSchema(new File("nameSchema.xsd")));
+			builder = factory.newDocumentBuilder();
 			names = builder.parse("names.xml");
 			xpath = XPathFactory.newInstance().newXPath();
 		} catch (ParserConfigurationException e) {

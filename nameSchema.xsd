@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:nameSchema" xmlns:tns="urn:nameSchema" elementFormDefault="qualified">
+    <element name="pmdset" type="tns:root"></element>
+    
+    <complexType name="root">
+    	<sequence>
+    		<element name="rom" type="tns:rom"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="rom">
+    	<sequence>
+    		<element name="area" type="tns:area" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    	<attribute name="id" type="string" use="required"></attribute>
+    </complexType>
+
+    <complexType name="area">
+    	<sequence>
+    		<element name="scene" type="tns:scene" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    	<attribute name="name" type="string" use="required"></attribute>
+    	<attribute name="offset" type="hexBinary" use="required"></attribute>
+    </complexType>
+
+    <complexType name="scene">
+    	<sequence>
+    		<element name="call" type="tns:leafTag" maxOccurs="unbounded" minOccurs="0"></element>
+    		<element name="action" type="tns:leafTag" maxOccurs="1" minOccurs="0"></element>
+    	</sequence>
+    	<attribute name="name" type="string" use="required"></attribute>
+    	<attribute name="offset" type="hexBinary" use="required"></attribute>
+    	<attribute name="debug" type="string" use="optional"></attribute>
+    </complexType>
+
+    <complexType name="leafTag">
+    	<attribute name="name" type="string" use="required"></attribute>
+    	<attribute name="offset" type="hexBinary" use="required"></attribute>
+    </complexType>
+</schema>

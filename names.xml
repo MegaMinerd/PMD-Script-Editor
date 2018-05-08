@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--Hierarchy is currently unused but will used when writing is implemented.
 The debug attribute only serves to make note of selection in the debug room that plays the scene-->
-<pmdse>
+<pmdset xmlns="urn:nameSchema">
 	<rom id="Unmodified">
 		<area name="Town Square" offset="17D5F8" />
 		<area name="Wishcash Pond" offset="189954">
@@ -261,4 +261,4 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Boss defeat part 3" offset="263E80" />
 		</area>
 	</rom>
-</pmdse>
+</pmdset>
