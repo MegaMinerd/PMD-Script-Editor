@@ -79,7 +79,7 @@ public class LoadTask implements Comparable<LoadTask>{
 				if(name.equals(""))
 					name = "Unknown Scene (0x" + Integer.toHexString(pointer) + ")";
 				else
-					name += " (0x" + Integer.toHexString(offset) + ")";
+					name += " (0x" + Integer.toHexString(pointer) + ")";
 				ScriptTreeNode scene = new ScriptTreeNode(name, true);
 				node.add(scene);
 				tasks.add(new LoadTask(Type.SCENE_DATA, scene, nextSize, pointer));
