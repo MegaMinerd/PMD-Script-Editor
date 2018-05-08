@@ -4,11 +4,92 @@ The debug attribute only serves to make note of selection in the debug room that
 <pmdse>
 	<rom id="Unmodified">
 		<area name="Town Square" offset="17D5F8" />
-		<area name="Wishcash Pond" offset="189954" />
+		<area name="Wishcash Pond" offset="189954">
+			<scene name="State Selector" offset="1892B4" />
+			<scene name="Wishcash Behavior A?" offset="1892DC">
+				<call name="Sprite" offset="1892DC" />
+				<action name="Conversation?" offset="188F70" />
+			</scene>
+			<scene name="Wishcash Behavior B?" offset="189304">
+				<call name="Sprite" offset="189304" />
+				<action name="Conversation?" offset="188F88" />
+			</scene>
+			<scene name="Wish Cave Found" offset="189354">
+				<call name="Main Call" offset="189354" />
+			</scene>
+			<scene name="Wish Cave Scheming" offset="1893A4">
+				<call name="Main Call" offset="1893A4" />
+			</scene>
+			<scene name="Wish Cave Failed" offset="1893CC">
+				<call name="Behavior Before" offset="1893CC" />
+				<call name="Main Call" offset="1893F4" />
+			</scene>
+			<scene name="Wishcash Behavior C?" offset="18941C">
+				<call name="Sprite" offset="18941C" />
+				<action name="Conversation?" offset="188FA0" />
+			</scene>
+			<scene name="Ninetails Story" offset="18950C">
+				<call name="Behaviors Before" offset="18950C" />
+				<call name="Main Call" offset="189534" />
+				<action name="Conversation" offset="189030" />
+			</scene>
+			<scene name="Ninetails Story Flashback" offset="189584">
+				<call name="Main Call" offset="189584" />
+			</scene>
+		</area>
 		<area name="Pelipper Post Office Exterior" offset="197A08">
 			<scene name="" offset="1970D0">
 				<call name="Pelipper Behavior" offset="1970D0" />
-				<inter name="Bulletin Board" offset="196F94" />
+				<action name="Bulletin Board" offset="196F94" />
+			</scene>
+			<scene name="Dugtrio Returns" offset="197198">
+				<call name="Idle Diglett" offset="197198" />
+				<call name="Main Call" offset="1971C0" />
+				<call name="Idle Dugtrio" offset="1971E8" />
+			</scene>
+			<scene name="State Selector" offset="197210" />
+			<scene name="Wynaut Mission Accepted" offset="197238">
+				<call name="Main Call" offset="197238" />
+			</scene>
+			<scene name="Smeargle Mission Accepted" offset="197288">
+				<call name="Main Call" offset="197288" />
+			</scene>
+			<scene name="Ekans Mission Accepted" offset="1972D8">
+				<call name="Main Call" offset="1972D8" />
+			</scene>
+			<scene name="Gengar is Missing" offset="197328">
+				<call name="Main Call" offset="197328" />
+			</scene>
+			<scene name="Intro" offset="197468">
+				<call name="Main Call" offset="197468" />
+			</scene>
+			<scene name="Empty Scene" offset="197490" />
+			<scene name="Empty Scene" offset="1974B8" />
+			<scene name="Empty Scene" offset="1974E0" />
+			<scene name="Has Dugtrio been to Sea?" offset="197508">
+				<call name="Snubbull Extra" offset="197508" />
+				<call name="Main Call" offset="197530" />
+			</scene>
+			<scene name="Has Dugtrio been to Sea?" offset="197558">
+				<call name="Behaviors Before" offset="197558" />
+				<call name="Main Call" offset="197580" />
+			</scene>
+			<scene name="Can Dugtrio Swim?" offset="1975F8">
+				<call name="Behaviors Before" offset="1975F8" />
+				<call name="Main Call" offset="197620" />
+			</scene>
+			<scene name="How Does Dugtrio Swim?" offset="197648">
+				<call name="Behaviors Before" offset="197648" />
+				<call name="Main Call" offset="197670" />
+			</scene>
+			<scene name="Do earthquakes frighten you?" offset="197698">
+				<call name="Behaviors Before" offset="197698" />
+				<call name="Main Call" offset="1976C0" />
+			</scene>
+			<scene name="Does Groudon frighten you?" offset="1976E8">
+				<call name="Behaviors Before" offset="1976E8" />
+				<call name="Main Call" offset="197710" />
+				<call name="Behaviors After" offset="197738" />
 			</scene>
 		</area>
 		<area name="Pelipper Post Office Interior" offset="198E0C" />
