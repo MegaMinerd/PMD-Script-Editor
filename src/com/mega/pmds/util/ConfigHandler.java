@@ -117,7 +117,7 @@ public class ConfigHandler {
 				str = "call";
 				break;
 			case INTERACTION:
-				str = "interaction";
+				str = "action";
 				break;
 			default:
 				return "";
