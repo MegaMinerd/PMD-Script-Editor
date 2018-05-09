@@ -3,6 +3,7 @@
 The debug attribute only serves to make note of selection in the debug room that plays the scene-->
 <pmdset xmlns="urn:nameSchema">
 	<rom id="Unmodified">
+		<area name="Debug Room" offset="138254" />
 		<area name="Town Square" offset="17D5F8" />
 		<area name="Wishcash Pond" offset="189954">
 			<scene name="State Selector" offset="1892B4" />
@@ -94,10 +95,69 @@ The debug attribute only serves to make note of selection in the debug room that
 		</area>
 		<area name="Pelipper Post Office Interior" offset="198E0C" />
 		<area name="Makuhita Dojo" offset="19A3C4" />
+		<area name="Unused Base Interior" offset="19A73C" />
+		<area name="Luminous Cave" offset="19AD04" />
 		<area name="Team Base Exterior" offset="1E1940">
 			<scene name="World's Balance" debug="Main 5B-2" offset="1E0718" />
 		</area>
 		<area name="Team Base Interior" offset="1EE214" />
+		<area name="Bountiful Sea" offset="1EEAFC" />
+		<area name="Treasure Sea" offset="1EF524" />
+		<area name="Serene Sea" offset="1EFCAC" />
+		<area name="Deep-Sea Floor" offset="1F07B4" />
+		<area name="Deep-Sea Current" offset="1F0DEC" />
+		<area name="Seafloor Cave" offset="1F1424" />
+		<area name="Shallow Beach" offset="1F1C8C" />
+		<area name="Mt. Deepgreen" offset="1F2770" />
+		<area name="Mt. Cleft" offset="1F3110" />
+		<area name="Mt. Moonview" offset="1F3954" />
+		<area name="Rainbow Peak" offset="1F3F8C" />
+		<area name="Wild Plains" offset="1F4B04" />
+		<area name="Beau Plains" offset="1F560C" />
+		<area name="Sky Blue Plains" offset="1F6184" />
+		<area name="Safari" offset="1F6DDC" />
+		<area name="Scorched Plains" offset="1F7804" />
+		<area name="Sacred Field" offset="1F7F1C" />
+		<area name="Mist-Rise Forest" offset="1F8B04" />
+		<area name="Flyaway Forest" offset="1F95F4" />
+		<area name="Overgrown Forest" offset="1F9F88" />
+		<area name="Energetic Forest" offset="1FAC2C" />
+		<area name="Mushroom Forest" offset="1FB4D4" />
+		<area name="Healing Forest" offset="1FBB64" />
+		<area name="Transform Forest" offset="1FC3F4" />
+		<area name="Secretive Forest" offset="1FCDAC" />
+		<area name="Rub-a-Dub River" offset="1FD754" />
+		<area name="Tadpole Pond" offset="1FE0E8" />
+		<area name="Turtleshell Pond" offset="1FEB10" />
+		<area name="Mystic Lake" offset="1FF274" />
+		<area name="Waterfall Lake" offset="1FFA9C" />
+		<area name="Peanut Swamp" offset="200374" />
+		<area name="Poison Swamp" offset="200BDC" />
+		<area name="Echo Cave" offset="201674" />
+		<area name="Cryptic Cave" offset="201CAC" />
+		<area name="Dragon Cave" offset="202434" />
+		<area name="Boulder Cave" offset="202BA4" />
+		<area name="Jungle" offset="20371C" />
+		<area name="Decrepit Lab" offset="203FD0" />
+		<area name="Mt. Discipline" offset="204A68" />
+		<area name="Thunder Meadow" offset="205500" />
+		<area name="Power Plant" offset="205DD8" />
+		<area name="Crater" offset="2066B0" />
+		<area name="Furnace Desert" offset="206F88" />
+		<area name="Aged Chamber AN" offset="207B58" />
+		<area name="Aged Chamber O?" offset="208728" />
+		<area name="Ancient Relic" offset="208F90" />
+		<area name="Darkness Ridge" offset="209B08" />
+		<area name="Frigid Cavern" offset="20A3E0" />
+		<area name="Ice Floe Beach" offset="20AC48" />
+		<area name="Volcanic Pit" offset="20B280" />
+		<area name="Stratos Lookout" offset="20B8B8" />
+		<area name="Ravaged Field" offset="20C120" />
+		<area name="Magnetic Quarry" offset="20C884" />
+		<area name="Legendary Island" offset="20EA04" />
+		<area name="Southern Island" offset="20F0AC" />
+		<area name="Enclosed Island" offset="20F6E4" />
+		<area name="Final Island" offset="20FD1C" />
 		<area name="Dream World" offset="2163C0" />
 		<area name="Dream Eater World" offset="21812C" />
 		<area name="Fugitive Cutscene Fissure" offset="21858C" />
@@ -108,7 +168,12 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Snowy Trail - Frosty Forest" offset="21D1D0" />
 		<area name="Frigid Trail" offset="21F9A8" />
 		<area name="Hill of the Ancients" offset="2298A0" />
+		<area name="Sky Tower Outside View" offset="229B18" />
+		<area name="Meteor" offset="22A110" />
 		<area name="Spirit World" offset="22AF6C" />
+		<area name="Player Returning Home" offset="22B658" />
+		<area name="Starry Sky" offset="22BDD4" />
+		<area name="End Card" offset="22C234" />
 		<area name="Tiny Woods Entrance" offset="22FCA8">
 			<scene name="Map Script" offset="22FB30" />
 			<scene name="Intro"	debug="Main 1A-1" offset="22FB58" />
@@ -177,6 +242,7 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Map Script" offset="242A74" />
 			<scene name="Xatu meeting" debug="Main 5A-6" offset="242AC4" />
 		</area>
+		<area name="Lapis Cave Entrance" offset="245500" />
 		<area name="Lapis Cave Exit" offset="245CB4">
 			<scene name="Map Script" offset="245C44" />
 			<scene name="Intro" debug="Main 7A-5" offset="245C6C" />
@@ -260,5 +326,24 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Boss defeat part 2" offset="263E58" />
 			<scene name="Boss defeat part 3" offset="263E80" />
 		</area>
+		<area name="Stormy Sea Depths" offset="264144" />
+		<area name="Silver Trench Depths" offset="264820" />
+		<area name="Fiery Field Heart" offset="26562C" />
+		<area name="Lightning Field Heart" offset="2664BC" />
+		<area name="Northwind Field Heart" offset="2673B4" />
+		<area name="Mt. Faraway Summit" offset="267AB4" />
+		<area name="Western Cave Entrance" offset="269740" />
+		<area name="Northern Range Heart" offset="269D60" />
+		<area name="Pitfall Valley Depths" offset="26A590" />
+		<area name="Wish Cave 20F" offset="26A9F8" />
+		<area name="Murky Cave Depths" offset="26D720" />
+		<area name="Murky Cave Entrance" offset="26DB04" />
+		<area name="Howling Forest Heart" offset="26DF6C" />
+		<area name="Personality Test" offset="26E288" />
+		<area name="Title Screen" offset="26EC44" />
+		<area name="Above the Town (Intro)" offset="26F1A0" />
+		<area name="Pokemon Company Screen" offset="26F5A0" />
+		<area name="Health and Safety Screen" offset="26F7FC" />
+		<area name="World Map" offset="26F980" />
 	</rom>
 </pmdset>
