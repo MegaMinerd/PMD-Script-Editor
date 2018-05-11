@@ -11,6 +11,7 @@ import com.mega.pmds.RomManipulator;
 import com.mega.pmds.data.Actor;
 import com.mega.pmds.data.Direction;
 import com.mega.pmds.gui.CodePanelInitializer;
+import com.mega.pmds.gui.MapPanelInitializer;
 import com.mega.pmds.gui.PmdScriptEditorWindow;
 import com.mega.pmds.gui.ScriptTreeNode;
 
@@ -68,6 +69,7 @@ public class LoadTask implements Comparable<LoadTask>{
 				waypoint.add(new ScriptTreeNode("Unknown data:" + CodeConverter.bytesToString(data)));
 				node.add(waypoint);
 			}
+			PmdScriptEditorWindow.addTreeAction(new TreePath(node.getPath()), new MapPanelInitializer(node));
 		}else if(this.type==Type.SCENE_LIST) {
 			ScriptTreeNode node = new ScriptTreeNode("Scenes (0x" + Integer.toHexString(offset) + ")", true);
 			parent.add(node);
