@@ -117,7 +117,7 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 		PriorityQueue<LoadTask> tasks = new PriorityQueue<LoadTask>();
 		RomManipulator.seek(0x11E258);
 		//Used to avoid duplication of areas
-		//For some reason the pointer table has repeats
+		//The team base is duplicated several times, likely once for each possible appearance
 		ArrayList<Integer> offsets = new ArrayList<Integer>();
 		while(true) {
 			try {
