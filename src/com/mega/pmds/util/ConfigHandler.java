@@ -139,6 +139,37 @@ public class ConfigHandler {
 		return "";
 	}
 	
+	public static int[] getMapDefPointers(int offset) {
+		Element rom = null;
+		try {
+			rom = (Element)instance.xpath.evaluate("//*[@id='Unmodified']", instance.names, XPathConstants.NODE);
+		} catch (XPathExpressionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		NodeList areaList = rom.getElementsByTagName("area");
+		for(int i=0; i<areaList.getLength(); i++) {
+			if(areaList.item(i).getNodeType()==Node.ELEMENT_NODE) {
+				Element area = (Element)areaList.item(i);
+				if(Integer.parseInt(area.getAttribute("offset"), 16)==offset) {
+					NodeList mapList = area.getElementsByTagName("map");
+					if(mapList.getLength()>0 && mapList.item(0).getNodeType()==Node.ELEMENT_NODE) {
+						Element map = (Element)mapList.item(0);
+						int[] pointers = new int[4];
+						pointers[0] = Integer.parseInt(map.getAttribute("palette"), 16);
+						pointers[1] = Integer.parseInt(map.getAttribute("blockDef"), 16);
+						pointers[2] = Integer.parseInt(map.getAttribute("chunkDef"), 16);
+						pointers[3] = Integer.parseInt(map.getAttribute("imgDef"), 16);
+						return pointers;
+					} else {
+						return null;
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
 	@Deprecated
 	public static String nameFromPathAndIndex(String path, int index) {
 		verifyInit();

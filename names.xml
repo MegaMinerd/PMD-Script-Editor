@@ -162,7 +162,9 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Dream Eater World" offset="21812C" />
 		<area name="Fugitive Cutscene Fissure" offset="21858C" />
 		<area name="Fugitive Cutscene Forest" offset="218BA8" />
-		<area name="Lapis Cave - Mt. Blaze" offset="219770" />
+		<area name="Lapis Cave - Mt. Blaze" offset="219770">
+			<map palette="018A07A8" blockDef="018A0A8C" chunkDef="018A756C" imgDef="018A81D8" />
+		</area>
 		<area name="Mt. Blaze Distance" offset="21BA10" />
 		<area name="Snowy Trail" offset="21CE8C" />
 		<area name="Snowy Trail - Frosty Forest" offset="21D1D0" />

@@ -10,17 +10,26 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.mega.pmds.util.ConfigHandler;
+import com.mega.pmds.util.ImageExtractor;
+
 public class ScriptMapPanel extends ScriptContentPanel{
 	ScriptTreeNode node;
 	private BufferedImage map;
 	
 	public ScriptMapPanel(ScriptTreeNode nodeIn) {
 		this.node=nodeIn;
-		try {
-			String name = ((ScriptTreeNode)node.getParent()).getName().split("\\(")[0].trim().toLowerCase().replaceAll(" ","_").replaceAll("\\.", "");
-			map = ImageIO.read(new File("assets/" + name + ".png"));
-		}catch (IOException e) {
-			map = null;
+		String name = ((ScriptTreeNode)node.getParent()).getName().split("\\(")[0].trim().toLowerCase().replaceAll(" ","_").replaceAll("\\.", "");
+		File file = new File("assets/" + name + ".png");
+		if(file.exists()) {
+			try {
+				map = ImageIO.read(file);
+			}catch (IOException e) {
+				map = null;
+			}
+		}else {
+			name = ((ScriptTreeNode)node.getParent()).getName();
+			map = ImageExtractor.extract(ConfigHandler.getMapDefPointers(Integer.parseInt(name.substring(name.indexOf("(")+3, name.indexOf(")")), 16)));
 		}
 	}
 	
