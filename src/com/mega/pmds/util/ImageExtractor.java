@@ -2,18 +2,15 @@ package com.mega.pmds.util;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
+import java.util.ArrayList;
 
 import com.mega.pmds.RomManipulator;
 
 public class ImageExtractor{
 	private static Palette[] palette;
 	private static int palPointer, blockDefPointer, chunkDefPointer, imgDefPointer;
-	private static int chunkWidth, chunkHeight, chunkCount, rows, cols, rowDefLen;
+	private static int chunkWidth, chunkHeight, chunkCount, rows, cols;
 	
 	public static BufferedImage extract(int[] pointers) {
 		if(pointers == null)
@@ -27,7 +24,8 @@ public class ImageExtractor{
 		try {			
 			//Parse palettes
 			RomManipulator.seek(palPointer);
-			int palCount = RomManipulator.readInt();
+			int palCount = RomManipulator.readShort();
+			RomManipulator.skip(2);
 			palette = new Palette[palCount];
 			for(int i=0; i<palCount; i++) {
 				palette[i] = new Palette();
@@ -43,29 +41,27 @@ public class ImageExtractor{
 			
 			//Parse chunk metadata
 			RomManipulator.seek(imgDefPointer-8);
-			cols = RomManipulator.readByte()&0xFF;
-			rows = RomManipulator.readByte()&0xFF;
-			rowDefLen = ((int)Math.ceil(cols/2.0)) * 3 + 1;
+			cols = RomManipulator.readUnsignedByte();
+			rows = RomManipulator.readUnsignedByte();
 			
 			//Build image
 			BufferedImage image = new BufferedImage(cols*chunkWidth*8, rows*chunkHeight*8, BufferedImage.TYPE_INT_RGB);
 			Graphics g = image.getGraphics();
 			//Build first row
-			byte[] def = new byte[rowDefLen-1];
-			RomManipulator.seek(imgDefPointer+1);
-			RomManipulator.read(def);
-			int[] ids = unpack(def);
+			RomManipulator.seek(imgDefPointer);
+			Integer[] ids = buildRow();
+			imgDefPointer = RomManipulator.getFilePointer();
 			for(int i=0; i<cols; i++) {
 				RomManipulator.seek(chunkDefPointer + (ids[i]-1)*2*chunkWidth*chunkHeight);
 				g.drawImage(buildChunk(), i*chunkWidth*8, 0, null);
 			}
 			//Build subsequent rows
 			for(int i=1; i<rows; i++) {
-				RomManipulator.seek(imgDefPointer + i*rowDefLen + 1);
-				RomManipulator.read(def);
-				int xors[] = unpack(def);
+				RomManipulator.seek(imgDefPointer);
+				Integer xors[] = buildRow();
+				imgDefPointer = RomManipulator.getFilePointer();
 				for(int j=0; j<cols; j++){
-					ids[j] = ids[j]^xors[j];
+						ids[j] = ids[j]^xors[j%xors.length];					
 					RomManipulator.seek(chunkDefPointer + (ids[j]-1)*2*chunkWidth*chunkHeight);
 					g.drawImage(buildChunk(), j*chunkWidth*8, i*chunkHeight*8, null);
 				}
@@ -78,14 +74,39 @@ public class ImageExtractor{
 		}
 	}
 	
-	private static int[] unpack(byte[] def) {
-		int[] out = new int[cols];
-		for(int i=0; i<cols; i++) {
-			if(i%2==0)
-				out[i] = (def[(i/2)*3]&0xFF) + ((def[(i/2)*3+1]&0xF)<<8);
-			else
-				out[i] = ((def[(i/2)*3+1]&0xF0)>>4) + ((def[(i/2)*3+2]&0xFF)<<4);
+	//RomManipulator should already be pointing to the row def
+	public static Integer[] buildRow() throws IOException {
+		ArrayList<Integer> data = new ArrayList<Integer>();
+		while(data.size()<cols) {
+			int control = RomManipulator.readUnsignedByte();
+			if((control&0xF0)==0xC0) {
+				int len = (control&0xF)+1;
+				byte[] temp = new byte[3];
+				for(int i=0; i<len; i++) {
+					RomManipulator.read(temp);
+					data.addAll(unpack(temp));
+				}
+			}else if((control&0xF0)==0x80) {
+				int len = (control&0xF)+1;
+				byte[] temp = new byte[3];
+				RomManipulator.read(temp);
+				ArrayList<Integer> unpacked = unpack(temp);
+				for(int i=0; i<len; i++) {
+					data.addAll(unpacked);
+				}
+			}else if(control==0x01) {
+				while(data.size()<cols) {
+					data.add(0);
+				}
+			}
 		}
+		return data.toArray(new Integer[cols]);
+	}
+	
+	private static ArrayList<Integer> unpack(byte[] in) {
+		ArrayList<Integer> out = new ArrayList<Integer>(2);
+		out.add((in[0]&0xFF) + ((in[1]&0xF)<<8));
+		out.add(((in[1]&0xF0)>>4) + ((in[2]&0xFF)<<4));
 		return out;
 	}
 	
