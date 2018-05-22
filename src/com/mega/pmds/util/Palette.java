@@ -12,9 +12,9 @@ public class Palette {
 		rgb[0] = 0;
 		for(int i=1; i<16; i++) {
 			int temp = 0;
-			temp += (RomManipulator.readByte()&0xFF)<<16;
-			temp += (RomManipulator.readByte()&0xFF)<<8;
-			temp += (RomManipulator.readByte()&0xFF);
+			temp += (RomManipulator.readUnsignedByte())<<16;
+			temp += (RomManipulator.readUnsignedByte())<<8;
+			temp += (RomManipulator.readUnsignedByte());
 			RomManipulator.skip(1);
 			rgb[i]=temp;
 		}

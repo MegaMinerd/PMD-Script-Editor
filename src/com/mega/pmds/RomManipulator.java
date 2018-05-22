@@ -121,6 +121,10 @@ public class RomManipulator {
 		return instance.file.readByte();
 	}
 	
+	public static int readUnsignedByte() throws IOException{
+		return instance.file.readUnsignedByte();
+	}
+	
 	public static short readShort(int offset) throws IOException{
 		seek(offset);
 		return readShort();
