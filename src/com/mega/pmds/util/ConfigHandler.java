@@ -155,11 +155,15 @@ public class ConfigHandler {
 					NodeList mapList = area.getElementsByTagName("map");
 					if(mapList.getLength()>0 && mapList.item(0).getNodeType()==Node.ELEMENT_NODE) {
 						Element map = (Element)mapList.item(0);
-						int[] pointers = new int[4];
+						int[] pointers = new int[5];
 						pointers[0] = Integer.parseInt(map.getAttribute("palette"), 16);
 						pointers[1] = Integer.parseInt(map.getAttribute("blockDef"), 16);
 						pointers[2] = Integer.parseInt(map.getAttribute("chunkDef"), 16);
 						pointers[3] = Integer.parseInt(map.getAttribute("imgDef"), 16);
+						if(map.hasAttribute("animDef"))
+							pointers[4] = Integer.parseInt(map.getAttribute("animDef"), 16);
+						else
+							pointers[4] = 0;
 						return pointers;
 					} else {
 						return null;

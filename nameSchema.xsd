@@ -31,6 +31,7 @@
     	<attribute name="blockDef" type="hexBinary" use="required"></attribute>
     	<attribute name="chunkDef" type="hexBinary" use="required"></attribute>
     	<attribute name="imgDef" type="hexBinary" use="required"></attribute>
+    	<attribute name="animDef" type="hexBinary" use="optional"></attribute>
     </complexType>
 
     <complexType name="scene">

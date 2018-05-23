@@ -9,7 +9,7 @@ import com.mega.pmds.RomManipulator;
 
 public class ImageExtractor{
 	private static Palette[] palette;
-	private static int palPointer, blockDefPointer, chunkDefPointer, imgDefPointer;
+	private static int palPointer, blockDefPointer, chunkDefPointer, imgDefPointer, animDefPointer;
 	private static int chunkWidth, chunkHeight, chunkCount, rows, cols;
 	
 	public static BufferedImage extract(int[] pointers) {
@@ -20,6 +20,7 @@ public class ImageExtractor{
 		blockDefPointer = pointers[1];
 		chunkDefPointer = pointers[2];
 		imgDefPointer = pointers[3];
+		animDefPointer = pointers[4];
 		
 		try {			
 			//Parse palettes
@@ -86,6 +87,13 @@ public class ImageExtractor{
 					RomManipulator.read(temp);
 					data.addAll(unpack(temp));
 				}
+			}else if((control&0xF0)==0xD0) {
+				int len = (control&0xF)+17;
+				byte[] temp = new byte[3];
+				for(int i=0; i<len; i++) {
+					RomManipulator.read(temp);
+					data.addAll(unpack(temp));
+				}
 			}else if((control&0xF0)==0x80) {
 				int len = (control&0xF)+1;
 				byte[] temp = new byte[3];
@@ -131,7 +139,10 @@ public class ImageExtractor{
 		int ver = ((data&0x800)>>10)-1;
 		int id = data&0x3FF;
 		//Order data
-		RomManipulator.seek(blockDefPointer+(id-1)*32);
+		if(id>=0x175 && animDefPointer!=0)
+			RomManipulator.seek(animDefPointer+(id-0x175)*32);
+		else
+			RomManipulator.seek(blockDefPointer+(id-1)*32);
 		
 		for(int j=(ver>0 ? 7 : 0); ver>0 ? j>=0 : j<8; j-=ver){
 			for(int i=(hor>0 ? 7 : 0); hor>0 ? i>=0 : i<8; i-=(hor*2)) {
