@@ -50,7 +50,8 @@ public class ImageExtractor{
 			Graphics g = image.getGraphics();
 			//Build first row
 			RomManipulator.seek(imgDefPointer);
-			Integer[] ids = buildRow();
+			Integer[] xors = new Integer[(int)(Math.ceil(cols/2.0)*2)];
+			Integer[] ids = buildRow(xors);
 			imgDefPointer = RomManipulator.getFilePointer();
 			for(int i=0; i<cols; i++) {
 				RomManipulator.seek(chunkDefPointer + (ids[i]-1)*2*chunkWidth*chunkHeight);
@@ -59,13 +60,14 @@ public class ImageExtractor{
 			//Build subsequent rows
 			for(int i=1; i<rows; i++) {
 				RomManipulator.seek(imgDefPointer);
-				Integer xors[] = buildRow();
+				xors = buildRow(xors);
 				imgDefPointer = RomManipulator.getFilePointer();
 				for(int j=0; j<cols; j++){
 						ids[j] = ids[j]^xors[j%xors.length];					
 					RomManipulator.seek(chunkDefPointer + (ids[j]-1)*2*chunkWidth*chunkHeight);
 					g.drawImage(buildChunk(), j*chunkWidth*8, i*chunkHeight*8, null);
 				}
+				
 			}
 			return image;
 		} catch (IOException e) {
@@ -76,34 +78,36 @@ public class ImageExtractor{
 	}
 	
 	//RomManipulator should already be pointing to the row def
-	public static Integer[] buildRow() throws IOException {
+	public static Integer[] buildRow(Integer[] lastXors) throws IOException {
 		ArrayList<Integer> data = new ArrayList<Integer>();
 		while(data.size()<cols) {
 			int control = RomManipulator.readUnsignedByte();
-			if((control&0xF0)==0xC0) {
-				int len = (control&0xF)+1;
+			int len = (control&0xF)+1;
+			control = (control&0xF0)>>4;
+			if(control==0xC) {
 				byte[] temp = new byte[3];
 				for(int i=0; i<len; i++) {
 					RomManipulator.read(temp);
 					data.addAll(unpack(temp));
 				}
-			}else if((control&0xF0)==0xD0) {
-				int len = (control&0xF)+17;
+			}else if(control==0xD) {
+				len+=16;
 				byte[] temp = new byte[3];
 				for(int i=0; i<len; i++) {
 					RomManipulator.read(temp);
 					data.addAll(unpack(temp));
 				}
-			}else if((control&0xF0)==0x80) {
-				int len = (control&0xF)+1;
+			}else if(control==0x8){
 				byte[] temp = new byte[3];
 				RomManipulator.read(temp);
 				ArrayList<Integer> unpacked = unpack(temp);
 				for(int i=0; i<len; i++) {
 					data.addAll(unpacked);
 				}
-			}else if(control==0x01) {
-				while(data.size()<cols) {
+			}else if(control==0x0) {
+				len*=2;
+				int offset = data.size();
+				for(int i=0; i<len; i++) {
 					data.add(0);
 				}
 			}
@@ -139,7 +143,14 @@ public class ImageExtractor{
 		int ver = ((data&0x800)>>10)-1;
 		int id = data&0x3FF;
 		//Order data
-		if(id>=0x175 && animDefPointer!=0)
+		if(id==0) {
+			for(int i=0; i<8; i++) {
+				for(int j=0; j<8; j++) {
+					block.setRGB(i, j, 0x000000);
+				}
+			}
+			return block;
+		}else if(id>=0x175 && animDefPointer!=0)
 			RomManipulator.seek(animDefPointer+(id-0x175)*32);
 		else
 			RomManipulator.seek(blockDefPointer+(id-1)*32);
