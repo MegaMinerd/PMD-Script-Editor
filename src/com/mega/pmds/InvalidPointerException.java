@@ -7,4 +7,8 @@ public class InvalidPointerException extends Exception {
 		super("Invalid pointer at " + offsetIn);
 		this.offset = offsetIn;	
 	}
+	
+	public int getOffset() {
+		return offset;
+	}
 }

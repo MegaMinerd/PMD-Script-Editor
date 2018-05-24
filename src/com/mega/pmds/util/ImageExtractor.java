@@ -10,7 +10,7 @@ import com.mega.pmds.RomManipulator;
 public class ImageExtractor{
 	private static Palette[] palette;
 	private static int palPointer, blockDefPointer, chunkDefPointer, imgDefPointer, animDefPointer;
-	private static int chunkWidth, chunkHeight, chunkCount, rows, cols;
+	private static int chunkWidth, chunkHeight, rows, cols;
 	
 	public static BufferedImage extract(int[] pointers) {
 		if(pointers == null)
@@ -37,8 +37,7 @@ public class ImageExtractor{
 			chunkWidth = RomManipulator.readShort()&0xFFFF;
 			chunkHeight = RomManipulator.readShort()&0xFFFF;
 			//The use of these bytes is unknown
-			RomManipulator.skip(10);
-			chunkCount = RomManipulator.readShort()&0xFFFF;
+			RomManipulator.skip(12);
 			
 			//Parse chunk metadata
 			RomManipulator.seek(imgDefPointer-8);
@@ -106,7 +105,6 @@ public class ImageExtractor{
 				}
 			}else if(control==0x0) {
 				len*=2;
-				int offset = data.size();
 				for(int i=0; i<len; i++) {
 					data.add(0);
 				}
