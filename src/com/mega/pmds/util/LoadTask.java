@@ -11,9 +11,11 @@ import com.mega.pmds.RomManipulator;
 import com.mega.pmds.data.Actor;
 import com.mega.pmds.data.Direction;
 import com.mega.pmds.gui.CodePanelInitializer;
+import com.mega.pmds.gui.MapPanel;
 import com.mega.pmds.gui.MapPanelInitializer;
 import com.mega.pmds.gui.PmdScriptEditorWindow;
 import com.mega.pmds.gui.ScriptTreeNode;
+import com.mega.pmds.gui.WaypointMapPanel;
 
 /**
  * Used to keep track of what needs to be loaded from a ROM
@@ -57,6 +59,7 @@ public class LoadTask implements Comparable<LoadTask>{
 			tasks.add(new LoadTask(Type.SCENE_LIST, node, size, RomManipulator.parsePointer()));
 			int pointer = RomManipulator.parsePointer();
 			tasks.add(new LoadTask(Type.WAYPOINT_LIST, node, (offset-pointer)/8, pointer));
+			PmdScriptEditorWindow.addTreeAction(new TreePath(node.getPath()), new MapPanelInitializer<MapPanel>(node, MapPanel.class));
 		}else if(this.type==Type.WAYPOINT_LIST) {
 			ScriptTreeNode node = new ScriptTreeNode("Waypoints" + " (0x" + Integer.toHexString(offset) + ")", true);
 			parent.add(node);
@@ -69,7 +72,7 @@ public class LoadTask implements Comparable<LoadTask>{
 				waypoint.add(new ScriptTreeNode("Unknown data:" + CodeConverter.bytesToString(data)));
 				node.add(waypoint);
 			}
-			PmdScriptEditorWindow.addTreeAction(new TreePath(node.getPath()), new MapPanelInitializer(node));
+			PmdScriptEditorWindow.addTreeAction(new TreePath(node.getPath()), new MapPanelInitializer<WaypointMapPanel>(node, WaypointMapPanel.class));
 		}else if(this.type==Type.SCENE_LIST) {
 			ScriptTreeNode node = new ScriptTreeNode("Scenes (0x" + Integer.toHexString(offset) + ")", true);
 			parent.add(node);
