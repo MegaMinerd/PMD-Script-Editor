@@ -13,11 +13,11 @@ import javax.imageio.ImageIO;
 import com.mega.pmds.util.ConfigHandler;
 import com.mega.pmds.util.ImageExtractor;
 
-public class ScriptMapPanel extends ScriptContentPanel{
+public class MapPanel extends ScriptContentPanel{
 	ScriptTreeNode node;
 	private BufferedImage map;
 	
-	public ScriptMapPanel(ScriptTreeNode nodeIn) {
+	public MapPanel(ScriptTreeNode nodeIn) {
 		this.node=nodeIn;
 		String name = ((ScriptTreeNode)node.getParent()).getName().split("\\(")[0].trim().toLowerCase().replaceAll(" ","_").replaceAll("\\.", "");
 		File file = new File("assets/" + name + ".png");
