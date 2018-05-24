@@ -11,6 +11,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import com.mega.pmds.util.ConfigHandler;
+import com.mega.pmds.util.ImageCache;
 import com.mega.pmds.util.ImageExtractor;
 
 public class MapPanel extends ScriptContentPanel{
@@ -20,16 +21,21 @@ public class MapPanel extends ScriptContentPanel{
 	public MapPanel(ScriptTreeNode nodeIn) {
 		this.node=nodeIn;
 		String name = ((ScriptTreeNode)node.getParent()).getName().split("\\(")[0].trim().toLowerCase().replaceAll(" ","_").replaceAll("\\.", "");
-		File file = new File("assets/" + name + ".png");
-		if(file.exists()) {
-			try {
-				map = ImageIO.read(file);
-			}catch (IOException e) {
-				map = null;
-			}
+		if(ImageCache.isCached(name)) {
+			map = ImageCache.getImage(name);
 		}else {
-			name = ((ScriptTreeNode)node.getParent()).getName();
-			map = ImageExtractor.extract(ConfigHandler.getMapDefPointers(Integer.parseInt(name.substring(name.indexOf("(")+3, name.indexOf(")")), 16)));
+			File file = new File("assets/" + name + ".png");
+			if(file.exists()) {
+				try {
+					map = ImageIO.read(file);
+				}catch (IOException e) {
+					map = null;
+				}
+			}else {
+				String nodeName = ((ScriptTreeNode)node.getParent()).getName();
+				map = ImageExtractor.extract(ConfigHandler.getMapDefPointers(Integer.parseInt(nodeName.substring(nodeName.indexOf("(")+3, nodeName.indexOf(")")), 16)));
+			}
+			ImageCache.cache(name, map);
 		}
 	}
 	
