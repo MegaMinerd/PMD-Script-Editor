@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Hierarchy is currently unused but will used when writing is implemented.
+<!--Hierarchy is currently used only for map data but will used more when writing is implemented.
 The debug attribute only serves to make note of selection in the debug room that plays the scene-->
 <pmdset xmlns="urn:nameSchema">
 	<rom id="Unmodified">
-		<area name="Debug Room" offset="138254" />
+		<area name="Debug Room" offset="138254">
+			<map palette="01CB4EFC" blockDef="01CB503C" chunkDef="01CB82DC" imgDef="01CB897C" />
+		</area>
 		<area name="Town Square" offset="17D5F8" />
-		<area name="Wishcash Pond" offset="189954">
+		<area name="Whiscash Pond" offset="189954">
 			<scene name="State Selector" offset="1892B4" />
-			<scene name="Wishcash Behavior A?" offset="1892DC">
+			<scene name="Whiscash Behavior A?" offset="1892DC">
 				<call name="Sprite" offset="1892DC" />
 				<action name="Conversation?" offset="188F70" />
 			</scene>
-			<scene name="Wishcash Behavior B?" offset="189304">
+			<scene name="Whiscash Behavior B?" offset="189304">
 				<call name="Sprite" offset="189304" />
 				<action name="Conversation?" offset="188F88" />
 			</scene>
@@ -25,7 +27,7 @@ The debug attribute only serves to make note of selection in the debug room that
 				<call name="Behavior Before" offset="1893CC" />
 				<call name="Main Call" offset="1893F4" />
 			</scene>
-			<scene name="Wishcash Behavior C?" offset="18941C">
+			<scene name="Whiscash Behavior C?" offset="18941C">
 				<call name="Sprite" offset="18941C" />
 				<action name="Conversation?" offset="188FA0" />
 			</scene>
@@ -37,6 +39,7 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Ninetails Story Flashback" offset="189584">
 				<call name="Main Call" offset="189584" />
 			</scene>
+			<map palette="01CC6240" blockDef="01CC71AC" chunkDef="01CCD6AC" imgDef="01CC6DFC" /> <!--imgDef?="1CC5EA0" animDef="01CC4264" /-->
 		</area>
 		<area name="Pelipper Post Office Exterior" offset="197A08">
 			<scene name="" offset="1970D0">
@@ -92,11 +95,20 @@ The debug attribute only serves to make note of selection in the debug room that
 				<call name="Main Call" offset="197710" />
 				<call name="Behaviors After" offset="197738" />
 			</scene>
+			<map palette="01CCF554" blockDef="01CD4104" chunkDef="01CDB244" imgDef="01CDCE18" />
 		</area>
-		<area name="Pelipper Post Office Interior" offset="198E0C" />
-		<area name="Makuhita Dojo" offset="19A3C4" />
-		<area name="Unused Base Interior" offset="19A73C" />
-		<area name="Luminous Cave" offset="19AD04" />
+		<area name="Pelipper Post Office Interior" offset="198E0C">
+			<map palette="01CDD234" blockDef="01CDD4A0" chunkDef="01CE4280" imgDef="01CE500C" />
+		</area>
+		<area name="Makuhita Dojo" offset="19A3C4">
+			<map palette="01CE527C" blockDef="01CE63FC" chunkDef="01CE927C" imgDef="01CEAC20" animDef="01CE57EC" />
+		</area>
+		<area name="Unused Base Interior" offset="19A73C">
+			<map palette="01CEAF4C" blockDef="01CEB1F4" chunkDef="01CF0BB4" imgDef="01CF1684" />
+		</area>
+		<area name="Luminous Cave" offset="19AD04">
+			<map palette="01CEAF4C" blockDef="01CEB1F4" chunkDef="01CF0BB4" imgDef="01CF1684" />
+		</area>
 		<area name="Team Base Exterior" offset="1E1940">
 			<scene name="World's Balance" debug="Main 5B-2" offset="1E0718" />
 		</area>
@@ -158,20 +170,39 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Southern Island" offset="20F0AC" />
 		<area name="Enclosed Island" offset="20F6E4" />
 		<area name="Final Island" offset="20FD1C" />
-		<area name="Dream World" offset="2163C0" />
-		<area name="Dream Eater World" offset="21812C" />
-		<area name="Fugitive Cutscene Fissure" offset="21858C" />
+		<area name="Dream World" offset="2163C0">
+			<map palette="01892C78" blockDef="01892CC8" chunkDef="01896808" imgDef="018971EC" />
+		</area>
+		<area name="Dream Eater World" offset="21812C">
+			<map palette="018973F0" blockDef="01892CC8" chunkDef="01896808" imgDef="018971EC" />
+		</area>
+		<area name="Fugitive Cutscene Fissure" offset="21858C">
+			<map palette="01897430" blockDef="018974F8" chunkDef="0189A878" imgDef="0189B63C" />
+		</area>
 		<area name="Fugitive Cutscene Forest" offset="218BA8" />
 		<area name="Lapis Cave - Mt. Blaze" offset="219770">
 			<map palette="018A07A8" blockDef="018A0A8C" chunkDef="018A756C" imgDef="018A81D8" />
 		</area>
-		<area name="Mt. Blaze Distance" offset="21BA10" />
-		<area name="Snowy Trail" offset="21CE8C" />
+		<area name="Mt. Blaze Distance" offset="21BA10">
+			<map palette="018A834C" blockDef="018A8E80" chunkDef="018AE160" imgDef="018AEC9C" />
+		</area>	
+		<area name="Snowy Trail" offset="21CE8C">
+			<map palette="018AEDC8" blockDef="018AEECC" chunkDef="018B540C" imgDef="018B5C54" />
+		</area>
 		<area name="Snowy Trail - Frosty Forest" offset="21D1D0" />
-		<area name="Frigid Trail" offset="21F9A8" />
-		<area name="Hill of the Ancients" offset="2298A0" />
-		<area name="Sky Tower Outside View" offset="229B18" />
-		<area name="Meteor" offset="22A110" />
+		<area name="Frigid Trail" offset="21F9A8">
+			<map palette="018B5F54" blockDef="018B6020" chunkDef="018BCC40" imgDef="018BD488" />
+		</area>
+		<area name="Hill of the Ancients" offset="2298A0">
+			<map palette="018BD788" blockDef="018BFDF0" chunkDef="018C48F0" imgDef="018C5330" />
+			<!--animDef="18BE760"-->
+		</area>
+		<area name="Sky Tower Outside View" offset="229B18">
+			<map palette="018C5528" blockDef="018C5794" chunkDef="018C9834" imgDef="018C9D74" />
+		</area>
+		<area name="Meteor" offset="22A110">
+			<map palette="018C9E0C" blockDef="018CA97C" chunkDef="018CFE3C" imgDef="018D0868" />
+		</area>
 		<area name="Spirit World" offset="22AF6C" />
 		<area name="Player Returning Home" offset="22B658" />
 		<area name="Starry Sky" offset="22BDD4" />
