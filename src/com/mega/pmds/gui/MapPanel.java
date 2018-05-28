@@ -31,7 +31,7 @@ public class MapPanel extends ScriptContentPanel{
 				}
 			}else {
 				String nodeName = ((ScriptTreeNode)node).getName();
-				map = ImageExtractor.extract(ConfigHandler.getMapDefPointers(Integer.parseInt(nodeName.substring(nodeName.indexOf("(")+3, nodeName.indexOf(")")), 16)));
+				map = ImageExtractor.extract(ConfigHandler.getMapDefPointers(Integer.parseInt(nodeName.substring(nodeName.lastIndexOf("(")+3, nodeName.lastIndexOf(")")), 16)));
 			}
 			ImageCache.cache(name, map);
 		}

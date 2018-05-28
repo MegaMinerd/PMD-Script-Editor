@@ -102,10 +102,8 @@ public class ImageExtractor{
 			
 			return image;
 		} catch (IOException e) {
-			e.printStackTrace();
 			return null;
 		} catch (InvalidPointerException e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
