@@ -20,10 +20,13 @@
     		<element name="scene" type="tns:scene" maxOccurs="unbounded"
     			minOccurs="0">
     		</element>
-    		<element name="map" type="tns:map" maxOccurs="1" minOccurs="0"></element>
+    		<element name="map" type="tns:map" maxOccurs="1"
+    			minOccurs="0">
+    		</element>
     	</sequence>
     	<attribute name="name" type="string" use="required"></attribute>
     	<attribute name="offset" type="hexBinary" use="required"></attribute>
+    	<attribute name="map" type="hexBinary" use="optional"></attribute>
     </complexType>
 
     <complexType name="map">
@@ -32,6 +35,7 @@
     	<attribute name="chunkDef" type="hexBinary" use="required"></attribute>
     	<attribute name="imgDef" type="hexBinary" use="required"></attribute>
     	<attribute name="animDef" type="hexBinary" use="optional"></attribute>
+    	<attribute name="animId" type="hexBinary" use="optional"></attribute>
     </complexType>
 
     <complexType name="scene">

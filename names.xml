@@ -3,9 +3,7 @@
 The debug attribute only serves to make note of selection in the debug room that plays the scene-->
 <pmdset xmlns="urn:nameSchema">
 	<rom id="Unmodified">
-		<area name="Debug Room" offset="138254">
-			<map palette="01CB4EFC" blockDef="01CB503C" chunkDef="01CB82DC" imgDef="01CB897C" />
-		</area>
+		<area name="Debug Room" offset="138254" />
 		<area name="Town Square" offset="17D5F8" />
 		<area name="Whiscash Pond" offset="189954">
 			<scene name="State Selector" offset="1892B4" />
@@ -134,76 +132,60 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Flyaway Forest" offset="1F95F4" />
 		<area name="Overgrown Forest" offset="1F9F88" />
 		<area name="Energetic Forest" offset="1FAC2C" />
-		<area name="Mushroom Forest" offset="1FB4D4" />
-		<area name="Healing Forest" offset="1FBB64" />
-		<area name="Transform Forest" offset="1FC3F4" />
-		<area name="Secretive Forest" offset="1FCDAC" />
+		<area name="Mushroom Forest" offset="1FB4D4" map="01890F10" />
+		<area name="Healing Forest" offset="1FBB64" map="01890F28" />
+		<area name="Transform Forest" offset="1FC3F4" map="01890F40" />
+		<area name="Secretive Forest" offset="1FCDAC" map="01890F58" />
 		<area name="Rub-a-Dub River" offset="1FD754" />
-		<area name="Tadpole Pond" offset="1FE0E8" />
-		<area name="Turtleshell Pond" offset="1FEB10" />
-		<area name="Mystic Lake" offset="1FF274" />
-		<area name="Waterfall Lake" offset="1FFA9C" />
-		<area name="Peanut Swamp" offset="200374" />
+		<area name="Tadpole Pond" offset="1FE0E8" map="01890F90" />
+		<area name="Turtleshell Pond" offset="1FEB10" map="01890FA8" />
+		<area name="Mystic Lake" offset="1FF274" map="01890FC0" />
+		<area name="Waterfall Lake" offset="1FFA9C" map="01890FD8" />
+		<area name="Peanut Swamp" offset="200374" map="01890FF0" />
 		<area name="Poison Swamp" offset="200BDC" />
 		<area name="Echo Cave" offset="201674" />
-		<area name="Cryptic Cave" offset="201CAC" />
-		<area name="Dragon Cave" offset="202434" />
-		<area name="Boulder Cave" offset="202BA4" />
-		<area name="Jungle" offset="20371C" />
-		<area name="Decrepit Lab" offset="203FD0" />
-		<area name="Mt. Discipline" offset="204A68" />
+		<area name="Cryptic Cave" offset="201CAC" map="01891048" />
+		<area name="Dragon Cave" offset="202434" map="01891060" />
+		<area name="Boulder Cave" offset="202BA4" map="01891078" />
+		<area name="Jungle" offset="20371C" map="01891090" />
+		<area name="Decrepit Lab" offset="203FD0" map="018910A8" />
+		<area name="Mt. Discipline" offset="204A68" map="018910C0" />
 		<area name="Thunder Meadow" offset="205500" />
 		<area name="Power Plant" offset="205DD8" />
 		<area name="Crater" offset="2066B0" />
-		<area name="Furnace Desert" offset="206F88" />
+		<area name="Furnace Desert" offset="206F88" map="01891168" />
 		<area name="Aged Chamber AN" offset="207B58" />
 		<area name="Aged Chamber O?" offset="208728" />
 		<area name="Ancient Relic" offset="208F90" />
 		<area name="Darkness Ridge" offset="209B08" />
-		<area name="Frigid Cavern" offset="20A3E0" />
-		<area name="Ice Floe Beach" offset="20AC48" />
+		<area name="Frigid Cavern" offset="20A3E0" map="018911E0" />
+		<area name="Ice Floe Beach" offset="20AC48" map="018911F8" />
 		<area name="Volcanic Pit" offset="20B280" />
-		<area name="Stratos Lookout" offset="20B8B8" />
-		<area name="Ravaged Field" offset="20C120" />
-		<area name="Magnetic Quarry" offset="20C884" />
-		<area name="Legendary Island" offset="20EA04" />
+		<area name="Stratos Lookout" offset="20B8B8" map="01891228" />
+		<area name="Ravaged Field" offset="20C120" map="01891240" />
+		<area name="Magnetic Quarry" offset="20C884" map="01891258" />
+		<area name="Legendary Island" offset="20EA04" map="01891270" />
 		<area name="Southern Island" offset="20F0AC" />
 		<area name="Enclosed Island" offset="20F6E4" />
 		<area name="Final Island" offset="20FD1C" />
-		<area name="Dream World" offset="2163C0">
-			<map palette="01892C78" blockDef="01892CC8" chunkDef="01896808" imgDef="018971EC" />
-		</area>
-		<area name="Dream Eater World" offset="21812C">
-			<map palette="018973F0" blockDef="01892CC8" chunkDef="01896808" imgDef="018971EC" />
-		</area>
-		<area name="Fugitive Cutscene Fissure" offset="21858C">
-			<map palette="01897430" blockDef="018974F8" chunkDef="0189A878" imgDef="0189B63C" />
-		</area>
-		<area name="Fugitive Cutscene Forest" offset="218BA8" />
-		<area name="Lapis Cave - Mt. Blaze" offset="219770">
-			<map palette="018A07A8" blockDef="018A0A8C" chunkDef="018A756C" imgDef="018A81D8" />
-		</area>
-		<area name="Mt. Blaze Distance" offset="21BA10">
-			<map palette="018A834C" blockDef="018A8E80" chunkDef="018AE160" imgDef="018AEC9C" />
-		</area>	
-		<area name="Snowy Trail" offset="21CE8C">
-			<map palette="018AEDC8" blockDef="018AEECC" chunkDef="018B540C" imgDef="018B5C54" />
-		</area>
+		<area name="Dream World" offset="2163C0" map="01890018" />
+		<area name="Dream Eater World" offset="21812C" />
+		<area name="Fugitive Cutscene Fissure" offset="21858C" map="01890038" />
+		<area name="Fugitive Cutscene Forest" offset="218BA8"  map="01890050"/>
+		<area name="Lapis Cave - Mt. Blaze" offset="219770" map="01890068" />
+		<area name="Mt. Blaze Distance" offset="21BA10" map="01890080" />
+		<area name="Snowy Trail" offset="21CE8C" map="01890098" />
 		<area name="Snowy Trail - Frosty Forest" offset="21D1D0" />
-		<area name="Frigid Trail" offset="21F9A8">
-			<map palette="018B5F54" blockDef="018B6020" chunkDef="018BCC40" imgDef="018BD488" />
-		</area>
+		<area name="Frigid Trail" offset="21F9A8" map="018900B8" />
 		<area name="Hill of the Ancients" offset="2298A0">
-			<map palette="018BD788" blockDef="018BFDF0" chunkDef="018C48F0" imgDef="018C5330" />
-			<!--animDef="18BE760"-->
+			<!--map palette="018BD788" blockDef="018BFDF0" chunkDef="018C48F0" imgDef="018C5330" />
+			<animDef="18BE760"-->
 		</area>
-		<area name="Sky Tower Outside View" offset="229B18">
-			<map palette="018C5528" blockDef="018C5794" chunkDef="018C9834" imgDef="018C9D74" />
-		</area>
+		<area name="Sky Tower Outside View" offset="229B18" map="018900F0" />
 		<area name="Meteor" offset="22A110">
 			<map palette="018C9E0C" blockDef="018CA97C" chunkDef="018CFE3C" imgDef="018D0868" />
 		</area>
-		<area name="Spirit World" offset="22AF6C" />
+		<area name="Spirit World" offset="22AF6C" map="01890120" />
 		<area name="Player Returning Home" offset="22B658" />
 		<area name="Starry Sky" offset="22BDD4" />
 		<area name="End Card" offset="22C234" />
@@ -217,7 +199,7 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Map Script" offset="230274" />
 			<scene name="Caterpie rescued" debug="Main 1A-3a" offset="23029C" />
 		</area>
-		<area name="Thunderwave Cave Entrance" offset="231C5C">
+		<area name="Thunderwave Cave Entrance" offset="231C5C" map="01890880">
 			<scene name="Map Script" offset="231B7C" />
 			<scene name="Intro" debug="Main 2A-3" offset="231BA4" />
 			<scene name="Retry" debug="Main 2A-5" offset="231BCC" />
@@ -227,7 +209,7 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Map Script" offset="2320B8" />
 			<scene name="Magnemite rescued" debug="Main 2A-6a" offset="2320B8" />
 		</area>
-		<area name="Mt. Steel Entrance" offset="233244">
+		<area name="Mt. Steel Entrance" offset="233244" map="018908B0">
 			<scene name="Map Script" offset="233154" />
 			<scene name="Intro" debug="Main 2B-5" offset="23317C" />
 			<scene name="Retry" debug="Main 2B-7" offset="2331CC" />
@@ -236,7 +218,7 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Map Script" offset="234230" />
 			<scene name="Boss defeat" debug="Main 2B-8a" offset="234258" />
 		</area>
-		<area name="Sinister Woods Entrance" offset="234C7C">
+		<area name="Sinister Woods Entrance" offset="234C7C" map="018908E0">
 			<scene name="Map Script" offset="234BDC" />
 			<scene name="Intro" debug="Main 3A-8" offset="234BDC" />
 			<scene name="Retry" debug="Main 3A-10" offset="234C2C" />
@@ -253,7 +235,7 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Map Script" offset="2390D4" />
 			<scene name="Jumpluff rescued" debug="Main 4A-6a" offset="2390FC" />
 		</area>
-		<area name="Mt. Thunder Entrance" offset="239E3C">
+		<area name="Mt. Thunder Entrance" offset="239E3C" map="01890940">
 			<scene name="Map Script" offset="239D8C" />
 			<scene name="Intro" debug="Main 4B-3" offset="239DB4" />
 			<scene name="Retry" debug="Main 4B-5" offset="239DDC" />
@@ -266,7 +248,7 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Map Script" offset="23D708" />
 			<scene name="Boss defeat" debug="Main 4B-7" offset="23D730" />
 		</area>
-		<area name="Great Canyon Entrance" offset="23E234">
+		<area name="Great Canyon Entrance" offset="23E234" map="01890988">
 			<scene name="Map Script" offset="23E17C" />
 			<scene name="Intro" debug="Main 5A-3" offset="23E1A4" />
 			<scene name="Retry" debug="Main 5A-5" offset="23E1CC" />
@@ -275,12 +257,12 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Map Script" offset="242A74" />
 			<scene name="Xatu meeting" debug="Main 5A-6" offset="242AC4" />
 		</area>
-		<area name="Lapis Cave Entrance" offset="245500" />
-		<area name="Lapis Cave Exit" offset="245CB4">
+		<area name="Lapis Cave Entrance" offset="245500" map="018909A8" />
+		<area name="Lapis Cave Exit" offset="245CB4" map="018909C0">
 			<scene name="Map Script" offset="245C44" />
 			<scene name="Intro" debug="Main 7A-5" offset="245C6C" />
 		</area>
-		<area name="Mt. Blaze Entrance" offset="248A40">
+		<area name="Mt. Blaze Entrance" offset="248A40"  map="018909D8">
 			<scene name="Map Script" offset="2487D8" />
 			<scene name="Intro" debug="Main 7B-1" offset="2488C8" />
 			<scene name="Mt. Blaze failure" debug="Main 7B-3" offset="248940" />
@@ -295,7 +277,7 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Map Script" offset="24BB80" />
 			<scene name="Boss defeat" debug="Main 7B-5" offset="24BBA8" />
 		</area>
-		<area name="Frosty Forest Entrance" offset="24E700">
+		<area name="Frosty Forest Entrance" offset="24E700" map="01890A20">
 			<scene name="Map Script" offset="24E4B8" />
 			<scene name="Intro" debug="Main 8A-2" offset="24E5A8" />
 			<scene name="Frosty Forest failure" debug="Main 8A-3" offset="24E620" />
@@ -312,7 +294,7 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Map Script" offset="251EA0" />
 			<scene name="Boss defeat" debug="Main 8A-5" offset="251EC8" />
 		</area>
-		<area name="Mt. Freeze Entrance" offset="25568C">
+		<area name="Mt. Freeze Entrance" offset="25568C" map="01890A68">
 			<scene name="Map Script" offset="25543C" />
 			<scene name="Intro" debug="Main 8B-2" offset="25552C" />
 			<scene name="Mt. Freeze failure" offset="2555A4" />
@@ -330,7 +312,7 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Fugitive success" debug="Main 8B-6a" offset="25CCF0" />
 			<scene name="Ninetails meeting" debug="Main 8B-6b" offset="25CD40" />
 		</area>
-		<area name="Magma Cavern Entrance" offset="25DCB8">
+		<area name="Magma Cavern Entrance" offset="25DCB8" map="01890AB0">
 			<scene name="Map Script" offset="25DB60" />
 			<scene name="Intro" debug="Main 9A-11" offset="25DC28" />
 			<scene name="Retry" debug="Main 9A-13" offset="25DC50" />
@@ -343,7 +325,7 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Map Script" offset="25FEC4" />
 			<scene name="Team ACT rescue" offset="25FEEC" />
 		</area>
-		<area name="Sky Tower Entrance" offset="2614F8">
+		<area name="Sky Tower Entrance" offset="2614F8" map="01890AF8">
 			<scene name="Map Script" offset="261428" />
 			<scene name="Intro" debug="Main 10A-4b" offset="261450" />
 			<scene name="Intro part 2" debug="Main 10A-4b" offset="261478" />
@@ -374,6 +356,7 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Howling Forest Heart" offset="26DF6C" />
 		<area name="Personality Test" offset="26E288" />
 		<area name="Title Screen" offset="26EC44" />
+		<!--Bug: The parentheses make the parser think "tro" is a number-->
 		<area name="Above the Town (Intro)" offset="26F1A0" />
 		<area name="Pokemon Company Screen" offset="26F5A0" />
 		<area name="Health and Safety Screen" offset="26F7FC" />
