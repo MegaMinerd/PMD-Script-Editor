@@ -20,24 +20,13 @@
     		<element name="scene" type="tns:scene" maxOccurs="unbounded"
     			minOccurs="0">
     		</element>
-    		<element name="map" type="tns:map" maxOccurs="1"
-    			minOccurs="0">
-    		</element>
     	</sequence>
     	<attribute name="name" type="string" use="required"></attribute>
     	<attribute name="offset" type="hexBinary" use="required"></attribute>
-    	<attribute name="map" type="hexBinary" use="optional"></attribute>
+    	<attribute name="map" type="hexBinary"></attribute>
+    	<attribute name="type" type="integer"></attribute>
     </complexType>
-
-    <complexType name="map">
-    	<attribute name="palette" type="hexBinary" use="required"></attribute>
-    	<attribute name="blockDef" type="hexBinary" use="required"></attribute>
-    	<attribute name="chunkDef" type="hexBinary" use="required"></attribute>
-    	<attribute name="imgDef" type="hexBinary" use="required"></attribute>
-    	<attribute name="animDef" type="hexBinary" use="optional"></attribute>
-    	<attribute name="animId" type="hexBinary" use="optional"></attribute>
-    </complexType>
-
+    
     <complexType name="scene">
     	<sequence>
     		<element name="call" type="tns:leafTag" maxOccurs="unbounded" minOccurs="0"></element>

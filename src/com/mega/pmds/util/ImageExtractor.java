@@ -16,15 +16,26 @@ public class ImageExtractor{
 	private static int palPointer, blockDefPointer, chunkDefPointer, imgDefPointer, animDefPointer;
 	private static int chunkWidth, chunkHeight, blockCount, chunkCount, rows, cols, rowDefLen;
 	
-	public static BufferedImage extract(int pointers) {
+	public static BufferedImage extract(int pointers, int type) {
 		try {
 
-			RomManipulator.seek(pointers+4);
-			palPointer = RomManipulator.parsePointer();
-			RomManipulator.skip(4);
-			blockDefPointer = RomManipulator.parsePointer();
-			RomManipulator.skip(4);
-			imgDefPointer = RomManipulator.parsePointer();
+			if(type==0) {
+				RomManipulator.seek(pointers+4);
+				palPointer = RomManipulator.parsePointer();
+				RomManipulator.skip(4);
+				blockDefPointer = RomManipulator.parsePointer();
+				RomManipulator.skip(4);
+				imgDefPointer = RomManipulator.parsePointer();
+			}else if(type==1) {
+				RomManipulator.seek(pointers+4);
+				palPointer = RomManipulator.parsePointer();
+				RomManipulator.skip(4);
+				animDefPointer = RomManipulator.parsePointer();
+				RomManipulator.skip(4);
+				blockDefPointer = RomManipulator.parsePointer();
+				RomManipulator.skip(4);
+				imgDefPointer = RomManipulator.parsePointer();
+			}
 			
 			//Parse palettes
 			RomManipulator.seek(palPointer);
@@ -34,6 +45,12 @@ public class ImageExtractor{
 			for(int i=0; i<palCount; i++) {
 				palettes[i] = new Palette();
 			}
+			
+			//Parse excerpt metadata
+			RomManipulator.seek(animDefPointer);
+			int animWidth = RomManipulator.readShort()&0xFFFF;
+			int animHeight = RomManipulator.readShort()&0xFFFF;
+			int animCount = animWidth*animHeight;
 			
 			//Parse block/chunk metadata
 			RomManipulator.seek(blockDefPointer);
@@ -45,7 +62,7 @@ public class ImageExtractor{
 			chunkCount = (RomManipulator.readShort()&0xFFFF)-1;
 			
 			//Build blocks
-			blocks = new Block[blockCount];
+			blocks = new Block[blockCount+animCount];
 			for(int i=0; i<(blockCount); i++) {
 				int[][] blockData = new int[8][8];
 				for(int j=0; j<8; j++) {
@@ -56,6 +73,25 @@ public class ImageExtractor{
 					}
 				}
 				blocks[i] = new Block(blockData);
+			}
+			
+			if(type==1) {
+				chunkDefPointer = RomManipulator.getFilePointer();
+				
+				RomManipulator.seek(animDefPointer+ 52);
+				for(int i=0; i<animCount; i++) {
+					int[][] blockData = new int[8][8];
+					for(int j=0; j<8; j++) {
+						for(int k=0; k<8; k+=2) {
+							int pair = RomManipulator.readUnsignedByte();
+							blockData[j][k] = pair&0xF;
+							blockData[j][k+1] = (pair&0xF0)>>4;
+						}
+					}
+					blocks[blockCount+i] = new Block(blockData);
+				}
+				
+				RomManipulator.seek(chunkDefPointer);
 			}
 			
 			//Build chunks
@@ -70,7 +106,11 @@ public class ImageExtractor{
 						boolean hor = ((meta&0x400)>>10)==1;
 						boolean ver = ((meta&0x800)>>11)==1;
 						int id = meta&0x3FF;
-						g.drawImage(blocks[id-1].render(palettes[pal], hor, ver), k*8, j*8, null);
+						try {
+							g.drawImage(blocks[id-1].render(palettes[pal], hor, ver), k*8, j*8, null);
+						}catch(ArrayIndexOutOfBoundsException e) {
+							
+						}
 					}
 				}
 				chunks[i] = chunk;
@@ -89,14 +129,22 @@ public class ImageExtractor{
 			Integer[] xors = new Integer[(int)(Math.ceil(cols/2.0)*2)];
 			Integer[] ids = buildRow(xors);
 			for(int i=0; i<cols; i++) {
-				g.drawImage(chunks[ids[i]-1], i*chunkWidth*8, 0, null);
+				try {
+					g.drawImage(chunks[ids[i]-1], i*chunkWidth*8, 0, null);
+				}catch(ArrayIndexOutOfBoundsException e) {
+				
+				}
 			}
 			//Build subsequent rows
 			for(int i=1; i<rows; i++) {
 				xors = buildRow(xors);
 				for(int j=0; j<cols; j++){
 					ids[j] = ids[j]^xors[j%xors.length];
-					g.drawImage(chunks[ids[j]-1], j*chunkWidth*8, i*chunkHeight*8, null);
+					try {
+						g.drawImage(chunks[ids[j]-1], j*chunkWidth*8, i*chunkHeight*8, null);
+					}catch(ArrayIndexOutOfBoundsException e) {
+						
+					}
 				}
 			}
 			
