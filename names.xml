@@ -3,7 +3,7 @@
 The debug attribute only serves to make note of selection in the debug room that plays the scene-->
 <pmdset xmlns="urn:nameSchema">
 	<rom id="Unmodified">
-		<area name="Debug Room" offset="138254" map="01891528" type="0" />
+		<area name="Debug Room" offset="138254" map="01890ED8" type="3" />
 		<area name="Town Square" offset="17D5F8" map="01891388" type="1" />
 		<area name="Whiscash Pond" offset="189954">
 			<scene name="State Selector" offset="1892B4" />
@@ -108,16 +108,16 @@ The debug attribute only serves to make note of selection in the debug room that
 			<!--map="01891448" type="2"-->
 			<!--map palette="01CEAF4C" blockDef="01CEB1F4" chunkDef="01CF0BB4" imgDef="01CF1684" /-->
 		</area>
-		<area name="Team Base Exterior" offset="1E1940" map="01890188" type="1">
+		<area name="Team Base Exterior" offset="1E1940" map="01890790" type="0">
 			<scene name="World's Balance" debug="Main 5B-2" offset="1E0718" />
 		</area>
-		<area name="Team Base Interior" offset="1EE214" />
-		<area name="Bountiful Sea" offset="1EEAFC" />
-		<area name="Treasure Sea" offset="1EF524" />
-		<area name="Serene Sea" offset="1EFCAC" />
-		<area name="Deep-Sea Floor" offset="1F07B4" />
-		<area name="Deep-Sea Current" offset="1F0DEC" />
-		<area name="Seafloor Cave" offset="1F1424" />
+		<area name="Team Base Interior" offset="1EE214" map="01890210" type="0" />
+		<area name="Bountiful Sea" offset="1EEAFC" map="01890C78" type="3" />
+		<area name="Treasure Sea" offset="1EF524" map="01890CB0" />
+		<area name="Serene Sea" offset="1EFCAC" map="01890CC8" />
+		<area name="Deep-Sea Floor" offset="1F07B4" map="01890CE0" type="3" />
+		<area name="Deep-Sea Current" offset="1F0DEC" map="01890D18" type="2" />
+		<area name="Seafloor Cave" offset="1F1424" map="01890D48" type="3" />
 		<area name="Shallow Beach" offset="1F1C8C" map="01890D80" />
 		<area name="Mt. Deepgreen" offset="1F2770" map="01890D98" />
 		<area name="Mt. Cleft" offset="1F3110" map="01890DB0" />
@@ -132,7 +132,7 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Mist-Rise Forest" offset="1F8B04" map="01890E90" />
 		<area name="Flyaway Forest" offset="1F95F4" map="01890EA8" />
 		<area name="Overgrown Forest" offset="1F9F88" map="01890EC0" />
-		<area name="Energetic Forest" offset="1FAC2C" />
+		<area name="Energetic Forest" offset="1FAC2C" map="01890ED8" type="3" />
 		<area name="Mushroom Forest" offset="1FB4D4" map="01890F10" />
 		<area name="Healing Forest" offset="1FBB64" map="01890F28" />
 		<area name="Transform Forest" offset="1FC3F4" map="01890F40" />
@@ -151,12 +151,12 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Jungle" offset="20371C" map="01891090" />
 		<area name="Decrepit Lab" offset="203FD0" map="018910A8" />
 		<area name="Mt. Discipline" offset="204A68" map="018910C0" />
-		<area name="Thunder Meadow" offset="205500" /> <!--map="018910D8" type="2" /-->
+		<area name="Thunder Meadow" offset="205500" map="018910D8" type="3" />
 		<area name="Power Plant" offset="205DD8" map="01891110" type="1" />
-		<area name="Crater" offset="2066B0" /><!--map="01891130" type="2" /-->
+		<area name="Crater" offset="2066B0" map="01891130" type="4" />
 		<area name="Furnace Desert" offset="206F88" map="01891168" />
-		<area name="Aged Chamber AN" offset="207B58" /> <!--map="01891180" type="3" /-->
-		<area name="Aged Chamber O?" offset="208728" />
+		<area name="Aged Chamber AN" offset="207B58" map="01891180" type="6" parentMap="01891198" />
+		<area name="Aged Chamber O?" offset="208728" map="01891190" type="6" parentMap="01891198" />
 		<area name="Ancient Relic" offset="208F90" map="018911A8" />
 		<area name="Darkness Ridge" offset="209B08" map="018911C0" type="1" />
 		<area name="Frigid Cavern" offset="20A3E0" map="018911E0" />
@@ -167,10 +167,10 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Magnetic Quarry" offset="20C884" map="01891258" />
 		<area name="Legendary Island" offset="20EA04" map="01891270" />
 		<area name="Southern Island" offset="20F0AC" map="01891288" type="1" />
-		<area name="Enclosed Island" offset="20F6E4" /> <!--map="018912A8" type="2" /-->
-		<area name="Final Island" offset="20FD1C" map="018912D8" type="0" />
+		<area name="Enclosed Island" offset="20F6E4" map="018912A8" type="2" />
+		<area name="Final Island" offset="20FD1C" map="018912D8" />
 		<area name="Dream World" offset="2163C0" map="01890018" />
-		<area name="Dream Eater World" offset="21812C" />
+		<area name="Dream Eater World" offset="21812C" map="01890030" type="6" parentMap="01890018" />
 		<area name="Fugitive Cutscene Fissure" offset="21858C" map="01890038" />
 		<area name="Fugitive Cutscene Forest" offset="218BA8"  map="01890050"/>
 		<area name="Lapis Cave - Mt. Blaze" offset="219770" map="01890068" />

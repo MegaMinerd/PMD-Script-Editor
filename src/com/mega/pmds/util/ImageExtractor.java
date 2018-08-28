@@ -2,10 +2,10 @@ package com.mega.pmds.util;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.mega.pmds.InvalidMapDefException;
 import com.mega.pmds.InvalidPointerException;
 import com.mega.pmds.RomManipulator;
 
@@ -14,29 +14,14 @@ public class ImageExtractor{
 	private static Block[] blocks;
 	private static BufferedImage[] chunks;
 	private static int palPointer, blockDefPointer, chunkDefPointer, imgDefPointer, animDefPointer;
-	private static int chunkWidth, chunkHeight, blockCount, chunkCount, rows, cols, rowDefLen;
+	private static int chunkWidth, chunkHeight, blockCount, chunkCount, rows, cols;
 	
-	public static BufferedImage extract(int pointers, int type) {
+	public static BufferedImage extract(int offset) {
+		int pointers = ConfigHandler.getMapDefPointers(offset);
+		int type = ConfigHandler.getMapDefType(offset);
+		
 		try {
-
-			if(type==0) {
-				RomManipulator.seek(pointers+4);
-				palPointer = RomManipulator.parsePointer();
-				RomManipulator.skip(4);
-				blockDefPointer = RomManipulator.parsePointer();
-				RomManipulator.skip(4);
-				imgDefPointer = RomManipulator.parsePointer();
-			}else if(type==1) {
-				RomManipulator.seek(pointers+4);
-				palPointer = RomManipulator.parsePointer();
-				RomManipulator.skip(4);
-				animDefPointer = RomManipulator.parsePointer();
-				RomManipulator.skip(4);
-				blockDefPointer = RomManipulator.parsePointer();
-				RomManipulator.skip(4);
-				imgDefPointer = RomManipulator.parsePointer();
-			}
-			
+			type = loadPointers(pointers, type, offset);
 			//Parse palettes
 			RomManipulator.seek(palPointer);
 			int palCount = RomManipulator.readShort();
@@ -46,11 +31,16 @@ public class ImageExtractor{
 				palettes[i] = new Palette();
 			}
 			
-			//Parse excerpt metadata
-			RomManipulator.seek(animDefPointer);
-			int animWidth = RomManipulator.readShort()&0xFFFF;
-			int animHeight = RomManipulator.readShort()&0xFFFF;
-			int animCount = animWidth*animHeight;
+			int animCount;
+			if(type==1 || type==4 || type==5) {
+				//Parse excerpt metadata
+				RomManipulator.seek(animDefPointer);
+				int animWidth = RomManipulator.readShort()&0xFFFF;
+				int animHeight = RomManipulator.readShort()&0xFFFF;
+				animCount = animWidth*animHeight;
+			}else {
+				animCount = 0;
+			}
 			
 			//Parse block/chunk metadata
 			RomManipulator.seek(blockDefPointer);
@@ -75,7 +65,7 @@ public class ImageExtractor{
 				blocks[i] = new Block(blockData);
 			}
 			
-			if(type==1) {
+			if(type==1 || type==4 || type==5) {
 				chunkDefPointer = RomManipulator.getFilePointer();
 				
 				RomManipulator.seek(animDefPointer+ 52);
@@ -150,9 +140,113 @@ public class ImageExtractor{
 			
 			return image;
 		} catch (IOException e) {
+			e.printStackTrace();
 			return null;
 		} catch (InvalidPointerException e) {
+			System.out.println(e.getMessage());
 			return null;
+		} catch (InvalidMapDefException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
+	private static int loadPointers(int pointers, int type, int offset) throws IOException, InvalidPointerException, InvalidMapDefException {
+		if(type==0) {
+			RomManipulator.seek(pointers+4);
+			palPointer = RomManipulator.parsePointer();
+			RomManipulator.skip(4);
+			blockDefPointer = RomManipulator.parsePointer();
+			RomManipulator.skip(4);
+			imgDefPointer = RomManipulator.parsePointer();
+			return 0;
+		}else if(type==1) {
+			RomManipulator.seek(pointers+4);
+			palPointer = RomManipulator.parsePointer();
+			RomManipulator.skip(4);
+			animDefPointer = RomManipulator.parsePointer();
+			RomManipulator.skip(4);
+			blockDefPointer = RomManipulator.parsePointer();
+			RomManipulator.skip(4);
+			imgDefPointer = RomManipulator.parsePointer();
+			return 1;
+		}else if(type==2) {
+			RomManipulator.seek(pointers+4);
+			palPointer = RomManipulator.parsePointer();
+			//Skip 3 overlay pointers plus the blockDef debug name
+			RomManipulator.skip(28);
+			blockDefPointer = RomManipulator.parsePointer();
+			RomManipulator.skip(4);
+			imgDefPointer = RomManipulator.parsePointer();
+			return 2;
+		}else if(type==3) {
+			RomManipulator.seek(pointers+4);
+			palPointer = RomManipulator.parsePointer();
+			//Skip 4 overlay pointers plus the blockDef debug name
+			RomManipulator.skip(36);
+			blockDefPointer = RomManipulator.parsePointer();
+			RomManipulator.skip(4);
+			imgDefPointer = RomManipulator.parsePointer();
+			return 3;
+		}else if(type==4) {
+			RomManipulator.seek(pointers+4);
+			palPointer = RomManipulator.parsePointer();
+			RomManipulator.skip(4);
+			animDefPointer = RomManipulator.parsePointer();
+			//Skip 3 overlay pointers plus the blockDef debug name
+			RomManipulator.skip(28);
+			blockDefPointer = RomManipulator.parsePointer();
+			RomManipulator.skip(4);
+			imgDefPointer = RomManipulator.parsePointer();
+			return 4;
+		}else if(type==5) {
+			RomManipulator.seek(pointers+4);
+			palPointer = RomManipulator.parsePointer();
+			RomManipulator.skip(4);
+			animDefPointer = RomManipulator.parsePointer();
+			//Skip 4 overlay pointers plus the blockDef debug name
+			RomManipulator.skip(36);
+			blockDefPointer = RomManipulator.parsePointer();
+			RomManipulator.skip(4);
+			imgDefPointer = RomManipulator.parsePointer();
+			return 5;
+		}else if(type==6) {
+			int[] parent = ConfigHandler.getMapDefParent(offset);
+			if(parent==null)
+				throw new InvalidMapDefException("Invalid parent for type 6 map def");
+			int parentType = loadPointers(parent[0], parent[1], offset);
+			
+			RomManipulator.seek(pointers);
+			RomManipulator.seek(RomManipulator.parsePointer());
+			String baseName = RomManipulator.readString();
+			RomManipulator.seek(pointers+4);
+			palPointer = RomManipulator.parsePointer();
+			pointers += 8;
+			while(true) {
+				RomManipulator.seek(pointers);
+				RomManipulator.seek(RomManipulator.parsePointer());
+				String name = RomManipulator.readString();
+				if(!name.startsWith(baseName)) {
+					return parentType;
+				}
+				switch(name.charAt(name.length()-1)) {
+					case '1':
+						RomManipulator.seek(pointers+4);
+						animDefPointer = RomManipulator.parsePointer();
+						break;
+					case 'c':
+						RomManipulator.seek(pointers+4);
+						blockDefPointer = RomManipulator.parsePointer();
+						break;
+					case 'm':
+						RomManipulator.seek(pointers+4);
+						imgDefPointer = RomManipulator.parsePointer();
+						break;
+				}
+				pointers += 8;
+			}
+		}else {
+			throw new InvalidMapDefException("Unsupported map def type");
 		}
 	}
 	

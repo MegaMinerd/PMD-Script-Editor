@@ -185,40 +185,36 @@ public class ConfigHandler {
 		return 0;
 	}
 	
-	@Deprecated
-	public static String nameFromPathAndIndex(String path, int index) {
-		verifyInit();
-		String[] steps = path.split("/");
-		NodeList romList = instance.names.getElementsByTagName("rom");
-		Element current = (Element)romList.item(0); 
-		
-		for(int i=1; i<steps.length; i++) {
-			NodeList nodes = current.getChildNodes();
-			if(nodes.getLength()==0) {
-				return "";
-			}
-			for(int j=0; j<nodes.getLength(); j++) {
-				if(nodes.item(j).getNodeType()!=Node.ELEMENT_NODE){
-					continue;
+	public static int[] getMapDefParent(int offset) {
+		Element rom = null;
+		int[] parent = new int[2];
+		try {
+			rom = (Element)instance.xpath.evaluate("//*[@id='Unmodified']", instance.names, XPathConstants.NODE);
+		} catch (XPathExpressionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		NodeList areaList = rom.getElementsByTagName("area");
+		for(int i=0; i<areaList.getLength(); i++) {
+			if(areaList.item(i).getNodeType()==Node.ELEMENT_NODE) {
+				Element area = (Element)areaList.item(i);
+				if(Integer.parseInt(area.getAttribute("offset"), 16)==offset) {
+					if(area.hasAttribute("parentMap"))
+						parent[0] = Integer.parseInt(area.getAttribute("parentMap"), 16);
+					else
+						return null;
 				}
-				Element testing = (Element)nodes.item(j);
-				System.out.println(testing.getAttribute("name"));
-				if(testing.getAttribute("name").equals(steps[i])) {
-					current = testing;
-					break;
-				}else if(j==nodes.getLength()-1)
-					return "";
 			}
 		}
-		try {
-		}catch(NullPointerException npe) {
-			
+		for(int i=0; i<areaList.getLength(); i++) {
+			if(areaList.item(i).getNodeType()==Node.ELEMENT_NODE) {
+				Element area = (Element)areaList.item(i);
+				if(Integer.parseInt(area.getAttribute("offset"), 16)==offset) {
+					parent[1] = area.hasAttribute("parentType") ? Integer.parseInt(area.getAttribute("parentType")) : 0;
+				}
+			}
 		}
-		Element result = (Element)current.getChildNodes().item(index);
-		try {
-			return result.getAttribute("name");
-		}catch(NullPointerException npe) {
-			return "";
-		}
+		return parent;
 	}
 }
