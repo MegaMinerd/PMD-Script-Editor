@@ -3,9 +3,9 @@
 The debug attribute only serves to make note of selection in the debug room that plays the scene-->
 <pmdset xmlns="urn:nameSchema">
 	<rom id="Unmodified">
-		<area name="Debug Room" offset="138254" map="01890ED8" type="3" />
+		<area name="Debug Room" offset="138254" map="01891370" />
 		<area name="Town Square" offset="17D5F8" map="01891388" type="1" />
-		<area name="Whiscash Pond" offset="189954">
+		<area name="Whiscash Pond" offset="189954" map="018913C0" type="6" parentMap="018913C8">
 			<scene name="State Selector" offset="1892B4" />
 			<scene name="Whiscash Behavior A?" offset="1892DC">
 				<call name="Sprite" offset="1892DC" />
@@ -37,7 +37,6 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Ninetails Story Flashback" offset="189584">
 				<call name="Main Call" offset="189584" />
 			</scene>
-			<!--map palette="01CC6240" blockDef="01CC71AC" chunkDef="01CCD6AC" imgDef="01CC6DFC" imgDef2="1CC5EA0" animDef="01CC4264" /-->
 		</area>
 		<area name="Pelipper Post Office Exterior" offset="197A08" map="018913D8" type="1">
 			<scene name="" offset="1970D0">
@@ -104,14 +103,11 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Unused Base Interior" offset="19A73C" map="01891430">
 			<!--map palette="01CEAF4C" blockDef="01CEB1F4" chunkDef="01CF0BB4" imgDef="01CF1684" /-->
 		</area>
-		<area name="Luminous Cave" offset="19AD04">
-			<!--map="01891448" type="2"-->
-			<!--map palette="01CEAF4C" blockDef="01CEB1F4" chunkDef="01CF0BB4" imgDef="01CF1684" /-->
-		</area>
-		<area name="Team Base Exterior" offset="1E1940" map="01890790" type="0">
+		<area name="Luminous Cave" offset="19AD04" map="01891448" type="2" />
+		<area name="Team Base Exterior" offset="1E1940" map="01890188" type="1">
 			<scene name="World's Balance" debug="Main 5B-2" offset="1E0718" />
 		</area>
-		<area name="Team Base Interior" offset="1EE214" map="01890210" type="0" />
+		<area name="Team Base Interior" offset="1EE214" map="01890210" />
 		<area name="Bountiful Sea" offset="1EEAFC" map="01890C78" type="3" />
 		<area name="Treasure Sea" offset="1EF524" map="01890CB0" />
 		<area name="Serene Sea" offset="1EFCAC" map="01890CC8" />
@@ -137,7 +133,7 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Healing Forest" offset="1FBB64" map="01890F28" />
 		<area name="Transform Forest" offset="1FC3F4" map="01890F40" />
 		<area name="Secretive Forest" offset="1FCDAC" map="01890F58" />
-		<area name="Rub-a-Dub River" offset="1FD754" /> <!-- map="01890F70" type="1" /-->
+		<area name="Rub-a-Dub River" offset="1FD754" map="01890F70" type="1" />
 		<area name="Tadpole Pond" offset="1FE0E8" map="01890F90" />
 		<area name="Turtleshell Pond" offset="1FEB10" map="01890FA8" />
 		<area name="Mystic Lake" offset="1FF274" map="01890FC0" />
@@ -178,10 +174,7 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Snowy Trail" offset="21CE8C" map="01890098" />
 		<area name="Snowy Trail - Frosty Forest" offset="21D1D0" />
 		<area name="Frigid Trail" offset="21F9A8" map="018900B8" />
-		<area name="Hill of the Ancients" offset="2298A0" map="018900D0" type="1">
-			<!--map palette="018BD788" blockDef="018BFDF0" chunkDef="018C48F0" imgDef="018C5330" />
-			<animDef="18BE760"-->
-		</area>
+		<area name="Hill of the Ancients" offset="2298A0" map="018900D0" type="1" />
 		<area name="Sky Tower Outside View" offset="229B18" map="018900F0" />
 		<area name="Meteor" offset="22A110" map="01890108" />
 		<area name="Spirit World" offset="22AF6C" map="01890120" />

@@ -17,6 +17,7 @@ public class MapPanel extends ScriptContentPanel{
 	protected BufferedImage map;
 	
 	public MapPanel(ScriptTreeNode nodeIn) {
+		//TODO: Remove premade asset compatibility
 		this.node=nodeIn;
 		String name = ((ScriptTreeNode)node).getName().split("\\(")[0].trim().toLowerCase().replaceAll(" ","_").replaceAll("\\.", "");
 		if(ImageCache.isCached(name)) {

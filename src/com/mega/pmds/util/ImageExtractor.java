@@ -68,7 +68,8 @@ public class ImageExtractor{
 			if(type==1 || type==4 || type==5) {
 				chunkDefPointer = RomManipulator.getFilePointer();
 				
-				RomManipulator.seek(animDefPointer+ 52);
+				RomManipulator.seek(animDefPointer+ 2);
+				RomManipulator.skip((RomManipulator.readShort()&0xFFFF)*4);
 				for(int i=0; i<animCount; i++) {
 					int[][] blockData = new int[8][8];
 					for(int j=0; j<8; j++) {
