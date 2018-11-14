@@ -341,10 +341,10 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Mt. Faraway Summit" offset="267AB4" />
 		<area name="Western Cave Entrance" offset="269740" />
 		<area name="Northern Range Heart" offset="269D60" />
-		<area name="Pitfall Valley Depths" offset="26A590" />
+		<area name="Pitfall Valley Depths" offset="26A590" map="01890C00" />
 		<area name="Wish Cave 20F" offset="26A9F8" />
-		<area name="Murky Cave Depths" offset="26D720" />
-		<area name="Murky Cave Entrance" offset="26DB04" />
+		<area name="Murky Cave Depths" offset="26D720"  map="01890C30" />
+		<area name="Murky Cave Entrance" offset="26DB04" map="01890C48" />
 		<area name="Howling Forest Heart" offset="26DF6C" />
 		<area name="Personality Test" offset="26E288" />
 		<area name="Title Screen" offset="26EC44" map="018912F8" />
