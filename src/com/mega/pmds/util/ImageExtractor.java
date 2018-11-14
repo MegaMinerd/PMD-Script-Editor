@@ -96,7 +96,7 @@ public class ImageExtractor{
 						int pal = (meta&0xF000)>>12;
 						boolean hor = ((meta&0x400)>>10)==1;
 						boolean ver = ((meta&0x800)>>11)==1;
-						int id = meta&0x3FF;
+						int id = (meta&0x3FF);
 						try {
 							g.drawImage(blocks[id-1].render(palettes[pal], hor, ver), k*8, j*8, null);
 						}catch(ArrayIndexOutOfBoundsException e) {
@@ -252,40 +252,37 @@ public class ImageExtractor{
 	}
 	
 	//RomManipulator should already be pointing to the row def
-	public static Integer[] buildRow(Integer[] lastXors) throws IOException {
+	public static Integer[] buildRow(Integer[] lastIds) throws IOException {
 		ArrayList<Integer> data = new ArrayList<Integer>();
 		while(data.size()<cols) {
 			int control = RomManipulator.readUnsignedByte();
-			int len = (control&0xF)+1;
-			control = (control&0xF0)>>4;
-			if(control==0xC) {
-				byte[] temp = new byte[3];
+			int len;
+			if(control < 0x80) {
+				len=(control+1)*2;
 				for(int i=0; i<len; i++) {
-					RomManipulator.read(temp);
-					data.addAll(unpack(temp));
+					data.add(0);
 				}
-			}else if(control==0xD) {
-				len+=16;
-				byte[] temp = new byte[3];
-				for(int i=0; i<len; i++) {
-					RomManipulator.read(temp);
-					data.addAll(unpack(temp));
-				}
-			}else if(control==0x8){
+			}else if(control < 0xC0) {
+				len = control - 0x80 + 1;
 				byte[] temp = new byte[3];
 				RomManipulator.read(temp);
 				ArrayList<Integer> unpacked = unpack(temp);
 				for(int i=0; i<len; i++) {
 					data.addAll(unpacked);
 				}
-			}else if(control==0x0) {
-				len*=2;
+			}else {
+				len = control - 0xC0 + 1;
+				byte[] temp = new byte[3];
 				for(int i=0; i<len; i++) {
-					data.add(0);
+					RomManipulator.read(temp);
+					data.addAll(unpack(temp));
 				}
 			}
 		}
-		return data.toArray(new Integer[cols]);
+		Integer[] out = data.toArray(new Integer[cols]);
+		for(int i=0; i<out.length; i++)
+			out[i] = lastIds[i]^out[i];
+		return out;
 	}
 	
 	private static ArrayList<Integer> unpack(byte[] in) {
