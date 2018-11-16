@@ -5,7 +5,7 @@ The debug attribute only serves to make note of selection in the debug room that
 	<rom id="Unmodified">
 		<area name="Debug Room" offset="138254" map="01891370" />
 		<area name="Town Square" offset="17D5F8" map="01891388" type="1" />
-		<area name="Whiscash Pond" offset="189954" map="018913C0" type="6" parentMap="018913C8">
+		<area name="Whiscash Pond" offset="189954" map="018913C0" type="6" parts="pib">
 			<scene name="State Selector" offset="1892B4" />
 			<scene name="Whiscash Behavior A?" offset="1892DC">
 				<call name="Sprite" offset="1892DC" />
@@ -151,8 +151,8 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Power Plant" offset="205DD8" map="01891110" type="1" />
 		<area name="Crater" offset="2066B0" map="01891130" type="4" />
 		<area name="Furnace Desert" offset="206F88" map="01891168" />
-		<area name="Aged Chamber AN" offset="207B58" map="01891180" type="6" parentMap="01891198" />
-		<area name="Aged Chamber O?" offset="208728" map="01891190" type="6" parentMap="01891198" />
+		<area name="Aged Chamber AN" offset="207B58" map="01891180" type="6" parts="pixxb" />
+		<area name="Aged Chamber O?" offset="208728" map="01891190" type="6" parts="pib" />
 		<area name="Ancient Relic" offset="208F90" map="018911A8" />
 		<area name="Darkness Ridge" offset="209B08" map="018911C0" type="1" />
 		<area name="Frigid Cavern" offset="20A3E0" map="018911E0" />
@@ -166,7 +166,7 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Enclosed Island" offset="20F6E4" map="018912A8" type="2" />
 		<area name="Final Island" offset="20FD1C" map="018912D8" />
 		<area name="Dream World" offset="2163C0" map="01890018" />
-		<area name="Dream Eater World" offset="21812C" map="01890030" type="6" parentMap="01890018" />
+		<area name="Dream Eater World" offset="21812C" map="01890020" type="6" parts="bip" />
 		<area name="Fugitive Cutscene Fissure" offset="21858C" map="01890038" />
 		<area name="Fugitive Cutscene Forest" offset="218BA8"  map="01890050"/>
 		<area name="Lapis Cave - Mt. Blaze" offset="219770" map="01890068" />

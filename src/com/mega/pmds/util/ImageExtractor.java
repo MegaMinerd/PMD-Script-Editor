@@ -212,40 +212,45 @@ public class ImageExtractor{
 			imgDefPointer = RomManipulator.parsePointer();
 			return 5;
 		}else if(type==6) {
-			int[] parent = ConfigHandler.getMapDefParent(offset);
-			if(parent==null)
-				throw new InvalidMapDefException("Invalid parent for type 6 map def");
-			int parentType = loadPointers(parent[0], parent[1], offset);
+			palPointer = -1;
+			animDefPointer = -1;
+			blockDefPointer = -1;
+			imgDefPointer = -1;
+			char[] parts = ConfigHandler.getParts(offset).toCharArray();
 			
-			RomManipulator.seek(pointers);
-			RomManipulator.seek(RomManipulator.parsePointer());
-			String baseName = RomManipulator.readString();
-			RomManipulator.seek(pointers+4);
-			palPointer = RomManipulator.parsePointer();
-			pointers += 8;
-			while(true) {
-				RomManipulator.seek(pointers);
-				RomManipulator.seek(RomManipulator.parsePointer());
-				String name = RomManipulator.readString();
-				if(!name.startsWith(baseName)) {
-					return parentType;
-				}
-				switch(name.charAt(name.length()-1)) {
-					case '1':
+			for(char part : parts) {
+				switch(part){
+					case 'p':
+						RomManipulator.seek(pointers+4);
+						palPointer = RomManipulator.parsePointer();
+						break;
+					case 'a':
 						RomManipulator.seek(pointers+4);
 						animDefPointer = RomManipulator.parsePointer();
 						break;
-					case 'c':
+					case 'b':
 						RomManipulator.seek(pointers+4);
 						blockDefPointer = RomManipulator.parsePointer();
 						break;
-					case 'm':
+					case 'i':
 						RomManipulator.seek(pointers+4);
 						imgDefPointer = RomManipulator.parsePointer();
+						break;
+					default:
 						break;
 				}
 				pointers += 8;
 			}
+			if(palPointer<0) {
+				throw new InvalidMapDefException("No palette");
+			}
+			if(blockDefPointer<0) {
+				throw new InvalidMapDefException("No tile data");
+			}
+			if(imgDefPointer<0) {
+				throw new InvalidMapDefException("No arrangement data");
+			}
+			return animDefPointer<0 ? 0 : 1;
 		}else {
 			throw new InvalidMapDefException("Unsupported map def type");
 		}

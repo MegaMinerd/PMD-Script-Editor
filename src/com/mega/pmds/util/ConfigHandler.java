@@ -185,36 +185,26 @@ public class ConfigHandler {
 		return 0;
 	}
 	
-	public static int[] getMapDefParent(int offset) {
+	public static String getParts(int offset) {
 		Element rom = null;
-		int[] parent = new int[2];
 		try {
 			rom = (Element)instance.xpath.evaluate("//*[@id='Unmodified']", instance.names, XPathConstants.NODE);
 		} catch (XPathExpressionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return null;
 		}
 		NodeList areaList = rom.getElementsByTagName("area");
 		for(int i=0; i<areaList.getLength(); i++) {
 			if(areaList.item(i).getNodeType()==Node.ELEMENT_NODE) {
 				Element area = (Element)areaList.item(i);
 				if(Integer.parseInt(area.getAttribute("offset"), 16)==offset) {
-					if(area.hasAttribute("parentMap"))
-						parent[0] = Integer.parseInt(area.getAttribute("parentMap"), 16);
+					if(area.hasAttribute("parts"))
+						return area.getAttribute("parts");
 					else
 						return null;
 				}
 			}
 		}
-		for(int i=0; i<areaList.getLength(); i++) {
-			if(areaList.item(i).getNodeType()==Node.ELEMENT_NODE) {
-				Element area = (Element)areaList.item(i);
-				if(Integer.parseInt(area.getAttribute("offset"), 16)==offset) {
-					parent[1] = area.hasAttribute("parentType") ? Integer.parseInt(area.getAttribute("parentType")) : 0;
-				}
-			}
-		}
-		return parent;
+		return null;
 	}
 }
