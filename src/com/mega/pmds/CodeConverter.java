@@ -107,6 +107,8 @@ public class CodeConverter {
 				command = "Rename\t";
 				command += interpretActorID((byte)(data[4]-1));
 				return command;
+			case 0x3E:
+				return "Rename\tteam";
 			case 0x42:
 				return "StopSng";
 			case 0x44:
@@ -130,17 +132,26 @@ public class CodeConverter {
 				command = "StopSnd\t";
 				command += parseUnsignedShort(data, 4);
 				return command;
-			case 0x52:
-				command = "Hide\t0x";
-				command += "0x" + Integer.toHexString(parseUnsignedInt(data, 4));
-				return command;
-			case 0x53:
-				command = "Show\t0x";
-				command += "0x" + Integer.toHexString(parseUnsignedInt(data, 4));
-				return command;
 			case 0x54:
 				command = "SetAnim\t0x";
-				command += "0x" + Integer.toHexString(parseUnsignedInt(data, 2));
+				command += Integer.toHexString(parseUnsignedInt(data, 2));
+				return command;
+			case 0x62:
+				command = "Move\tnoRotate, ";
+				command += parseUnsignedShort(data, 2) + ", ";
+				command += parseInt(data, 4) + ", ";
+				command += parseInt(data, 8) + ", ";
+				return command;
+			case 0x68:
+				command = "ChangeZ\t";
+				command += parseShort(data, 2) + ", ";
+				command += parseInt(data, 4);
+				return command;
+			case 0x6A:
+				command = "Move\t";
+				command += parseUnsignedShort(data, 2) + ", ";
+				command += parseInt(data, 4) + ", ";
+				command += parseInt(data, 8) + ", ";
 				return command;
 			case 0x6B:
 				command = "MoveTo\tgrid, ";
@@ -311,8 +322,24 @@ public class CodeConverter {
 		return value;
 	}
 	
+	public static short parseShort(byte[] data, int offset) {
+		short value = (short)(data[offset]&0xFF);
+		value += (data[offset+1]&0xFF)<<8;
+		if((value&8000)>0)
+			value += 0xFFFF0000;
+		return value;
+	}
+	
 	public static int parseUnsignedInt(byte[] data, int offset) {
 		int value = data[offset]&0xFF;
+		value += (data[offset+1]&0xFF)<<8;
+		value += (data[offset+2]&0xFF)<<16;
+		value += (data[offset+3]&0xFF)<<24;
+		return value;
+	}
+	
+	public static short parseInt(byte[] data, int offset) {
+		short value = (short)(data[offset]&0xFF);
 		value += (data[offset+1]&0xFF)<<8;
 		value += (data[offset+2]&0xFF)<<16;
 		value += (data[offset+3]&0xFF)<<24;

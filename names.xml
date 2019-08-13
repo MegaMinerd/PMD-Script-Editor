@@ -4,7 +4,10 @@ The debug attribute only serves to make note of selection in the debug room that
 <pmdset xmlns="urn:nameSchema">
 	<rom id="Unmodified">
 		<area name="Debug Room" offset="138254" map="01891370" />
-		<area name="Town Square" offset="17D5F8" map="01891388" type="1" />
+		<area name="Town Square" offset="17D5F8" map="01891388" type="1">
+			<scene name="State Selector" offset="17C458" />
+			<scene name="Tour of Town" offset="17C688" debug="Main 2B-2" />
+		</area>
 		<area name="Whiscash Pond" offset="189954" map="018913C0" type="6" parts="pib">
 			<scene name="State Selector" offset="1892B4" />
 			<scene name="Whiscash Behavior A?" offset="1892DC">
@@ -61,7 +64,7 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Gengar is Missing" offset="197328">
 				<call name="Main Call" offset="197328" />
 			</scene>
-			<scene name="Intro" offset="197468">
+			<scene name="Intro" offset="197468" debug="Main 2B-3">
 				<call name="Main Call" offset="197468" />
 			</scene>
 			<scene name="Empty Scene" offset="197490" />
@@ -105,9 +108,14 @@ The debug attribute only serves to make note of selection in the debug room that
 		</area>
 		<area name="Luminous Cave" offset="19AD04" map="01891448" type="2" />
 		<area name="Team Base Exterior" offset="1E1940" map="01890188" type="1">
+			<scene name="Partner Shows Base" offset="1E00B0" />
+			<scene name="Player Wakes Partner" offset="1E0150" debug="Main 2A-2" />
 			<scene name="World's Balance" debug="Main 5B-2" offset="1E0718" />
 		</area>
-		<area name="Team Base Interior" offset="1EE214" map="01890210" />
+		<area name="Team Base Interior" offset="1EE214" map="01890210" >
+			<scene name="First Morning" offset="1EDADC" debug="Main 2A-1" />
+			<scene name="First Morning (after nap)" offset="1EDB54" />
+		</area>
 		<area name="Bountiful Sea" offset="1EEAFC" map="01890C78" type="3" />
 		<area name="Treasure Sea" offset="1EF524" map="01890CB0" />
 		<area name="Serene Sea" offset="1EFCAC" map="01890CC8" />
