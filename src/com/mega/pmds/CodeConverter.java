@@ -2,9 +2,11 @@ package com.mega.pmds;
 
 import java.io.IOException;
 
+import com.mega.pmds.data.DataDict;
 import com.mega.pmds.data.Direction;
 import com.mega.pmds.data.Face;
 import com.mega.pmds.data.Function;
+import com.mega.pmds.data.Item;
 import com.mega.pmds.data.Location;
 
 public class CodeConverter {
@@ -25,8 +27,29 @@ public class CodeConverter {
 	 */
 	public static String interpretCommand(byte[] data) {
 		switch((int)(data[0]&0xFF)) {
+			case 0x02:
+				String command = "WarpTo\tdirect, ";
+				command += parseUnsignedShort(data, 2) + ", ";
+				command += DataDict.dungeons[parseUnsignedInt(data, 4)];
+				return command;
+			case 0x04:
+				command = "WarpTo\tmap, ";
+				command += parseUnsignedShort(data, 2) + ", ";
+				command += DataDict.dungeons[parseUnsignedInt(data, 4)];
+				return command;
+			case 0x0D:
+				command = "Call\t";
+				command += "0x" + Integer.toHexString(data[1]) + ", ";
+				command += "0x" + Integer.toHexString(parseUnsignedShort(data, 2));
+				return command;
+			case 0x2D:
+				command = "Load\t";
+				command += "0x" + Integer.toHexString(data[1]) + ", ";
+				command += interpretActorID(data[2])  + ", ";
+				command += parseUnsignedInt(data, 4);
+				return command;
 			case 0x2E:
-				String command = "Kaomado\t";
+				command = "Kaomado\t";
 				if(data[1]!=0x15)
 					command += Location.fromID(data[1]).toString() + ", ";
 				command += interpretActorID(data[2]) + ", ";
@@ -37,18 +60,52 @@ public class CodeConverter {
 			case 0x32:
 				command = "Message\tplain, ";
 				command += interpretActorID(data[2]) + ", ";
-				command += parsePointer(data);
-				return command;
+                String offset = parsePointer(data);
+				command += offset;
+				try {
+                    command += "\n\t\t" + RomManipulator.readStringAndReturn(Integer.parseInt(offset, 16)).replace("\n", "\n\t\t");
+                }
+                catch (IOException e) {
+                    command += "\tError reading string!";
+                    e.printStackTrace();
+                }
+                return command;
 			case 0x33:
 				command = "Message\tthought, ";
 				command += interpretActorID(data[2]) + ", ";
-				command += parsePointer(data);
+                offset = parsePointer(data);
+				command += offset;
+				try {
+                    command += "\n\t\t" + RomManipulator.readStringAndReturn(Integer.parseInt(offset, 16)).replace("\n", "\n\t\t");
+                }
+                catch (IOException e) {
+                    command += "\tError reading string!";
+                    e.printStackTrace();
+                }
 				return command;
 			case 0x34:
 				command = "Message\tspeech, ";
 				command += interpretActorID(data[2]) + ", ";
-				command += parsePointer(data);
-				return command;
+                offset = parsePointer(data);
+				command += offset;
+				try {
+                    command += "\n\t\t" + RomManipulator.readStringAndReturn(Integer.parseInt(offset, 16)).replace("\n", "\n\t\t");
+                }
+                catch (IOException e) {
+                    command += "\tError reading string!";
+                    e.printStackTrace();
+                }
+                return command;
+			case 0x3C:
+				switch((int)(data[1]&0xFF)) {
+					case 0x2C:
+						command = "Reward\t";
+						command += Item.fromID(parseUnsignedShort(data, 4)) + ", ";
+						command += parseUnsignedInt(data, 8);
+						return command;
+					default:
+						return bytesToString(data);
+				}
 			case 0x3D:
 				command = "Rename\t";
 				command += interpretActorID((byte)(data[4]-1));
@@ -78,11 +135,15 @@ public class CodeConverter {
 				return command;
 			case 0x52:
 				command = "Hide\t0x";
-				command += Integer.toHexString(parseUnsignedInt(data, 4));
+				command += "0x" + Integer.toHexString(parseUnsignedInt(data, 4));
 				return command;
 			case 0x53:
 				command = "Show\t0x";
-				command += Integer.toHexString(parseUnsignedInt(data, 4));
+				command += "0x" + Integer.toHexString(parseUnsignedInt(data, 4));
+				return command;
+			case 0x54:
+				command = "SetAnim\t0x";
+				command += "0x" + Integer.toHexString(parseUnsignedInt(data, 2));
 				return command;
 			case 0x6B:
 				command = "MoveTo\tgrid, ";
@@ -93,6 +154,11 @@ public class CodeConverter {
 				command = "MoveTo\tdirect, ";
 				command += parseUnsignedShort(data, 2) + ", ";
 				command += data[4];
+				return command;
+			case 0x8B:
+				command = "FaceDir\t";
+				command += data[1] + ", ";
+				command += Direction.fromID(data[2]);
 				return command;
 			case 0x91:
 				command = "Rotate\t";
@@ -108,15 +174,31 @@ public class CodeConverter {
 			case 0xD0:
 				command = "Case"; 
 				if(data[2]==1)
-					command += "A";
+					command += "A\t";
 				else if(data[2] == 3)
-					command += "B";
-				command += "\t" + parsePointer(data);
-				return command;
+					command += "B\t";
+                offset = parsePointer(data);
+				command += offset;
+				try {
+                    command += "\n\t\t" + RomManipulator.readStringAndReturn(Integer.parseInt(offset, 16)).replace("\n", "\n\t\t");
+                }
+                catch (IOException e) {
+                    command += "\tError reading string!";
+                    e.printStackTrace();
+                }
+                return command;
 			case 0xD1:
 				command = "Default\t";
-				command += parsePointer(data);
-				return command;
+                offset = parsePointer(data);
+				command += offset;
+				try {
+                    command += "\n\t\t" + RomManipulator.readStringAndReturn(Integer.parseInt(offset, 16)).replace("\n", "\n\t\t");
+                }
+                catch (IOException e) {
+                    command += "\tError reading string!";
+                    e.printStackTrace();
+                }
+                return command;
 			case 0xD5:
 				command = "Questn\t";
 				command += parsePointer(data);
