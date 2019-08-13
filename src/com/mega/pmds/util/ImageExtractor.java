@@ -169,70 +169,72 @@ public class ImageExtractor{
 	}
 	
 	private static int loadPointers(int pointers, int type, int offset) throws IOException, InvalidPointerException, InvalidMapDefException {
-		if(type==0) {
-			RomManipulator.seek(pointers+4);
-			palPointer = RomManipulator.parsePointer();
-			RomManipulator.skip(4);
-			blockDefPointer = RomManipulator.parsePointer();
-			RomManipulator.skip(4);
-			imgDefPointer = RomManipulator.parsePointer();
-			return 0;
-		}else if(type==1) {
-			RomManipulator.seek(pointers+4);
-			palPointer = RomManipulator.parsePointer();
-			RomManipulator.skip(4);
-			animDefPointer = RomManipulator.parsePointer();
-			RomManipulator.skip(4);
-			blockDefPointer = RomManipulator.parsePointer();
-			RomManipulator.skip(4);
-			imgDefPointer = RomManipulator.parsePointer();
-			return 1;
-		}else if(type==2) {
-			RomManipulator.seek(pointers+4);
-			palPointer = RomManipulator.parsePointer();
-			//Skip 3 overlay pointers plus the blockDef debug name
-			RomManipulator.skip(28);
-			blockDefPointer = RomManipulator.parsePointer();
-			RomManipulator.skip(4);
-			imgDefPointer = RomManipulator.parsePointer();
-			return 2;
-		}else if(type==3) {
-			RomManipulator.seek(pointers+4);
-			palPointer = RomManipulator.parsePointer();
-			//Skip 4 overlay pointers plus the blockDef debug name
-			RomManipulator.skip(36);
-			blockDefPointer = RomManipulator.parsePointer();
-			RomManipulator.skip(4);
-			imgDefPointer = RomManipulator.parsePointer();
-			return 3;
-		}else if(type==4) {
-			RomManipulator.seek(pointers+4);
-			palPointer = RomManipulator.parsePointer();
-			RomManipulator.skip(4);
-			animDefPointer = RomManipulator.parsePointer();
-			//Skip 3 overlay pointers plus the blockDef debug name
-			RomManipulator.skip(28);
-			blockDefPointer = RomManipulator.parsePointer();
-			RomManipulator.skip(4);
-			imgDefPointer = RomManipulator.parsePointer();
-			return 4;
-		}else if(type==5) {
-			RomManipulator.seek(pointers+4);
-			palPointer = RomManipulator.parsePointer();
-			RomManipulator.skip(4);
-			animDefPointer = RomManipulator.parsePointer();
-			//Skip 4 overlay pointers plus the blockDef debug name
-			RomManipulator.skip(36);
-			blockDefPointer = RomManipulator.parsePointer();
-			RomManipulator.skip(4);
-			imgDefPointer = RomManipulator.parsePointer();
-			return 5;
-		}else if(type==6) {
-			palPointer = -1;
-			animDefPointer = -1;
-			blockDefPointer = -1;
-			imgDefPointer = -1;
-			char[] parts = ConfigHandler.getParts(offset).toCharArray();
+		switch(type) {
+			case 0:
+			case 7:
+				RomManipulator.seek(pointers+4);
+				palPointer = RomManipulator.parsePointer();
+				RomManipulator.skip(4);
+				blockDefPointer = RomManipulator.parsePointer();
+				RomManipulator.skip(4);
+				imgDefPointer = RomManipulator.parsePointer();
+				return type;
+			case 1:
+				RomManipulator.seek(pointers+4);
+				palPointer = RomManipulator.parsePointer();
+				RomManipulator.skip(4);
+				animDefPointer = RomManipulator.parsePointer();
+				RomManipulator.skip(4);
+				blockDefPointer = RomManipulator.parsePointer();
+				RomManipulator.skip(4);
+				imgDefPointer = RomManipulator.parsePointer();
+				return 1;
+			case 2:
+				RomManipulator.seek(pointers+4);
+				palPointer = RomManipulator.parsePointer();
+				//Skip 3 overlay pointers plus the blockDef debug name
+				RomManipulator.skip(28);
+				blockDefPointer = RomManipulator.parsePointer();
+				RomManipulator.skip(4);
+				imgDefPointer = RomManipulator.parsePointer();
+				return 2;
+			case 3:
+				RomManipulator.seek(pointers+4);
+				palPointer = RomManipulator.parsePointer();
+				//Skip 4 overlay pointers plus the blockDef debug name
+				RomManipulator.skip(36);
+				blockDefPointer = RomManipulator.parsePointer();
+				RomManipulator.skip(4);
+				imgDefPointer = RomManipulator.parsePointer();
+				return 3;
+			case 4:
+				RomManipulator.seek(pointers+4);
+				palPointer = RomManipulator.parsePointer();
+				RomManipulator.skip(4);
+				animDefPointer = RomManipulator.parsePointer();
+				//Skip 3 overlay pointers plus the blockDef debug name
+				RomManipulator.skip(28);
+				blockDefPointer = RomManipulator.parsePointer();
+				RomManipulator.skip(4);
+				imgDefPointer = RomManipulator.parsePointer();
+				return 4;
+			case 5:
+				RomManipulator.seek(pointers+4);
+				palPointer = RomManipulator.parsePointer();
+				RomManipulator.skip(4);
+				animDefPointer = RomManipulator.parsePointer();
+				//Skip 4 overlay pointers plus the blockDef debug name
+				RomManipulator.skip(36);
+				blockDefPointer = RomManipulator.parsePointer();
+				RomManipulator.skip(4);
+				imgDefPointer = RomManipulator.parsePointer();
+				return 5;
+			case 6:
+				palPointer = -1;
+				animDefPointer = -1;
+				blockDefPointer = -1;
+				imgDefPointer = -1;
+				char[] parts = ConfigHandler.getParts(offset).toCharArray();
 			
 				for(char part : parts) {
 					switch(part){
