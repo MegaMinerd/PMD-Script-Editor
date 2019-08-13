@@ -3,10 +3,7 @@ package com.mega.pmds;
 import java.io.IOException;
 
 import com.mega.pmds.data.DataDict;
-import com.mega.pmds.data.Direction;
 import com.mega.pmds.data.Face;
-import com.mega.pmds.data.Function;
-import com.mega.pmds.data.Item;
 import com.mega.pmds.data.Location;
 
 public class CodeConverter {
@@ -100,7 +97,7 @@ public class CodeConverter {
 				switch((int)(data[1]&0xFF)) {
 					case 0x2C:
 						command = "Reward\t";
-						command += Item.fromID(parseUnsignedShort(data, 4)) + ", ";
+						command += DataDict.items[parseUnsignedShort(data, 4)] + ", ";
 						command += parseUnsignedInt(data, 8);
 						return command;
 					default:
@@ -158,7 +155,7 @@ public class CodeConverter {
 			case 0x8B:
 				command = "FaceDir\t";
 				command += data[1] + ", ";
-				command += Direction.fromID(data[2]);
+				command += DataDict.directions[data[2]];
 				return command;
 			case 0x91:
 				command = "Rotate\t";
@@ -167,7 +164,7 @@ public class CodeConverter {
 					command += "cw, ";
 				else if(data[2]==2)
 					command += "ccw, ";
-				command += Direction.fromID(data[4]).toString().toLowerCase();
+				command += DataDict.directions[data[4]];
 				return command;
 			case 0xCF:
 				return "VaryMsg";
@@ -232,7 +229,7 @@ public class CodeConverter {
 				return command;
 			case 0xE8:
 				command = "Execute\t";
-				command += Function.fromID(parseUnsignedShort(data, 2));
+				command += com.mega.pmds.data.DataDict.functions[parseUnsignedShort(data, 2)];
 				return command;
 			case 0xE9:
 				return "MsgEnd";

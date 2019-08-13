@@ -9,7 +9,7 @@ import com.mega.pmds.CodeConverter;
 import com.mega.pmds.InvalidPointerException;
 import com.mega.pmds.RomManipulator;
 import com.mega.pmds.data.Actor;
-import com.mega.pmds.data.Direction;
+import com.mega.pmds.data.DataDict;
 import com.mega.pmds.gui.CodePanelInitializer;
 import com.mega.pmds.gui.MapPanel;
 import com.mega.pmds.gui.MapPanelInitializer;
@@ -129,7 +129,7 @@ public class LoadTask implements Comparable<LoadTask>{
 				}catch(NullPointerException npe) {
 					node = new ScriptTreeNode("Actor" + parent.getChildCount(), true);
 				}
-				node.add(new ScriptTreeNode("Direction: " + Direction.fromID(RomManipulator.readByte()).toString()));
+				node.add(new ScriptTreeNode("Direction: " + DataDict.directions[RomManipulator.readByte()]));
 				RomManipulator.skip(2);
 				node.add(new ScriptTreeNode("Location: (" + RomManipulator.readByte() + ", " + RomManipulator.readByte() + ")"));
 				byte[] data = new byte[2];
