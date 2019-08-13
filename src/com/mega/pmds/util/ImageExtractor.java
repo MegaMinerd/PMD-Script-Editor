@@ -116,9 +116,26 @@ public class ImageExtractor{
 			//Build image
 			BufferedImage image = new BufferedImage(cols*chunkWidth*8, rows*chunkHeight*8, BufferedImage.TYPE_INT_RGB);
 			Graphics g = image.getGraphics();
+			//Just output all of the chunks in order for testing purposes
+			if(type==7) {
+                for(int i=0; i<rows; i++) {
+                    for(int j=0; j<cols; j++) {
+                        try {
+                            g.drawImage(ImageExtractor.chunks[i*ImageExtractor.cols+j], j*ImageExtractor.chunkWidth*8, i*ImageExtractor.chunkHeight*8, null);
+                        }
+                        catch (ArrayIndexOutOfBoundsException e){
+                        	
+                        }
+                    }
+                }
+                return image;
+            }
 			//Build first row
-			Integer[] xors = new Integer[(int)(Math.ceil(cols/2.0)*2)];
-			Integer[] ids = buildRow(xors);
+			Integer[] blank = new Integer[(int)(Math.ceil(cols/2.0)*2)];
+			for(int i=0; i<blank.length; i++) {
+				blank[i] = 0;
+			}
+			Integer[] ids = buildRow(blank);
 			for(int i=0; i<cols; i++) {
 				try {
 					g.drawImage(chunks[ids[i]-1], i*chunkWidth*8, 0, null);
@@ -128,9 +145,8 @@ public class ImageExtractor{
 			}
 			//Build subsequent rows
 			for(int i=1; i<rows; i++) {
-				xors = buildRow(xors);
+				ids = ((type == 7) ? buildRow(blank) : buildRow(ids));
 				for(int j=0; j<cols; j++){
-					ids[j] = ids[j]^xors[j%xors.length];
 					try {
 						g.drawImage(chunks[ids[j]-1], j*chunkWidth*8, i*chunkHeight*8, null);
 					}catch(ArrayIndexOutOfBoundsException e) {
@@ -218,41 +234,41 @@ public class ImageExtractor{
 			imgDefPointer = -1;
 			char[] parts = ConfigHandler.getParts(offset).toCharArray();
 			
-			for(char part : parts) {
-				switch(part){
-					case 'p':
-						RomManipulator.seek(pointers+4);
-						palPointer = RomManipulator.parsePointer();
-						break;
-					case 'a':
-						RomManipulator.seek(pointers+4);
-						animDefPointer = RomManipulator.parsePointer();
-						break;
-					case 'b':
-						RomManipulator.seek(pointers+4);
-						blockDefPointer = RomManipulator.parsePointer();
-						break;
-					case 'i':
-						RomManipulator.seek(pointers+4);
-						imgDefPointer = RomManipulator.parsePointer();
-						break;
-					default:
-						break;
+				for(char part : parts) {
+					switch(part){
+						case 'p':
+							RomManipulator.seek(pointers+4);
+							palPointer = RomManipulator.parsePointer();
+							break;
+						case 'a':
+							RomManipulator.seek(pointers+4);
+							animDefPointer = RomManipulator.parsePointer();
+							break;
+						case 'b':
+							RomManipulator.seek(pointers+4);
+							blockDefPointer = RomManipulator.parsePointer();
+							break;
+						case 'i':
+							RomManipulator.seek(pointers+4);
+							imgDefPointer = RomManipulator.parsePointer();
+							break;
+						default:
+							break;
+					}
+					pointers += 8;
 				}
-				pointers += 8;
-			}
-			if(palPointer<0) {
-				throw new InvalidMapDefException("No palette");
-			}
-			if(blockDefPointer<0) {
-				throw new InvalidMapDefException("No tile data");
-			}
-			if(imgDefPointer<0) {
-				throw new InvalidMapDefException("No arrangement data");
-			}
-			return animDefPointer<0 ? 0 : 1;
-		}else {
-			throw new InvalidMapDefException("Unsupported map def type");
+				if(palPointer<0) {
+					throw new InvalidMapDefException("No palette");
+				}
+				if(blockDefPointer<0) {
+					throw new InvalidMapDefException("No tile data");
+				}
+				if(imgDefPointer<0) {
+					throw new InvalidMapDefException("No arrangement data");
+				}
+				return animDefPointer<0 ? 0 : 1;
+			default:
+				throw new InvalidMapDefException("Unsupported map def type");
 		}
 	}
 	
