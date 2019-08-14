@@ -190,75 +190,95 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Starry Sky" offset="22BDD4" map="01890158" />
 		<area name="End Card" offset="22C234" map="01890170" />
 		<area name="Tiny Woods Entrance" offset="22FCA8" map="01890850">
+			<scene name="Map Script" offset="22FB30" />
 			<scene name="Intro"	offset="22FB58" debug="Main 1A-1" />
 			<scene name="Failure" offset="22FBA8" debug="Main 1A-2" />
 			<scene name="Butterfree thanks you" offset="22FBD0" debug="Main 1A-3b" />
 		</area>
 		<area name="Tiny Woods Heart" offset="2302E4" map="01890868">
+			<scene name="Map Script" offset="230274" />
 			<scene name="Caterpie rescued" offset="23029C" debug="Main 1A-3a" />
 		</area>
 		<area name="Thunderwave Cave Entrance" offset="231C5C" map="01890880">
+			<scene name="Map Script" offset="231B7C" />
 			<scene name="Intro" offset="231BA4" debug="Main 2A-3" />
 			<scene name="Retry" offset="231BCC" debug="Main 2A-5" />
 			<scene name="Magnemite thanks you" offset="231BF4" debug="Main 2A-6b" />
 		</area>
 		<area name="Thunderwave Cave Depths" offset="232110" map="01890898">
+			<scene name="Map Script" offset="232090" />
 			<scene name="Magnemite rescued" offset="2320B8" debug="Main 2A-6a" />
 		</area>
 		<area name="Mt. Steel Entrance" offset="233244" map="018908B0">
+			<scene name="Map Script" offset="233154" />
 			<scene name="Intro" offset="23317C" debug="Main 2B-5" />
 			<scene name="Retry" offset="2331CC" debug="Main 2B-7" />
 		</area>
 		<area name="Mt. Steel Peak" offset="2342E0" map="018908C8">
+			<scene name="Map Script" offset="234230" />
 			<scene name="Boss defeat" offset="234258" debug="Main 2B-8a" />
 		</area>
 		<area name="Sinister Woods Entrance" offset="234C7C" map="018908E0">
+			<scene name="Map Script" offset="234BDC" />
 			<scene name="Intro" offset="234BDC" debug="Main 3A-8" />
 			<scene name="Retry" offset="234C2C" debug="Main 3A-10" />
 		</area>
 		<area name="Sinister Woods Heart" offset="2359F0" map="018908F8">
+			<scene name="Map Script" offset="235970" />
 			<scene name="Boss defeat" offset="235998" debug="Main 3A-11a" />
 		</area>
 		<area name="Silent Chasm Entrance" offset="237B64">
+			<scene name="Map Script" offset="237AEC" />
 			<scene name="Intro" offset="237B14" debug="Main 4A-3" />
 		</area>
 		<area name="Silent Chasm Depths" offset="239164" map="01890928">
+			<scene name="Map Script" offset="2390D4" />
 			<scene name="Jumpluff rescued" offset="2390FC" debug="Main 4A-6a" />
 		</area>
 		<area name="Mt. Thunder Entrance" offset="239E3C" map="01890940">
+			<scene name="Map Script" offset="239D8C" />
 			<scene name="Intro" offset="239DB4" debug="Main 4B-3" />
 			<scene name="Retry" offset="239DDC" debug="Main 4B-5" />
 		</area>
 		<area name="Mt. Thunder Midpoint" offset="23AA00">
+			<scene name="Map Script" offset="23A8F8" />
 			<scene name="Peak retry" offset="23A9C0" debug="Main 4B-6" />
 		</area>
 		<area name="Mt. Thunder Summit" offset="23D7C8">
+			<scene name="Map Script" offset="23D708" />
 			<scene name="Boss defeat" offset="23D730" debug="Main 4B-7" />
 		</area>
 		<area name="Great Canyon Entrance" offset="23E234" map="01890988">
+			<scene name="Map Script" offset="23E17C" />
 			<scene name="Intro" offset="23E1A4" debug="Main 5A-3" />
 			<scene name="Retry" offset="23E1CC" debug="Main 5A-5" />
 		</area>
 		<area name="Hill of the Ancients" offset="242BA4">
+			<scene name="Map Script" offset="242A74" />
 			<scene name="Xatu meeting" offset="242AC4" debug="Main 5A-6" />
 		</area>
 		<area name="Lapis Cave Entrance" offset="245500" map="018909A8" />
 		<area name="Lapis Cave Exit" offset="245CB4" map="018909C0">
+			<scene name="Map Script" offset="245C44" />
 			<scene name="Intro" offset="245C6C" debug="Main 7A-5" />
 		</area>
 		<area name="Mt. Blaze Entrance" offset="248A40"  map="018909D8">
+			<scene name="Map Script" offset="2487D8" />
 			<scene name="Intro" offset="2488C8" debug="Main 7B-1" />
 			<scene name="Mt. Blaze failure" offset="248940" debug="Main 7B-3" />
 			<scene name="Rock Path success" offset="248968" />
 			<scene name="Rock Path failure" offset="248990" />
 		</area>
 		<area name="Mt. Blaze Midpoint" offset="2496E8">
+			<scene name="Map Script" offset="2495E0" />
 			<scene name="Peak retry" offset="2496A8" debug="Main 7B-4" />
 		</area>
 		<area name="Mt. Blaze Summit" offset="24BBE8">
+			<scene name="Map Script" offset="24BB80" />
 			<scene name="Boss defeat" offset="24BBA8" debug="Main 7B-5" 	/>
 		</area>
 		<area name="Frosty Forest Entrance" offset="24E700" map="01890A20">
+			<scene name="Map Script" offset="24E4B8" />
 			<scene name="Intro" offset="24E5A8" debug="Main 8A-2" />
 			<scene name="Frosty Forest failure" offset="24E620" debug="Main 8A-3" />
 			<scene name="Frosty Grotto failure?" offset="24E648" />
@@ -266,13 +286,16 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Snow Path failure" offset="24E698" />
 		</area>
 		<area name="Frosty Forest Midpoint" offset="24FA10">
+			<scene name="Map Script" offset="24F8D8" />
 			<scene name="Frosty Grotto retry" offset="24F9A0" />
 			<scene name="Articuno loss" offset="24F9C8" debug="Main 8A-4" />
 		</area>
 		<area name="Frosty Summit" offset="251F30">
+			<scene name="Map Script" offset="251EA0" />
 			<scene name="Boss defeat" offset="251EC8" debug="Main 8A-5" />
 		</area>
 		<area name="Mt. Freeze Entrance" offset="25568C" map="01890A68">
+			<scene name="Map Script" offset="25543C" />
 			<scene name="Intro" offset="25552C" debug="Main 8B-2" />
 			<scene name="Mt. Freeze failure" offset="2555A4" />
 			<scene name="Snow Path success" offset="2555CC" />
@@ -280,32 +303,40 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Gengar Escort" offset="25561C" />
 		</area>
 		<area name="Mt. Freeze Midpoint" offset="256520">
+			<scene name="Map Script" offset="2563E8" />
 			<scene name="Peak retry" offset="2564B0" debug="Main 8B-5" />
 		</area>
 		<area name="Mt. Freeze Summit" offset="25CE20">
+			<scene name="Map Script" offset="25CC78" />
 			<scene name="Gengar" offset="25CCA0" />
 			<scene name="Fugitive success" offset="25CCF0" debug="Main 8B-6a" />
 			<scene name="Ninetails meeting" offset="25CD40" debug="Main 8B-6b" />
 		</area>
 		<area name="Magma Cavern Entrance" offset="25DCB8" map="01890AB0">
+			<scene name="Map Script" offset="25DB60" />
 			<scene name="Intro" offset="25DC28" debug="Main 9A-11" />
 			<scene name="Retry" offset="25DC50" debug="Main 9A-13" />
 		</area>
 		<area name="Magma Cavern Midpoint" offset="25E844">
-			<scene name="Pit retry" doffset="25E804" ebug="Main 7B-14" />
+			<scene name="Map Script" offset="25E73C" />
+			<scene name="Pit retry" offset="25E804" debug="Main 7B-14" />
 		</area>
 		<area name="Magma Cavern Depths" offset="25FF54">
+			<scene name="Map Script" offset="25FEC4" />
 			<scene name="Team ACT rescue" offset="25FEEC" />
 		</area>
 		<area name="Sky Tower Entrance" offset="2614F8" map="01890AF8">
+			<scene name="Map Script" offset="261428" />
 			<scene name="Intro" offset="261450" debug="Main 10A-4b" />
 			<scene name="Intro part 2" offset="261478" debug="Main 10A-4b" />
 			<scene name="Retry" offset="2614A0" debug="Main 10A-6" />
 		</area>
 		<area name="Sky Tower Midpoint" offset="262094">
+			<scene name="Map Script" offset="261F8C" />
 			<scene name="Summit retry" offset="262054" debug="Main 10A-7" />
 		</area>
 		<area name="Sky Tower Heights" offset="263ED0">
+			<scene name="Map Script" offset="263E08" />
 			<scene name="Boss defeat" offset="263E30" debug="Main 10A-8" />
 			<scene name="Boss defeat part 2" offset="263E58" />
 			<scene name="Boss defeat part 3" offset="263E80" />
