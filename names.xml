@@ -7,6 +7,8 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Town Square" offset="17D5F8" map="01891388" type="1">
 			<scene name="State Selector" offset="17C458" />
 			<scene name="Tour of Town" offset="17C688" debug="Main 2B-2" />
+			<scene name="First Wigglytuff Visit" offset="17C778" />
+			<scene name="Jumpluff Confronts Shiftry" offset="17C868" />
 		</area>
 		<area name="Whiscash Pond" offset="189954" map="018913C0" type="6" parts="pib">
 			<scene name="State Selector" offset="1892B4" />
@@ -110,11 +112,20 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Team Base Exterior" offset="1E1940" map="01890188" type="1">
 			<scene name="Partner Shows Base" offset="1E00B0" />
 			<scene name="Player Wakes Partner" offset="1E0150" debug="Main 2A-2" />
+			<scene name="Letter from Magnemite" offset="1E01C8" />
+			<scene name="Block Town Before Thunderwave Cave" offset="1E0268" />
+			<scene name="Thunderwave Cave Debrief" offset="1E02E0" debug="Main 2A-6c" />
+			<scene name="Morning After Thunderwave Cave" offset="1E0358" />
+			<scene name="Partner Learns of Dugtrio Mission" offset="1E0380" />
+			<scene name="Mt. Steel Debrief" offset="1E03F8" />
+			<scene name="Player Discusses Dreams" offset="1E0448" />
 			<scene name="World's Balance" offset="1E0718" debug="Main 5B-2" />
 		</area>
 		<area name="Team Base Interior" offset="1EE214" map="01890210" >
 			<scene name="First Morning" offset="1EDADC" debug="Main 2A-1" />
 			<scene name="First Morning (after nap)" offset="1EDB54" />
+			<scene name="Morning After First Dream" offset="1EDBA4" debug="Main 2B-1b" />
+			<scene name="Dugtrio Seeks Help" offset="1EDBCC" debug="Main 2B-4b" />
 		</area>
 		<area name="Bountiful Sea" offset="1EEAFC" map="01890C78" type="3" />
 		<area name="Treasure Sea" offset="1EF524" map="01890CB0" />
@@ -173,7 +184,12 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Southern Island" offset="20F0AC" map="01891288" type="1" />
 		<area name="Enclosed Island" offset="20F6E4" map="018912A8" type="2" />
 		<area name="Final Island" offset="20FD1C" map="018912D8" />
-		<area name="Dream World" offset="2163C0" map="01890018" />
+		<area name="Dream World" offset="2163C0" map="01890018">
+			<scene name="Map Script" offset="2160E0" />
+			<scene name="First Dream" offset="216108" debug="Main 2B-1a" />
+			<scene name="Second Dream" offset="216130" debug="Main 2B-4a" />
+			<scene name="Third Dream" offset="216159" />
+		</area>
 		<area name="Dream Eater World" offset="21812C" map="01890020" type="6" parts="bip" />
 		<area name="Fugitive Cutscene Fissure" offset="21858C" map="01890038" />
 		<area name="Fugitive Cutscene Forest" offset="218BA8"  map="01890050"/>
