@@ -135,7 +135,7 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 			try {
 				task.load(tasks);
 			}catch(InvalidPointerException ipe) {
-				//System.out.println(ipe.getMessage());
+				//System.out.println("Error loading " + task.getType() + ": " + ipe.getMessage());
 			}
 		}
 	}

@@ -112,6 +112,9 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Team Base Exterior" offset="1E1940" map="01890188" type="1">
 			<scene name="Partner Shows Base" offset="1E00B0" />
 			<scene name="Player Wakes Partner" offset="1E0150" debug="Main 2A-2" />
+			<scene name="Read the Mail" offset="1E0178">
+				<action name="Mailbox" offset="1DF6E8" />
+			</scene>
 			<scene name="Letter from Magnemite" offset="1E01C8" />
 			<scene name="Block Town Before Thunderwave Cave" offset="1E0268" />
 			<scene name="Thunderwave Cave Debrief" offset="1E02E0" debug="Main 2A-6c" />

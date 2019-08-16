@@ -124,10 +124,11 @@ public class LoadTask implements Comparable<LoadTask>{
 			RomManipulator.seek(offset);
 			for(int i=0; i<size; i++) {
 				ScriptTreeNode node;
+				int id = RomManipulator.readByte()&0xFF;
 				try {
-					node = new ScriptTreeNode(Actor.fromID(RomManipulator.readByte()).toString(), true);
+					node = new ScriptTreeNode(Actor.fromID(id).toString(), true);
 				}catch(NullPointerException npe) {
-					node = new ScriptTreeNode("Actor" + parent.getChildCount(), true);
+					node = new ScriptTreeNode("Actor" + Integer.toHexString(id), true);
 				}
 				node.add(new ScriptTreeNode("Direction: " + DataDict.directions[RomManipulator.readByte()]));
 				RomManipulator.skip(2);
@@ -136,8 +137,24 @@ public class LoadTask implements Comparable<LoadTask>{
 				RomManipulator.read(data);
 				node.add(new ScriptTreeNode("Unknown data: " + CodeConverter.bytesToString(data)));
 				parent.add(node);
-				tasks.add(new LoadTask(Type.SCRIPT, node, 1, RomManipulator.parsePointer()));
-				RomManipulator.skip(12);
+				try{
+					tasks.add(new LoadTask(Type.SCRIPT, node, 1, RomManipulator.parsePointer()));
+				}catch(InvalidPointerException ipe) {
+					
+				}
+				data = new byte[4];
+				RomManipulator.read(data);
+				node.add(new ScriptTreeNode("Unknown data: " + CodeConverter.bytesToString(data)));
+				try{
+					int pointer = RomManipulator.parsePointer();
+					ScriptTreeNode subNode = new ScriptTreeNode("Interaction");
+					tasks.add(new LoadTask(Type.SCRIPT, subNode, 1, pointer));
+					node.add(subNode);
+				}catch(InvalidPointerException ipe) {
+					
+				}
+				RomManipulator.read(data);
+				node.add(new ScriptTreeNode("Unknown data: " + CodeConverter.bytesToString(data)));
 			}
 		}else if(this.type==Type.SCRIPT) {
 			PmdScriptEditorWindow.addTreeAction(new TreePath(parent.getPath()), new CodePanelInitializer(offset));
@@ -173,7 +190,7 @@ public class LoadTask implements Comparable<LoadTask>{
 			for(int i=0; i<size; i++) {
 				String name = ConfigHandler.nameFromTypeAndOffset(type, offset);
 				if(name.equals(""))
-					name = "Interaction " + i + " (0x" + Integer.toHexString(offset) + ")";
+					name = "Object " + i + " (0x" + Integer.toHexString(offset) + ")";
 				else
 					name += " (0x" + Integer.toHexString(offset) + ")";
 				ScriptTreeNode node = new ScriptTreeNode(name, true);
@@ -206,5 +223,9 @@ public class LoadTask implements Comparable<LoadTask>{
 	@Override
 	public int compareTo(LoadTask other) {
 		return this.offset-other.getOffset();
+	}
+	
+	public Type getType() {
+		return type;
 	}
 }
