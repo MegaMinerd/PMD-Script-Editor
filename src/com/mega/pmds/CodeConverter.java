@@ -222,14 +222,30 @@ public class CodeConverter {
                 return command;
 			case 0xD5:
 				command = "Questn\t";
-				command += parsePointer(data);
+                offset = parsePointer(data);
+				command += offset;
+				try {
+                    command += "\n\t\t" + RomManipulator.readStringAndReturn(Integer.parseInt(offset, 16)).replace("\n", "\n\t\t");
+                }
+                catch (IOException e) {
+                    command += "\tError reading string!";
+                    e.printStackTrace();
+                }
 				return command;
 			case 0xD8:
 				return "VryQstn";
 			case 0xD9:
 				command = "Option\t";
 				command += data[2] + ", ";	
-				command += parsePointer(data);
+                offset = parsePointer(data);
+				command += offset;
+				try {
+                    command += "\n\t\t" + RomManipulator.readStringAndReturn(Integer.parseInt(offset, 16)).replace("\n", "\n\t\t");
+                }
+                catch (IOException e) {
+                    command += "\tError reading string!";
+                    e.printStackTrace();
+                }
 				return command;
 			case 0xDB:
 				command = "Sleep\t";
