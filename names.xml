@@ -5,21 +5,18 @@ The debug attribute only serves to make note of selection in the debug room that
 	<rom id="Unmodified">
 		<area name="Debug Room" offset="138254" map="01891370" />
 		<area name="Town Square" offset="17D5F8" map="01891388" type="1">
-			<scene name="State Selector" offset="17C458" />
 			<scene name="Tour of Town" offset="17C688" debug="Main 2B-2" />
 			<scene name="First Wigglytuff Visit" offset="17C778" />
-			<scene name="Jumpluff Confronts Shiftry" offset="17C868" />
+			<scene name="Jumpluff Confronts Shiftry" offset="17C7C8" />
+			<scene name="Jumpluff Confronts Shiftry (Flashback)" offset="17C868" />
+			<scene name="Team Hears About Legend" offset="17C930" />
+			<scene name="Partner Leaves Early" offset="17C980" />
+			<scene name="Team Notices Commotion" offset="17C9A8" />
+			<scene name="Gengar Accuses Player" offset="17C9D0" />
 		</area>
 		<area name="Whiscash Pond" offset="189954" map="018913C0" type="6" parts="pib">
-			<scene name="State Selector" offset="1892B4" />
-			<scene name="Whiscash Behavior A?" offset="1892DC">
-				<call name="Sprite" offset="1892DC" />
-				<action name="Conversation?" offset="188F70" />
-			</scene>
-			<scene name="Whiscash Behavior B?" offset="189304">
-				<call name="Sprite" offset="189304" />
-				<action name="Conversation?" offset="188F88" />
-			</scene>
+			<scene name="Whiscash Talks About HMs" offset="1892DC" />
+			<scene name="Whiscash Talks About Buried Relic" offset="189304" />
 			<scene name="Wish Cave Found" offset="189354">
 				<call name="Main Call" offset="189354" />
 			</scene>
@@ -30,16 +27,12 @@ The debug attribute only serves to make note of selection in the debug room that
 				<call name="Behavior Before" offset="1893CC" />
 				<call name="Main Call" offset="1893F4" />
 			</scene>
-			<scene name="Whiscash Behavior C?" offset="18941C">
-				<call name="Sprite" offset="18941C" />
-				<action name="Conversation?" offset="188FA0" />
-			</scene>
+			<scene name="Whiscash Dialogue" offset="18941C" />
 			<scene name="Ninetails Story" offset="18950C">
 				<call name="Behaviors Before" offset="18950C" />
 				<call name="Main Call" offset="189534" />
-				<action name="Conversation" offset="189030" />
 			</scene>
-			<scene name="Ninetails Story Flashback" offset="189584">
+			<scene name="Ninetails Story (Flashback)" offset="189584">
 				<call name="Main Call" offset="189584" />
 			</scene>
 		</area>
@@ -53,7 +46,6 @@ The debug attribute only serves to make note of selection in the debug room that
 				<call name="Main Call" offset="1971C0" />
 				<call name="Idle Dugtrio" offset="1971E8" />
 			</scene>
-			<scene name="State Selector" offset="197210" />
 			<scene name="Wynaut Mission Accepted" offset="197238">
 				<call name="Main Call" offset="197238" />
 			</scene>
@@ -110,19 +102,45 @@ The debug attribute only serves to make note of selection in the debug room that
 		</area>
 		<area name="Luminous Cave" offset="19AD04" map="01891448" type="2" />
 		<area name="Team Base Exterior" offset="1E1940" map="01890188" type="1">
+			<scene name="Generic Mission Failure" offset="1DFE30" />
+			<scene name="Generic Mission Success" offset="1DFE80" />
+			<scene name="Generic Partner Greeting" offset="1DFEF8" />
+			<scene name="Debug &quot;Team Flag&quot; Scenario" offset="1DFF70" />
+			<scene name="Debug &quot;Meteor Cave&quot; Scenario" offset="1DFF98" />
+			<scene name="Debug &quot;Rainbow Wing&quot; Scenario" offset="1DFFC0" />
+			<scene name="Debug &quot;Toughest Pokemon&quot; Scenario" offset="1DFFE8" />
+			<scene name="Debug &quot;Latios and Latias&quot; Scenario" offset="1E0010" />
+			<scene name="Debug &quot;Buried Relic&quot; Scenario" offset="1E0038" />
+			<scene name="Debug &quot;Wish Cave&quot; Scenario" offset="1E0060" />
+			<scene name="Debug &quot;Gengar and Gardevoir&quot; Scenario" offset="1E0088" />
 			<scene name="Partner Shows Base" offset="1E00B0" />
 			<scene name="Player Wakes Partner" offset="1E0150" debug="Main 2A-2" />
 			<scene name="Read the Mail" offset="1E0178">
 				<action name="Mailbox" offset="1DF6E8" />
 			</scene>
 			<scene name="Letter from Magnemite" offset="1E01C8" />
+			<scene name="Mission Failure" offset="1E0240" />
 			<scene name="Block Town Before Thunderwave Cave" offset="1E0268" />
 			<scene name="Thunderwave Cave Debrief" offset="1E02E0" debug="Main 2A-6c" />
 			<scene name="Morning After Thunderwave Cave" offset="1E0358" />
 			<scene name="Partner Learns of Dugtrio Mission" offset="1E0380" />
+			<scene name="Mission Failure" offset="1E03D0" />
 			<scene name="Mt. Steel Debrief" offset="1E03F8" />
 			<scene name="Player Discusses Dreams" offset="1E0448" />
+			<scene name="Team Meanies Steals Mail" offset="1E0470" />
+			<scene name="Caterpie Seeks Help" offset="1E0498" />
+			<scene name="Caterpie Dialogue" offset="1E04C0" />
+			<scene name="Mission Failure" offset="1E04E8" />
+			<scene name="Sinister Woods Debrief" offset="1E0510" />
+			<scene name="Jumpluff Seeks Help" offset="1E0538" />
+			<scene name="Jumpluff Seeks Help (After Flashback)" offset="1E05B0" />
+			<scene name="Jumpluff Dialogue" offset="1E05D8" />
+			<scene name="Mission Failure" offset="1E0600" />
+			<scene name="Silent Chasm Debrief" offset="1E0628" />
+			<scene name="Mt. Thunder Brief" offset="1E0650" />
+			<scene name="Great Canyon Brief" offset="1E06C8" />
 			<scene name="World's Balance" offset="1E0718" debug="Main 5B-2" />
+			<scene name="Partner Leaves Early" offset="1E0768" />
 		</area>
 		<area name="Team Base Interior" offset="1EE214" map="01890210" >
 			<scene name="First Morning" offset="1EDADC" debug="Main 2A-1" />
@@ -191,7 +209,8 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Map Script" offset="2160E0" />
 			<scene name="First Dream" offset="216108" debug="Main 2B-1a" />
 			<scene name="Second Dream" offset="216130" debug="Main 2B-4a" />
-			<scene name="Third Dream" offset="216159" />
+			<scene name="Third Dream" offset="216158" />
+			<scene name="Fourth Dream" offset="2161A8" />
 		</area>
 		<area name="Dream Eater World" offset="21812C" map="01890020" type="6" parts="bip" />
 		<area name="Fugitive Cutscene Fissure" offset="21858C" map="01890038" />

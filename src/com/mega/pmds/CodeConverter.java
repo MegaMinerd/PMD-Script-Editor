@@ -269,7 +269,7 @@ public class CodeConverter {
 				return command;
 			case 0xE8:
 				command = "Execute\t";
-				command += com.mega.pmds.data.DataDict.functions[parseUnsignedShort(data, 2)];
+				command += DataDict.functions[parseUnsignedShort(data, 2)];
 				return command;
 			case 0xE9:
 				return "MsgEnd";
