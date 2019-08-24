@@ -142,9 +142,14 @@ public class LoadTask implements Comparable<LoadTask>{
 				}catch(InvalidPointerException ipe) {
 					
 				}
-				data = new byte[4];
-				RomManipulator.read(data);
-				node.add(new ScriptTreeNode("Unknown data: " + CodeConverter.bytesToString(data)));
+				try{
+					int pointer = RomManipulator.parsePointer();
+					ScriptTreeNode subNode = new ScriptTreeNode("Script 1");
+					tasks.add(new LoadTask(Type.SCRIPT, subNode, 1, pointer));
+					node.add(subNode);
+				}catch(InvalidPointerException ipe) {
+					
+				}
 				try{
 					int pointer = RomManipulator.parsePointer();
 					ScriptTreeNode subNode = new ScriptTreeNode("Interaction");
@@ -153,8 +158,14 @@ public class LoadTask implements Comparable<LoadTask>{
 				}catch(InvalidPointerException ipe) {
 					
 				}
-				RomManipulator.read(data);
-				node.add(new ScriptTreeNode("Unknown data: " + CodeConverter.bytesToString(data)));
+				try{
+					int pointer = RomManipulator.parsePointer();
+					ScriptTreeNode subNode = new ScriptTreeNode("Script 3");
+					tasks.add(new LoadTask(Type.SCRIPT, subNode, 1, pointer));
+					node.add(subNode);
+				}catch(InvalidPointerException ipe) {
+					
+				}
 			}
 		}else if(this.type==Type.SCRIPT) {
 			PmdScriptEditorWindow.addTreeAction(new TreePath(parent.getPath()), new CodePanelInitializer(offset));
