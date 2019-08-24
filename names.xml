@@ -37,41 +37,46 @@ The debug attribute only serves to make note of selection in the debug room that
 			</scene>
 		</area>
 		<area name="Pelipper Post Office Exterior" offset="197A08" map="018913D8" type="1">
-			<scene name="" offset="1970D0">
+			<scene name="Map Script" offset="1970D0">
 				<call name="Pelipper Behavior" offset="1970D0" />
 				<action name="Bulletin Board" offset="196F94" />
 			</scene>
 			<scene name="Dugtrio Returns" offset="197198">
-				<call name="Idle Diglett" offset="197198" />
+				<call name="Behaviors Before" offset="197198" />
 				<call name="Main Call" offset="1971C0" />
-				<call name="Idle Dugtrio" offset="1971E8" />
+				<call name="Behaviors After" offset="1971E8" />
 			</scene>
 			<scene name="Wynaut Mission Accepted" offset="197238">
 				<call name="Main Call" offset="197238" />
 			</scene>
+			<scene name="Debug &quot;Team Flag&quot; Scenario" offset="197260" />
 			<scene name="Smeargle Mission Accepted" offset="197288">
 				<call name="Main Call" offset="197288" />
 			</scene>
+			<scene name="Interaction Dialogue Set 1" offset="1972B0" />
 			<scene name="Ekans Mission Accepted" offset="1972D8">
 				<call name="Main Call" offset="1972D8" />
 			</scene>
+			<scene name="Interaction Dialogue Set 2" offset="197300" />
 			<scene name="Gengar is Missing" offset="197328">
 				<call name="Main Call" offset="197328" />
 			</scene>
+			<scene name="Interaction Dialogue Set 3" offset="197350" />
 			<scene name="Intro" offset="197468" debug="Main 2B-3">
 				<call name="Main Call" offset="197468" />
 			</scene>
 			<scene name="Empty Scene" offset="197490" />
 			<scene name="Empty Scene" offset="1974B8" />
 			<scene name="Empty Scene" offset="1974E0" />
-			<scene name="Has Dugtrio been to Sea?" offset="197508">
-				<call name="Snubbull Extra" offset="197508" />
+			<scene name="Interaction Dialogue Set 4" offset="197508">
+				<call name="Behaviors Before" offset="197508" />
 				<call name="Main Call" offset="197530" />
 			</scene>
 			<scene name="Has Dugtrio been to Sea?" offset="197558">
 				<call name="Behaviors Before" offset="197558" />
 				<call name="Main Call" offset="197580" />
 			</scene>
+			<scene name="Interaction Dialogue Set 5" offset="1975A8" />
 			<scene name="Can Dugtrio Swim?" offset="1975F8">
 				<call name="Behaviors Before" offset="1975F8" />
 				<call name="Main Call" offset="197620" />
@@ -89,9 +94,18 @@ The debug attribute only serves to make note of selection in the debug room that
 				<call name="Main Call" offset="197710" />
 				<call name="Behaviors After" offset="197738" />
 			</scene>
+			<scene name="Interaction Dialogue Set 6" offset="197760" />
+			<scene name="Interaction Dialogue Set 7" offset="197788" />
+			<scene name="Interaction Dialogue Set 8" offset="1977B0" />
+			<scene name="Interaction Dialogue Set 9" offset="1977D8" />
+			<scene name="Interaction Dialogue Set 10" offset="197828" />
 			<!--map palette="01CCF554" blockDef="01CD4104" chunkDef="01CDB244" imgDef="01CDCE18" /-->
 		</area>
 		<area name="Pelipper Post Office Interior" offset="198E0C" map="018913F8">
+			<scene name="Interaction Dialogue" offset="198CE4" />
+			<scene name="Rescue Failure" offset="198D34" />
+			<scene name="Rescue Failure" offset="198D5C" />
+			<scene name="Segment of Startup Cinematic?" offset="198D84" />
 			<!--map palette="01CDD234" blockDef="01CDD4A0" chunkDef="01CE4280" imgDef="01CE500C" /-->
 		</area>
 		<area name="Makuhita Dojo" offset="19A3C4" map="01891410" type="1">
