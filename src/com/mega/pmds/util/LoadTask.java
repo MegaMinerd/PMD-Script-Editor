@@ -59,7 +59,7 @@ public class LoadTask implements Comparable<LoadTask>{
 			tasks.add(new LoadTask(Type.SCENE_LIST, node, size, RomManipulator.parsePointer()));
 			int pointer = RomManipulator.parsePointer();
 			tasks.add(new LoadTask(Type.WAYPOINT_LIST, node, (offset-pointer)/8, pointer));
-			PmdScriptEditorWindow.addTreeAction(new TreePath(node.getPath()), new MapPanelInitializer<MapPanel>(node, MapPanel.class));
+			PmdScriptEditorWindow.addTreeAction(new TreePath(node.getPath()), new MapPanelInitializer<MapPanel>(node, -1, MapPanel.class));
 		}else if(this.type==Type.WAYPOINT_LIST) {
 			ScriptTreeNode node = new ScriptTreeNode("Waypoints" + " (0x" + Integer.toHexString(offset) + ")", true);
 			parent.add(node);
@@ -71,8 +71,9 @@ public class LoadTask implements Comparable<LoadTask>{
 				RomManipulator.read(data);
 				waypoint.add(new ScriptTreeNode("Unknown data:" + CodeConverter.bytesToString(data)));
 				node.add(waypoint);
+				PmdScriptEditorWindow.addTreeAction(new TreePath(waypoint.getPath()), new MapPanelInitializer<WaypointMapPanel>(waypoint, i, WaypointMapPanel.class));
 			}
-			PmdScriptEditorWindow.addTreeAction(new TreePath(node.getPath()), new MapPanelInitializer<WaypointMapPanel>(node, WaypointMapPanel.class));
+			PmdScriptEditorWindow.addTreeAction(new TreePath(node.getPath()), new MapPanelInitializer<WaypointMapPanel>(node, -1, WaypointMapPanel.class));
 		}else if(this.type==Type.SCENE_LIST) {
 			ScriptTreeNode node = new ScriptTreeNode("Scenes (0x" + Integer.toHexString(offset) + ")", true);
 			parent.add(node);

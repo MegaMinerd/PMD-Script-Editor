@@ -16,7 +16,7 @@ public class MapPanel extends ScriptContentPanel{
 	ScriptTreeNode node;
 	protected BufferedImage map;
 	
-	public MapPanel(ScriptTreeNode nodeIn) {
+	public MapPanel(ScriptTreeNode nodeIn, Integer idIn) {
 		//TODO: Remove premade asset compatibility
 		this.node=nodeIn;
 		String name = ((ScriptTreeNode)node).getName().split("\\(")[0].trim().toLowerCase().replaceAll(" ","_").replaceAll("\\.", "");
@@ -36,7 +36,7 @@ public class MapPanel extends ScriptContentPanel{
 				map = ImageExtractor.extract(offset);
 			}
 			ImageCache.cache(name, map);
-		}
+		//}
 	}
 	
 	@Override
