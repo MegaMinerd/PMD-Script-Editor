@@ -149,6 +149,10 @@ public class CodeConverter {
 				command = "SetAnim\t0x";
 				command += Integer.toHexString(parseUnsignedInt(data, 2));
 				return command;
+			case 0x5B:
+				command = "WarpTo\t";
+				command += parseInt(data, 4);
+				return command;
 			case 0x62:
 				command = "Move\tnoRotate, ";
 				command += parseUnsignedShort(data, 2) + ", ";
