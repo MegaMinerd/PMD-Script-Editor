@@ -26,6 +26,7 @@
     	<attribute name="map" type="hexBinary"></attribute>
     	<attribute name="type" type="int"></attribute>
     	<attribute name="parts" type="string" use="optional"></attribute>
+    	<attribute name="assem" type="hexBinary"></attribute>
     </complexType>
 
     <complexType name="scene">

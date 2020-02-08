@@ -207,4 +207,27 @@ public class ConfigHandler {
 		}
 		return null;
 	}
+	
+	public static int getAssem(int offset) {
+		Element rom = null;
+		try {
+			rom = (Element)instance.xpath.evaluate("//*[@id='Unmodified']", instance.names, XPathConstants.NODE);
+		} catch (XPathExpressionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		NodeList areaList = rom.getElementsByTagName("area");
+		for(int i=0; i<areaList.getLength(); i++) {
+			if(areaList.item(i).getNodeType()==Node.ELEMENT_NODE) {
+				Element area = (Element)areaList.item(i);
+				if(Integer.parseInt(area.getAttribute("offset"), 16)==offset) {
+					if(area.hasAttribute("assem"))
+						return Integer.parseInt(area.getAttribute("assem"), 16);
+					else
+						return 0;
+				}
+			}
+		}
+		return 0;
+	}
 }

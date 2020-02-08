@@ -134,7 +134,7 @@ public class RomManipulator {
 		short output = 0;
 		output += instance.file.readUnsignedByte();
 		output += (instance.file.readUnsignedByte() << 8);
-		return output;	
+		return output;
 	}
 	
 	public static int readInt(int offset) throws IOException{
@@ -243,5 +243,13 @@ public class RomManipulator {
 	
 	public static void writePointer(int pointer) throws IOException{
 		writeInt(pointer+0x08000000);
+	}
+	
+	public static int length() throws IOException{
+		return (int)instance.file.length();
+	}
+	
+	public static void setLength(long length) throws IOException{
+		instance.file.setLength(length);
 	}
 }

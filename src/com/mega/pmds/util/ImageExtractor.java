@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.mega.pmds.InvalidMapDefException;
 import com.mega.pmds.InvalidPointerException;
@@ -117,17 +118,18 @@ public class ImageExtractor{
 			BufferedImage image = new BufferedImage(cols*chunkWidth*8, rows*chunkHeight*8, BufferedImage.TYPE_INT_RGB);
 			Graphics g = image.getGraphics();
 			//Just output all of the chunks in order for testing purposes
-			if(type==7) {
+			if(type==7 || type==8) {
                 for(int i=0; i<rows; i++) {
                     for(int j=0; j<cols; j++) {
                         try {
-                            g.drawImage(ImageExtractor.chunks[i*ImageExtractor.cols+j], j*ImageExtractor.chunkWidth*8, i*ImageExtractor.chunkHeight*8, null);
+                            g.drawImage(ImageExtractor.chunks[i*cols+j], j*chunkWidth*8, i*chunkHeight*8, null);
                         }
                         catch (ArrayIndexOutOfBoundsException e){
                         	
                         }
                     }
                 }
+				//RomManipulator.setLength(0x2000000);
                 return image;
             }
 			//Build first row
@@ -154,6 +156,7 @@ public class ImageExtractor{
 					}
 				}
 			}
+			
 			
 			return image;
 		} catch (IOException e) {
@@ -269,6 +272,21 @@ public class ImageExtractor{
 					throw new InvalidMapDefException("No arrangement data");
 				}
 				return animDefPointer<0 ? 0 : 1;
+			case 8:
+				RomManipulator.seek(pointers+12);
+				blockDefPointer = RomManipulator.length();
+				System.out.println(blockDefPointer);
+				int off1 = RomManipulator.parsePointer();
+				RomManipulator.skip(12);
+				int off2 = RomManipulator.parsePointer();
+				RomManipulator.skip(4);
+				palPointer = RomManipulator.parsePointer();
+				at4px(off2, true);
+				chunkDefPointer = RomManipulator.length()+8;
+				System.out.println(chunkDefPointer);
+				at4px(off1, false);
+				imgDefPointer = ConfigHandler.getAssem(offset);
+				return 8;
 			default:
 				throw new InvalidMapDefException("Unsupported map def type");
 		}
@@ -314,4 +332,106 @@ public class ImageExtractor{
 		out.add(((in[1]&0xF0)>>4) + ((in[2]&0xFF)<<4));
 		return out;
 	}
+	
+	//Decompress data at an offset and return to original location
+	private static void at4px(int offset, boolean isTiles) throws IOException {
+		System.out.println(Integer.toHexString(offset));
+		int origOff = RomManipulator.getFilePointer();
+		RomManipulator.seek(offset);
+		ArrayList<Byte> data = new ArrayList<Byte>();
+		//if rom.read(5) != b'AT4PX':
+		//	raise ValueError('Wrong magic bytes for compressed data')
+		RomManipulator.skip(7);
+		//end, = unpack('<H', rom.read(2))
+		
+		// The control codes used for 0-flags vary
+		//controls = list(rom.read(9))
+		ArrayList<Byte> controls = new ArrayList<Byte>();
+		for(int i=0; i<9; i++) {
+			controls.add(RomManipulator.readByte());
+		}
+		
+		//length, = unpack('<H', rom.read(2))
+		int len = RomManipulator.readShort();
+		if(isTiles) {
+			data.add((byte)3);
+			data.add((byte)0);
+			data.add((byte)3);
+			data.add((byte)0);
+			System.out.println(Integer.toHexString(len));
+			data.add((byte)((len/0x20)&0xFF));
+			data.add((byte)(((len/0x20)&0xFF00)>>8));
+			for(int i=0; i<10; i++)
+				data.add((byte)0);
+		}
+
+		
+		while((isTiles ? data.size()-0x10 : data.size()) < len) {
+			byte flags = RomManipulator.readByte();
+			if(!isTiles)
+				System.out.println(Integer.toHexString(flags));
+			for(int i=0; i<8; i++) {
+				if((flags&(0x80>>i))!=0) {
+				// Flag 1: append one byte as-is
+					data.add((byte)(RomManipulator.readUnsignedByte()&0xFF));
+				}else {
+				// Flag 0: do one of two fancy things based on the next byte's
+				// high and low nybbles
+					byte control = RomManipulator.readByte();
+					byte high = (byte)((control >> 4)&0x0F);
+					byte low = (byte)(control & 0x0F);
+
+					if(controls.contains(high)){
+						// Append a pattern of four nybbles. The high bits determine
+						// the pattern, and the low bits determine the base nybble.
+						control = (byte)controls.indexOf(high);
+						byte[] nybbles = {low, low, low, low};
+
+						if(control==0) {}
+						else if(control<=4) {
+							// Lower a particular pixel
+							if(control==1)
+								for(int j=0; j<4; j++)
+									nybbles[j]++;
+							nybbles[control-1]--;
+						}
+						else {
+							// 5 <= control <= 8; raise a particular pixel
+							if(control==5)
+								for(int j=0; j<4; j++)
+									nybbles[j]--;
+							nybbles[control-5]++;
+						}
+						// Pack the pixels into bytes and append them
+						data.add((byte)((nybbles[0]<<4) | nybbles[1]));
+						data.add((byte)((nybbles[2]<<4) | nybbles[3]));
+					}
+					else {
+						// Append a sequence of bytes previously used in the data.
+						// This can overlap with the beginning of the appended bytes!
+						// The high bits determine the length of the sequence, and
+						// the low bits help determine the where the sequence starts.
+						int off = -0x1000;
+						off += ((low << 8) | (RomManipulator.readByte()&0xFF));
+						for(int j=0; j<(high+3); j++)
+							try {
+								data.add(data.get(data.size()+off));
+							}catch(IndexOutOfBoundsException e) {
+								data.add((byte)0);
+							}
+					}
+				}
+				if((isTiles ? data.size()-0x10 : data.size()) >= len)
+					break;
+			}
+		}
+		RomManipulator.seek(RomManipulator.length());
+		for(byte b : data)
+			RomManipulator.writeByte(b);
+		if(!isTiles)
+			RomManipulator.writeShort((short)(data.size()/18), 0x200000E);
+		RomManipulator.seek(origOff);
+	}
 }
+
+
