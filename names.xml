@@ -257,7 +257,7 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Retry" offset="231BCC" debug="Main 2A-5" />
 			<scene name="Magnemite thanks you" offset="231BF4" debug="Main 2A-6b" />
 		</area>
-		<area name="Thunderwave Cave Depths" offset="232110" map="01890898">
+		<area name="Thunderwave Cave Depths" offset="232110" map="3B0270" assem="01A013B4" type="8"><!-- map="01890898"-->
 			<scene name="Map Script" offset="232090" />
 			<scene name="Magnemite rescued" offset="2320B8" debug="Main 2A-6a" />
 		</area>

@@ -23,13 +23,17 @@ public class ImageExtractor{
 		
 		try {
 			type = loadPointers(pointers, type, offset);
+			System.out.println(Integer.toHexString(blockDefPointer));
+			System.out.println(Integer.toHexString(chunkDefPointer));
+			System.out.println(Integer.toHexString(palPointer));
 			//Parse palettes
 			RomManipulator.seek(palPointer);
-			int palCount = RomManipulator.readShort();
-			RomManipulator.skip(2);
+			int palCount = type==8 ? 16 : RomManipulator.readShort();
+			if(type!=8)
+				RomManipulator.skip(2);
 			palettes = new Palette[palCount];
 			for(int i=0; i<palCount; i++) {
-				palettes[i] = new Palette();
+				palettes[i] = new Palette(type==8);
 			}
 			
 			int animCount;
@@ -48,6 +52,8 @@ public class ImageExtractor{
 			chunkWidth = RomManipulator.readShort()&0xFFFF;
 			chunkHeight = RomManipulator.readShort()&0xFFFF;
 			blockCount = (RomManipulator.readShort()&0xFFFF)-1;
+			if(type==8)
+				blockCount++;
 			//The use of these bytes is unknown
 			RomManipulator.skip(8);
 			chunkCount = (RomManipulator.readShort()&0xFFFF)-1;
@@ -88,6 +94,8 @@ public class ImageExtractor{
 			
 			//Build chunks
 			chunks = new BufferedImage[chunkCount];
+			System.out.println("Offset: " + RomManipulator.getFilePointer());
+			System.out.println(palettes.length);
 			for(int i=0; i<chunkCount; i++) {
 				BufferedImage chunk = new BufferedImage(chunkWidth*8, chunkHeight*8, BufferedImage.TYPE_INT_RGB);
 				Graphics g = chunk.getGraphics();
@@ -99,9 +107,10 @@ public class ImageExtractor{
 						boolean ver = ((meta&0x800)>>11)==1;
 						int id = (meta&0x3FF);
 						try {
-							g.drawImage(blocks[id-1].render(palettes[pal], hor, ver), k*8, j*8, null);
+							System.out.println(pal);
+							g.drawImage(blocks[type==8 ? id : id-1].render(palettes[pal], hor, ver), k*8, j*8, null);
 						}catch(ArrayIndexOutOfBoundsException e) {
-							
+							System.out.println("Error: " + e.getMessage());
 						}
 					}
 				}
@@ -129,7 +138,7 @@ public class ImageExtractor{
                         }
                     }
                 }
-				//RomManipulator.setLength(0x2000000);
+				RomManipulator.setLength(0x2000000);
                 return image;
             }
 			//Build first row
@@ -275,15 +284,13 @@ public class ImageExtractor{
 			case 8:
 				RomManipulator.seek(pointers+12);
 				blockDefPointer = RomManipulator.length();
-				System.out.println(blockDefPointer);
 				int off1 = RomManipulator.parsePointer();
 				RomManipulator.skip(12);
 				int off2 = RomManipulator.parsePointer();
 				RomManipulator.skip(4);
 				palPointer = RomManipulator.parsePointer();
 				at4px(off2, true);
-				chunkDefPointer = RomManipulator.length()+8;
-				System.out.println(chunkDefPointer);
+				chunkDefPointer = RomManipulator.length();
 				at4px(off1, false);
 				imgDefPointer = ConfigHandler.getAssem(offset);
 				return 8;
@@ -335,7 +342,8 @@ public class ImageExtractor{
 	
 	//Decompress data at an offset and return to original location
 	private static void at4px(int offset, boolean isTiles) throws IOException {
-		System.out.println(Integer.toHexString(offset));
+		//System.out.println("AT4");
+		//System.out.println("Offset:" + Integer.toHexString(offset));
 		int origOff = RomManipulator.getFilePointer();
 		RomManipulator.seek(offset);
 		ArrayList<Byte> data = new ArrayList<Byte>();
@@ -358,7 +366,7 @@ public class ImageExtractor{
 			data.add((byte)0);
 			data.add((byte)3);
 			data.add((byte)0);
-			System.out.println(Integer.toHexString(len));
+			//System.out.println("Length:" + Integer.toHexString(len));
 			data.add((byte)((len/0x20)&0xFF));
 			data.add((byte)(((len/0x20)&0xFF00)>>8));
 			for(int i=0; i<10; i++)
@@ -368,8 +376,7 @@ public class ImageExtractor{
 		
 		while((isTiles ? data.size()-0x10 : data.size()) < len) {
 			byte flags = RomManipulator.readByte();
-			if(!isTiles)
-				System.out.println(Integer.toHexString(flags));
+			//if(!isTiles) System.out.println("Flags:" + Integer.toHexString(flags));
 			for(int i=0; i<8; i++) {
 				if((flags&(0x80>>i))!=0) {
 				// Flag 1: append one byte as-is
