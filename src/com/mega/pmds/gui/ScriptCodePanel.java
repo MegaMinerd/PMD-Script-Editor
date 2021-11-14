@@ -1,6 +1,7 @@
 package com.mega.pmds.gui;
 
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -12,6 +13,7 @@ public class ScriptCodePanel extends ScriptContentPanel {
 	public ScriptCodePanel() {
 		super();
 		code = new JTextArea();
+		code.setFont(new Font("monospaced", Font.PLAIN, 12));
 		this.add(code);
 	}
 	
