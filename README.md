@@ -12,6 +12,15 @@ ant
 
 ## Features
 Can view world maps, scripts, and script structure.
+![Screenshot of PMD Script Editor with map open.](Preview.png)
+
+## Future Features
+These are Roughly in order of priority
+* 2 Panels for the Script Editor - One for hex editing, one for a compiled script.
+* Ability to Edit and Save Scripts
+* String Editing
+* Add More Names to Script Commands
+
 
 ## Contributing
 Pull requests are welcome.

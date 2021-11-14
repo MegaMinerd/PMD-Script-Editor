@@ -80,7 +80,8 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 		scriptTree.setBorder(BorderFactory.createEmptyBorder());
 		scriptTree.addTreeSelectionListener(this);
 		leftScrollPane = new JScrollPane(scriptTree, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		rightScrollPane = new JScrollPane(new ScriptOverviewPanel(), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);		
+		rightScrollPane = new JScrollPane(new ScriptOverviewPanel(), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);	
+		rightScrollPane.getVerticalScrollBar().setUnitIncrement(20); 
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, leftScrollPane, rightScrollPane);
 		
 		this.getContentPane().add(splitPane);
@@ -171,7 +172,7 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 		try {
 			try {
 				rightScrollPane = new JScrollPane((treeActions.get(scriptTree.getSelectionPath()).call()), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-				rightScrollPane.setPreferredSize(null);
+				rightScrollPane.getVerticalScrollBar().setUnitIncrement(20); 
 				splitPane.setRightComponent(rightScrollPane);
 			} catch (NullPointerException npe) {
 			} catch (Exception e) {
