@@ -36,12 +36,11 @@ public class MapPanel extends ScriptContentPanel{
 				map = ImageExtractor.extract(offset);
 			}
 			ImageCache.cache(name, map);
-		//}
+		}
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 	
