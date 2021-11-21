@@ -6,20 +6,25 @@ import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import com.mega.pmds.data.Script;
+
 public class ScriptCodePanel extends ScriptContentPanel {
-	JTextArea code;
+	JTextArea offsets;
+	ScriptCodeHexComponent code;
 	JScrollPane scrollPane;
 	
-	public ScriptCodePanel() {
+	// Could use an object containing script data instead of text.
+	public ScriptCodePanel(Script text) {
 		super();
-		code = new JTextArea();
-		code.setFont(new Font("monospaced", Font.PLAIN, 12));
+		Font monospaced = new Font("monospaced", Font.PLAIN, 12);
+		offsets = new JTextArea();
+		offsets.setFont(monospaced);
+		code = new ScriptCodeHexComponent(text);
+		code.setFont(monospaced);
+		this.add(offsets);
 		this.add(code);
-	}
-	
-	public ScriptCodePanel(String text) {
-		this();
-		code.setText(text);
+		offsets.setText(text.addressesToString());
+		System.out.println(code.getText());
 	}
 	
 	@Override

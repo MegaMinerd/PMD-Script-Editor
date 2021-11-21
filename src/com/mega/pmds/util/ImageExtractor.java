@@ -23,9 +23,9 @@ public class ImageExtractor{
 		
 		try {
 			type = loadPointers(pointers, type, offset);
-			System.out.println(Integer.toHexString(blockDefPointer));
-			System.out.println(Integer.toHexString(chunkDefPointer));
-			System.out.println(Integer.toHexString(palPointer));
+			//System.out.println(Integer.toHexString(blockDefPointer));
+			//System.out.println(Integer.toHexString(chunkDefPointer));
+			//System.out.println(Integer.toHexString(palPointer));
 			//Parse palettes
 			RomManipulator.seek(palPointer);
 			int palCount = type==8 ? 16 : RomManipulator.readShort();
@@ -94,8 +94,8 @@ public class ImageExtractor{
 			
 			//Build chunks
 			chunks = new BufferedImage[chunkCount];
-			System.out.println("Offset: " + RomManipulator.getFilePointer());
-			System.out.println(palettes.length);
+			//System.out.println("Offset: " + RomManipulator.getFilePointer());
+			//System.out.println(palettes.length);
 			for(int i=0; i<chunkCount; i++) {
 				BufferedImage chunk = new BufferedImage(chunkWidth*8, chunkHeight*8, BufferedImage.TYPE_INT_RGB);
 				Graphics g = chunk.getGraphics();
@@ -107,7 +107,7 @@ public class ImageExtractor{
 						boolean ver = ((meta&0x800)>>11)==1;
 						int id = (meta&0x3FF);
 						try {
-							System.out.println(pal);
+							//System.out.println(pal);
 							g.drawImage(blocks[type==8 ? id : id-1].render(palettes[pal], hor, ver), k*8, j*8, null);
 						}catch(ArrayIndexOutOfBoundsException e) {
 							System.out.println("Error: " + e.getMessage());
