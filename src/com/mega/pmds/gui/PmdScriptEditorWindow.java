@@ -1,5 +1,6 @@
 package com.mega.pmds.gui;
 
+import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -85,6 +86,7 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 		scriptTree.setBorder(BorderFactory.createEmptyBorder());
 		scriptTree.addTreeSelectionListener(this);
 		leftScrollPane = new JScrollPane(scriptTree, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		leftScrollPane.setPreferredSize(new Dimension(300,800));
 		rightScrollPane = new JScrollPane(new ScriptOverviewPanel(), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);	
 		rightScrollPane.getVerticalScrollBar().setUnitIncrement(20); 
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, leftScrollPane, rightScrollPane);
@@ -99,6 +101,7 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 		
 		treeActions = new HashMap<TreePath, Callable<ScriptContentPanel>>();
 		instance = this;
+		this.pack();
 	}
 	
 	public static void addTreeAction(TreePath path, Callable<ScriptContentPanel> action) {
@@ -183,6 +186,7 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 				rightScrollPane = new JScrollPane((treeActions.get(scriptTree.getSelectionPath()).call()), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 				rightScrollPane.getVerticalScrollBar().setUnitIncrement(20); 
 				splitPane.setRightComponent(rightScrollPane);
+				this.pack();
 			} catch (NullPointerException npe) {
 			} catch (Exception e) {
 				e.printStackTrace();

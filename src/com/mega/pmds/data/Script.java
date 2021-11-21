@@ -71,7 +71,7 @@ public class Script {
     public String addressesToString() {
         StringBuilder sb = new StringBuilder();
         for (Command command : this.commands) {
-            sb.append(String.format("0x%x",command.getAddress()) + "\n");
+            sb.append(String.format("0x%08x",command.getAddress()) + "\n");
         }
         if(sb.length() > 0) {
             sb.deleteCharAt(sb.length()-1);
