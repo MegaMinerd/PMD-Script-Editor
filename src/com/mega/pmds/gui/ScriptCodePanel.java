@@ -18,6 +18,7 @@ public class ScriptCodePanel extends ScriptContentPanel {
 		super();
 		Font monospaced = new Font("monospaced", Font.PLAIN, 12);
 		offsets = new JTextArea();
+		offsets.setEditable(false);
 		offsets.setFont(monospaced);
 		code = new ScriptCodeHexComponent(text);
 		code.setFont(monospaced);

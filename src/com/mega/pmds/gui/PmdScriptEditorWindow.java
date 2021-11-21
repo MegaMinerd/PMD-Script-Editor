@@ -4,12 +4,14 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 import java.util.concurrent.Callable;
+import java.util.prefs.Preferences;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
@@ -46,6 +48,9 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 	JScrollPane leftScrollPane, rightScrollPane;
 	HashMap<TreePath, Callable<ScriptContentPanel>> treeActions;
 	private static PmdScriptEditorWindow instance;
+	private Preferences prefs;
+
+	private final String LAST_USED_FOLDER = "LAST_USED_FOLDER";
 	
 	public PmdScriptEditorWindow(String header) {
 		super(header);
@@ -59,17 +64,17 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 		menuBar.add(fileMenu);
 		
 		openFile = new JMenuItem("Open", KeyEvent.VK_O);
-		openFile.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+		openFile.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
 		openFile.addActionListener(this);
 		fileMenu.add(openFile);
 		
 		saveFile = new JMenuItem("Save", KeyEvent.VK_S);
-		saveFile.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+		saveFile.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
 		saveFile.addActionListener(this);
 		fileMenu.add(saveFile);
 		
 		reloadConfig = new JMenuItem("Reload Configs", KeyEvent.VK_R);
-		reloadConfig.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+		reloadConfig.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
 		reloadConfig.addActionListener(this);
 		fileMenu.add(reloadConfig);
 		
@@ -86,7 +91,10 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 		
 		this.getContentPane().add(splitPane);
 		
-		fc = new JFileChooser();
+		// Get same directory as last open.
+		prefs = Preferences.userRoot().node(getClass().getName());
+
+		fc = new JFileChooser(prefs.get(LAST_USED_FOLDER, new File(".").getAbsolutePath()));
 		fc.setFileFilter(new FileNameExtensionFilter("ROM Files (.gba)", "gba"));
 		
 		treeActions = new HashMap<TreePath, Callable<ScriptContentPanel>>();
@@ -151,6 +159,7 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 			int returnVal = fc.showOpenDialog(this);
 			if(returnVal == JFileChooser.APPROVE_OPTION) {
 				try {
+					prefs.put(LAST_USED_FOLDER, fc.getSelectedFile().getParent());
 					rom = new RomManipulator(fc.getSelectedFile());
 					updateAll();
 				}catch (FileNotFoundException fnfe) {
