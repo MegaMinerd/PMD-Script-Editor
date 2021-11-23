@@ -87,12 +87,14 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 		scriptTree.addTreeSelectionListener(this);
 		leftScrollPane = new JScrollPane(scriptTree, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		leftScrollPane.setPreferredSize(new Dimension(300,800));
+		leftScrollPane.setMinimumSize(new Dimension(250,0));
 		rightScrollPane = new JScrollPane(new ScriptOverviewPanel(), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);	
 		rightScrollPane.getVerticalScrollBar().setUnitIncrement(20); 
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, leftScrollPane, rightScrollPane);
 		
 		this.getContentPane().add(splitPane);
-		
+		this.pack();
+
 		// Get same directory as last open.
 		prefs = Preferences.userRoot().node(getClass().getName());
 
@@ -101,7 +103,6 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 		
 		treeActions = new HashMap<TreePath, Callable<ScriptContentPanel>>();
 		instance = this;
-		this.pack();
 	}
 	
 	public static void addTreeAction(TreePath path, Callable<ScriptContentPanel> action) {
@@ -176,23 +177,21 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}else if(event.getSource().equals(saveFile)) {
+			
 		}
 	}
 
 	@Override
 	public void valueChanged(TreeSelectionEvent event) {
 		try {
-			try {
-				rightScrollPane = new JScrollPane((treeActions.get(scriptTree.getSelectionPath()).call()), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-				rightScrollPane.getVerticalScrollBar().setUnitIncrement(20); 
-				splitPane.setRightComponent(rightScrollPane);
-				this.pack();
-			} catch (NullPointerException npe) {
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}catch(NullPointerException npe) {
-			
+			rightScrollPane = new JScrollPane((treeActions.get(scriptTree.getSelectionPath()).call()), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			rightScrollPane.getVerticalScrollBar().setUnitIncrement(20); 
+			splitPane.setRightComponent(rightScrollPane);
+			this.pack();
+		} catch (NullPointerException npe) {
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

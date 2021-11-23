@@ -3,6 +3,7 @@ package com.mega.pmds.data;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.mega.pmds.CodeConverter;
 import com.mega.pmds.RomManipulator;
 
 public class Script {
@@ -52,8 +53,31 @@ public class Script {
         this.commands = commands;
     }
 
+    /**
+     * Saves the current contents of the script to the opened ROM file.
+     */
     public void saveCommands() {
-        // TODO: Implement saving
+        for(Command c : commands) {
+            c.save();
+        }
+    }
+
+    /**
+     * Sets the contents of the Script from a newline delimited list of commands.
+     * @param text The text to set the script from. Should be hex bytes and can have spaces. Commands are delimited by newlines.
+     */
+    public void setFromText(String text) {
+        String[] lines = text.split("\n");
+        if(commands.size() != lines.length) {
+            System.err.println("The text has too many commands for the opened script.");
+            return;
+        }
+        // Extract data from text
+        for(int i = 0; i < lines.length; i++) {
+            String line = lines[i];
+            byte[] data = CodeConverter.stringToBytes(line);
+            commands.get(i).setBytes(data);
+        }
     }
 
     @Override

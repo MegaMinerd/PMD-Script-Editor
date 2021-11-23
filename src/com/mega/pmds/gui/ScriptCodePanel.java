@@ -4,7 +4,10 @@ import java.awt.event.ActionEvent;
 import java.security.acl.Group;
 import java.awt.Font;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.GroupLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -37,6 +40,16 @@ public class ScriptCodePanel extends ScriptContentPanel {
 		code.setFont(monospaced);
 		this.add(code);
 
+		JButton saveButton = new JButton(new AbstractAction("Save") {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				text.setFromText(code.getText());
+				text.saveCommands();				
+			}
+		});
+		this.add(saveButton);
+
 		//Layout
 		GroupLayout layout = new GroupLayout(this);
 		this.setLayout(layout);
@@ -51,13 +64,16 @@ public class ScriptCodePanel extends ScriptContentPanel {
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 					.addComponent(codeLabel)
 					.addComponent(code,GroupLayout.PREFERRED_SIZE,GroupLayout.PREFERRED_SIZE,GroupLayout.PREFERRED_SIZE))
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+					.addComponent(saveButton))
 		);
 
 		layout.setVerticalGroup(
 			layout.createSequentialGroup()
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 					.addComponent(addressLabel)
-					.addComponent(codeLabel))
+					.addComponent(codeLabel)
+					.addComponent(saveButton))
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 					.addComponent(addresses)
 					.addComponent(code))

@@ -1,6 +1,9 @@
 package com.mega.pmds.data;
 
+import java.io.IOException;
+
 import com.mega.pmds.CodeConverter;
+import com.mega.pmds.RomManipulator;
 
 public class Command {
 	public static int COMMAND_LENGTH = 0x10;
@@ -30,6 +33,17 @@ public class Command {
     public void setBytes(byte[] data, int offset) {
         for(int i = offset; i < commandData.length; i++) {
             commandData[i] = data[i-offset];
+        }
+    }
+
+    public void save() {
+        try {
+            RomManipulator.seek((int)address);
+            for(byte myByte : commandData) {
+                RomManipulator.writeByte(myByte);
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
     }
 
