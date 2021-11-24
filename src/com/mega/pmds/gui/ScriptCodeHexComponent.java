@@ -57,38 +57,48 @@ public class ScriptCodeHexComponent extends JTextArea implements UndoableEditLis
         this.getInputMap().put(KeyStroke.getKeyStroke("control Y"), "Redo");
         this.getActionMap().put("Redo",redoAction);
 
-        
+
         this.setText(script.commandsToString());
         // Do not count the initial load as an edit.
         undoManager.discardAllEdits();
     }
 
     @Override
-    public void replaceSelection(String text) {
+    public void replaceSelection(String newText) {
+        //Always select a character to implement overwrite mode
         if(!isInsertMode) {
-            //Always select a character to implement overwrite mode
-            if(!isInsertMode) {
-              //Skip over whitespace after you add a character and the carat goes to the next line.
-              int pos = this.getSelectionStart();
-              try {
-                  if(this.getText(pos, 1).isBlank() && pos < getDocument().getLength()){
-                      this.setCaretPosition(pos + 1);
-                  }
-              } catch (BadLocationException e) {
-                  // TODO Auto-generated catch block
-                  e.printStackTrace();
-              }
-                //Select 1 character to overwrite
-                pos = this.getSelectionStart();
-                if(pos < getDocument().getLength()) {
-                    this.setCaretPosition(this.getSelectionStart());
-                    this.moveCaretPosition(this.getSelectionStart()+1);
-                }
+            try{
+                //Strip whitespace from input
+                newText = newText.replaceAll("[ \n]+", "");
 
-                //Do not add any characters to the end.
-                if(this.getSelectionStart() < this.getDocument().getLength()){
-                    super.replaceSelection(text);
+                //Start with caret at beginning.
+                this.setCaretPosition(this.getSelectionStart());
+                int offset = this.getSelectionStart();
+                int newtextIndex = 0;
+                int blankIndex = 0;
+                StringBuilder combinedText = new StringBuilder();
+                // Loop through replacable text and add spaces if necessary
+                while(true) {
+                    int textboxIndex = offset + blankIndex + newtextIndex;
+                    // If we reach the end, move the caret as far as we can
+                    if(textboxIndex >= this.getDocument().getLength() || newtextIndex >= newText.length()) {
+                        this.moveCaretPosition(textboxIndex);
+                        break;
+                    }
+                    //If not, add a character to the strings.
+                    String curChar = this.getText(textboxIndex, 1);
+                    if(curChar.isBlank()) {
+                        combinedText.append(curChar);
+                        blankIndex++;
+                    } else {
+                        combinedText.append(newText.charAt(newtextIndex));
+                        newtextIndex++;
+                    }
                 }
+                super.replaceSelection(combinedText.toString());
+            } catch (BadLocationException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
         }
     }
