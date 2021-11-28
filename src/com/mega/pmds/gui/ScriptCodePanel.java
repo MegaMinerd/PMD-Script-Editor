@@ -1,11 +1,9 @@
 package com.mega.pmds.gui;
 
 import java.awt.event.ActionEvent;
-import java.security.acl.Group;
 import java.awt.Font;
 
 import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -17,6 +15,7 @@ import com.mega.pmds.data.Script;
 public class ScriptCodePanel extends ScriptContentPanel {
 	JTextArea addresses;
 	ScriptCodeHexComponent code;
+	ScriptCodeTextComponent codeTextComponent;
 	JScrollPane scrollPane;
 	
 	// Could use an object containing script data instead of text.
@@ -39,6 +38,10 @@ public class ScriptCodePanel extends ScriptContentPanel {
 		code = new ScriptCodeHexComponent(text);
 		code.setFont(monospaced);
 		this.add(code);
+		
+		codeTextComponent = new ScriptCodeTextComponent(text);
+		codeTextComponent.setFont(monospaced);
+		this.add(codeTextComponent);
 
 		JButton saveButton = new JButton(new AbstractAction("Save") {
 
@@ -65,6 +68,7 @@ public class ScriptCodePanel extends ScriptContentPanel {
 					.addComponent(codeLabel)
 					.addComponent(code,GroupLayout.PREFERRED_SIZE,GroupLayout.PREFERRED_SIZE,GroupLayout.PREFERRED_SIZE))
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+					.addComponent(codeTextComponent)
 					.addComponent(saveButton))
 		);
 
@@ -72,11 +76,13 @@ public class ScriptCodePanel extends ScriptContentPanel {
 			layout.createSequentialGroup()
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 					.addComponent(addressLabel)
-					.addComponent(codeLabel)
-					.addComponent(saveButton))
+					.addComponent(codeLabel))
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 					.addComponent(addresses)
-					.addComponent(code))
+					.addComponent(code)
+					.addComponent(codeTextComponent))
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+					.addComponent(saveButton))
 		);
 	}
 	
