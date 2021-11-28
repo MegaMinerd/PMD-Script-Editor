@@ -4,6 +4,8 @@ PMD-Script-Editor is a java program for editing Pokemon Myster Dungeon: Red Resc
 
 ## Installation
 
+This program requires Java 11. Download the latest JDK or a JRE that supports java 11.
+
 Use the [ant](https://ant.apache.org/) build system in the main directory to compile.
 
 ```bash
@@ -16,10 +18,10 @@ Can view world maps, scripts, and script structure.
 
 ## Future Features
 These are Roughly in order of priority
-* 2 Panels for the Script Editor - One for hex editing, one for a compiled script.
-* Ability to Edit and Save Scripts
+* Following 0x0C and 0x0D commands to their respective scripts.
 * String Editing
-* Add More Names to Script Commands
+* Add more names for script commands
+* Add more parameters for commands in decompiled window.
 
 
 ## Contributing
