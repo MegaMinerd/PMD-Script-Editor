@@ -11,9 +11,12 @@ public class Script {
 
     private static final int MAX_COMMANDS_SEARCHED = 600;
 
+    private int script_start_offset;
+
     private TreeMap<Integer,Command> commands;
 
     public Script(int offset) {
+        this.script_start_offset = offset;
         try {
             TreeMap<Integer,Command> output = new TreeMap<Integer,Command>();
             commands = interpretCode(offset, output);
@@ -28,7 +31,7 @@ public class Script {
 
     // Base
     public TreeMap<Integer,Command> interpretCode(int offset, TreeMap<Integer, Command> output) throws IOException {
-		byte[] data = new byte[16];
+		byte[] data = new byte[Command.COMMAND_LENGTH];
 		RomManipulator.seek(offset);
 		do {
 			int curCommandOffset = RomManipulator.getFilePointer();
@@ -48,6 +51,7 @@ public class Script {
                     interpretCode(newLabelOffset, output);
                     //Return current offset
                     RomManipulator.seek(curCommandOffset);
+                    RomManipulator.read(new byte[Command.COMMAND_LENGTH]);
                 }
 
                 // Check if end of function
@@ -70,11 +74,12 @@ public class Script {
     // Sets RomManipulator current address to the label.
     private int findNewLabel(int curCommandOffset) throws IOException {
         int numCommandsSearched = 0;
-        byte[] data = new byte[16];
+        byte[] data = new byte[Command.COMMAND_LENGTH];
 
         RomManipulator.seek(curCommandOffset);
         RomManipulator.read(data);
         int labelToSearch = getJumpLabel(data);
+        RomManipulator.seek(this.script_start_offset);
         while(numCommandsSearched < MAX_COMMANDS_SEARCHED) {
             RomManipulator.read(data);
             // Check if label

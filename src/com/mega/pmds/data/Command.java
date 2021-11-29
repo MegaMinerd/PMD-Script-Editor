@@ -53,6 +53,10 @@ public class Command {
                 break;
             case 0xF4:
                 sb.append("\t" + String.format("%02x",(int)this.commandData[2]&0xFF));
+                break;
+            case 0xE8:
+                sb.append("\t");
+                sb.append(DataDict.functions[CodeConverter.parseShort(this.commandData, 2)]);
         }
         return sb.toString();
     }
