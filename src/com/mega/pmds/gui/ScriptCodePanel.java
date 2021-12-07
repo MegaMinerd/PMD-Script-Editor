@@ -1,6 +1,7 @@
 package com.mega.pmds.gui;
 
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.AbstractAction;
@@ -17,7 +18,9 @@ public class ScriptCodePanel extends ScriptContentPanel {
 	ScriptCodeHexComponent code;
 	ScriptCodeTextComponent codeTextComponent;
 	JScrollPane scrollPane;
-	
+
+	private int selectedLine = -1;
+
 	// Could use an object containing script data instead of text.
 	public ScriptCodePanel(Script text) {
 		super();
@@ -31,6 +34,8 @@ public class ScriptCodePanel extends ScriptContentPanel {
 		addresses = new JTextArea();
 		addresses.setEditable(false);
 		addresses.setFont(monospaced);
+		addresses.setForeground(Color.BLUE);
+		addresses.setBackground(this.getBackground());
 		addresses.setText(text.addressesToString());
 		this.add(addresses);
 

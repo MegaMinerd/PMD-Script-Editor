@@ -188,7 +188,6 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 			rightScrollPane = new JScrollPane((treeActions.get(scriptTree.getSelectionPath()).call()), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			rightScrollPane.getVerticalScrollBar().setUnitIncrement(20); 
 			splitPane.setRightComponent(rightScrollPane);
-			this.pack();
 		} catch (NullPointerException npe) {
 		} catch (Exception e) {
 			e.printStackTrace();
