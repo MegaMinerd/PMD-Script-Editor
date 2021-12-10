@@ -99,10 +99,20 @@ public class RomManipulator {
 		while(true) {
 			try {
 				byte current = instance.file.readByte();
-				if(current == 0x00)
+				if(current == 0x00) {
 					break;
-				else
+				} else if(current == 0x81 || current == 0x85 || current == 0x87) { // Two byte characters
+					output += "[" + Integer.toHexString((int)current&0xFF);
+					byte next = instance.file.readByte();
+					if(next == 0x00) {
+						output += "]";
+						break;
+					} else {
+						output += Integer.toHexString((int)next&0xFF) + "]";
+					}
+				} else {
 					output += (char)current;
+				}
 			}catch(EOFException eof) {
 				break;
 			}catch(IOException io) {

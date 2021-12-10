@@ -5,7 +5,7 @@ import javax.swing.JTextArea;
 import com.mega.pmds.data.Command;
 import com.mega.pmds.data.Script;
 
-public class ScriptCodeTextComponent extends JTextArea {
+public class ScriptCodeTextComponent extends SelectableLineTextArea {
     public ScriptCodeTextComponent(Script script) {
         this.setEditable(false);
         this.setLineWrap(false);

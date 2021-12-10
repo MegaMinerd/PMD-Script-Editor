@@ -13,7 +13,7 @@ import javax.swing.undo.UndoManager;
 
 import com.mega.pmds.data.Script;
 
-public class ScriptCodeHexComponent extends JTextArea implements UndoableEditListener {
+public class ScriptCodeHexComponent extends SelectableLineTextArea implements UndoableEditListener {
 
     private boolean isInsertMode = false;
     private UndoManager undoManager;

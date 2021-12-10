@@ -1,6 +1,10 @@
 package com.mega.pmds.data;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.mega.pmds.CodeConverter;
 import com.mega.pmds.RomManipulator;
@@ -10,18 +14,22 @@ public class Command {
 
     private long address;
     private byte[] commandData;
-    private byte commandId;
+    private int commandId;
     private CommandType commandType;
-    private byte[] pointer;
+    private int pointer;
 
     public Command(byte[] commandBytes, long address) throws Exception {
         this.commandData = commandBytes.clone();
         if(this.commandData.length != COMMAND_LENGTH) {
             throw new Exception("Invalid Command Size");
         }
-        this.commandId = this.commandData[0];
+        this.commandId = (int)this.commandData[0]&0xFF;
         this.commandType = CommandType.fromID((int)this.commandId&0xFF);
         this.address = address;
+        if(this.hasStringPointer()) {
+            String offset = CodeConverter.parsePointer(this.commandData);
+            this.pointer = Integer.parseInt(offset, 16);
+        }
     }
 
     public String interpretCommand() {
@@ -33,7 +41,7 @@ public class Command {
             sb.append(String.format("%02x", this.commandId));
         }
         //TODO: Later we will want to consolidate all of the properties for each command instead of doing this
-        switch((int)this.commandId&0xFF) {
+        switch(commandId) {
             case 0xD9:
             case 0xD5:
             case 0xD1:
@@ -59,6 +67,15 @@ public class Command {
                 sb.append(DataDict.functions[CodeConverter.parseShort(this.commandData, 2)]);
         }
         return sb.toString();
+    }
+
+    public boolean hasStringPointer() {
+        List<Integer> commandsWithPointers = Arrays.asList(0xD9, 0xD5, 0xD1, 0xD0, 0x35, 0x34, 0x33, 0x32, 0x3C);
+        return commandsWithPointers.contains(this.commandId);
+    }
+
+    public int getPointer() {
+        return this.pointer;
     }
 
     public byte[] getBytes() {

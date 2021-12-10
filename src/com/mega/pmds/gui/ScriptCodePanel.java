@@ -1,6 +1,8 @@
 package com.mega.pmds.gui;
 
 import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.awt.Color;
 import java.awt.Font;
 
@@ -39,13 +41,26 @@ public class ScriptCodePanel extends ScriptContentPanel {
 		addresses.setText(text.addressesToString());
 		this.add(addresses);
 
-		// Script Commands
 		code = new ScriptCodeHexComponent(text);
 		code.setFont(monospaced);
+		code.addPropertyChangeListener("selectedLine", new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				setSelectedLine(code.getSelectedLine());					
+			}
+		});
 		this.add(code);
+
+
 		
 		codeTextComponent = new ScriptCodeTextComponent(text);
 		codeTextComponent.setFont(monospaced);
+		codeTextComponent.addPropertyChangeListener("selectedLine", new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				setSelectedLine(codeTextComponent.getSelectedLine());					
+			}
+		});
 		this.add(codeTextComponent);
 
 		JButton saveButton = new JButton(new AbstractAction("Save") {
@@ -94,6 +109,11 @@ public class ScriptCodePanel extends ScriptContentPanel {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+	}
+
+	private void setSelectedLine(int line) {
+		code.setSelectedLine(line);
+		codeTextComponent.setSelectedLine(line);
 	}
 
 }
