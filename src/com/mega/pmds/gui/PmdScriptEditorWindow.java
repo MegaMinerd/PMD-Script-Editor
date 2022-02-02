@@ -187,7 +187,10 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 		try {
 			rightScrollPane = new JScrollPane((treeActions.get(scriptTree.getSelectionPath()).call()), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			rightScrollPane.getVerticalScrollBar().setUnitIncrement(20); 
+			//If the user changed the divider location, keep it there whn you update.
+			int dividerLocation = splitPane.getDividerLocation();
 			splitPane.setRightComponent(rightScrollPane);
+			splitPane.setDividerLocation(dividerLocation);
 		} catch (NullPointerException npe) {
 		} catch (Exception e) {
 			e.printStackTrace();
