@@ -15,11 +15,13 @@ import java.util.concurrent.Callable;
 import java.util.prefs.Preferences;
 
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
@@ -46,7 +48,6 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 	JTree scriptTree;
 	DefaultTreeModel treeModel;
 	RomManipulator rom;
-	JScrollPane leftScrollPane, rightScrollPane;
 	HashMap<TreePath, Callable<ScriptContentPanel>> treeActions;
 	private static PmdScriptEditorWindow instance;
 	private Preferences prefs;
@@ -56,6 +57,9 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 	public PmdScriptEditorWindow(String header) {
 		super(header);
 		
+		JScrollPane leftScrollPane;
+		ScriptContentPanel rightPane;
+
 		rom = null;
 		
 		menuBar = new JMenuBar();
@@ -88,9 +92,8 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 		leftScrollPane = new JScrollPane(scriptTree, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		leftScrollPane.setPreferredSize(new Dimension(300,800));
 		leftScrollPane.setMinimumSize(new Dimension(250,0));
-		rightScrollPane = new JScrollPane(new ScriptOverviewPanel(), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);	
-		rightScrollPane.getVerticalScrollBar().setUnitIncrement(20); 
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, leftScrollPane, rightScrollPane);
+		rightPane = new ScriptOverviewPanel();
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, leftScrollPane, rightPane);
 		
 		this.getContentPane().add(splitPane);
 		this.pack();
@@ -185,11 +188,16 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 	@Override
 	public void valueChanged(TreeSelectionEvent event) {
 		try {
-			rightScrollPane = new JScrollPane((treeActions.get(scriptTree.getSelectionPath()).call()), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			rightScrollPane.getVerticalScrollBar().setUnitIncrement(20); 
+			JComponent rightPane;
+			ScriptContentPanel rightContentPane = treeActions.get(scriptTree.getSelectionPath()).call();
+			if(rightContentPane.getShouldScroll()) {
+				rightPane = new JScrollPane(rightContentPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			} else {
+				rightPane = rightContentPane;
+			}
 			//If the user changed the divider location, keep it there whn you update.
 			int dividerLocation = splitPane.getDividerLocation();
-			splitPane.setRightComponent(rightScrollPane);
+			splitPane.setRightComponent(rightPane);
 			splitPane.setDividerLocation(dividerLocation);
 		} catch (NullPointerException npe) {
 		} catch (Exception e) {

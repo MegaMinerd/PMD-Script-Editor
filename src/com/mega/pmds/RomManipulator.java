@@ -121,6 +121,30 @@ public class RomManipulator {
 		}
 		return output;
 	}
+
+	public static byte[] readBytesUntilNull(int offset) {
+		byte[] buffer = new byte[4096];
+		int i = 0;
+		try {
+			seek(offset);
+			while(true) {
+				byte current = instance.file.readByte();
+				buffer[i] = current;
+				if(current == 0x00) {
+					break;
+				}
+				i++;
+			}
+			byte[] output = new byte[i];
+			for(i = 0; i < output.length; i++) {
+				output[i] = buffer[i];
+			}
+			return output;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	public static byte readByte(int offset) throws IOException{
 		seek(offset);
@@ -223,6 +247,15 @@ public class RomManipulator {
 	
 	public static void writeByte(byte in) throws IOException{
 		instance.file.writeByte(in);
+	}
+
+	public static void writeBytes(byte[] in, long offset) throws IOException{
+		instance.file.seek(offset);
+		instance.file.write(in);
+	}
+
+	public static void writeBytes(byte[] in) throws IOException{
+		instance.file.write(in);
 	}
 	
 	public static void writeShort(short in, long offset) throws IOException{

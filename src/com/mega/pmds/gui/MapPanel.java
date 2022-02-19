@@ -7,16 +7,18 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JScrollPane;
 
 import com.mega.pmds.util.ConfigHandler;
 import com.mega.pmds.util.ImageCache;
 import com.mega.pmds.util.ImageExtractor;
 
-public class MapPanel extends ScriptContentPanel{
+public class MapPanel extends ScriptContentPanel {
 	ScriptTreeNode node;
 	protected BufferedImage map;
 	
 	public MapPanel(ScriptTreeNode nodeIn, Integer idIn) {
+		super(true);
 		//TODO: Remove premade asset compatibility
 		this.node=nodeIn;
 		String name = ((ScriptTreeNode)node).getName().split("\\(")[0].trim().toLowerCase().replaceAll(" ","_").replaceAll("\\.", "");

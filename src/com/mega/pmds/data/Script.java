@@ -196,6 +196,17 @@ public class Script {
         }
         return sb.toString();
     }
+    
+    public Command getCommandAtIndex(int index) {
+        int i = 0;
+        // Sequential search because I'm lazy and don't want to restucture the commands TreeMap to have indexes as well as offsets.
+        for(Command command : this.commands.values()) {
+            if(i == index)
+                return command;
+            i++;
+        }
+        return null;
+    }
 
     public String commandsToString() {
         StringBuilder sb = new StringBuilder();
