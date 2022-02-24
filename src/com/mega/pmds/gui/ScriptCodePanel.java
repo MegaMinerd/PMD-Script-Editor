@@ -3,23 +3,19 @@ package com.mega.pmds.gui;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.LayoutManager;
 import java.awt.GridLayout;
 
 import javax.swing.AbstractAction;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 
-import com.mega.pmds.RomManipulator;
 import com.mega.pmds.data.Command;
 import com.mega.pmds.data.Script;
 
@@ -36,8 +32,9 @@ public class ScriptCodePanel extends ScriptContentPanel {
 	public ScriptCodePanel(Script text) {
 		super(false);
 		currentScript = text;
-		JPanel topPanel = initTopPanel(text);
+		JPanel topPanel = initTopPanel();
 		JScrollPane topScrollPane = new JScrollPane(topPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		topScrollPane.getVerticalScrollBar().setUnitIncrement(16);
 		JPanel bottomPane = initBottomPanel();
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, topScrollPane, bottomPane);
 		splitPane.setResizeWeight(0.9);
@@ -45,7 +42,7 @@ public class ScriptCodePanel extends ScriptContentPanel {
 		this.setLayout(new GridLayout(0,1));
 	}
 
-	public JPanel initTopPanel(Script text) {
+	public JPanel initTopPanel() {
 		JPanel topPanel = new JPanel();
 		Font monospaced = new Font("monospaced", Font.PLAIN, 12);
 
@@ -59,10 +56,10 @@ public class ScriptCodePanel extends ScriptContentPanel {
 		addresses.setFont(monospaced);
 		addresses.setForeground(Color.BLUE);
 		addresses.setBackground(this.getBackground());
-		addresses.setText(text.addressesToString());
+		addresses.setText(currentScript.addressesToString());
 		topPanel.add(addresses);
 
-		hexComponent = new ScriptCodeHexComponent(text);
+		hexComponent = new ScriptCodeHexComponent(currentScript);
 		hexComponent.setFont(monospaced);
 		hexComponent.addPropertyChangeListener("selectedLine", new PropertyChangeListener() {
 			@Override
@@ -74,7 +71,7 @@ public class ScriptCodePanel extends ScriptContentPanel {
 
 
 		
-		codeTextComponent = new ScriptCodeTextComponent(text);
+		codeTextComponent = new ScriptCodeTextComponent(currentScript);
 		codeTextComponent.setFont(monospaced);
 		codeTextComponent.addPropertyChangeListener("selectedLine", new PropertyChangeListener() {
 			@Override
@@ -88,8 +85,8 @@ public class ScriptCodePanel extends ScriptContentPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				text.setFromText(hexComponent.getText());
-				text.saveCommands();				
+				currentScript.setFromText(hexComponent.getText());
+				currentScript.saveCommands();				
 			}
 		});
 		topPanel.add(saveButton);
@@ -137,6 +134,11 @@ public class ScriptCodePanel extends ScriptContentPanel {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+	}
+
+	public void updateLine() {
+		// TODO: We probably want to keep all our changes in the Script class (Even temporary ones). 
+		// I don't think I'm doing this rn. Permanent changes can exist in the ROM itself.
 	}
 
 	private void setSelectedLine(int line) {

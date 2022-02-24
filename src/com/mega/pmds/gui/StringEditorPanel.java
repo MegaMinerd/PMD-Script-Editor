@@ -1,17 +1,24 @@
 package com.mega.pmds.gui;
 
-import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.sound.sampled.Line;
+import javax.swing.BorderFactory;
+import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -25,27 +32,28 @@ public class StringEditorPanel extends JPanel{
     PMDString text;
     JLabel lengthLabel;
     JLabel lengthValueLabel;
+    JLabel lengthRemainingLabel;
+    JLabel lengthRemainingValueLabel;
     JLabel validationLabel;
 
     StringEditorPanel() {
-        super(new BorderLayout());
-
         validationLabel = new JLabel("");
-        this.add(validationLabel, BorderLayout.NORTH);
-        this.setPreferredSize(new Dimension(400,20));
-
+        validationLabel.setMinimumSize(new Dimension(400,20));
+        this.add(validationLabel);
 
         JPanel detailsPanel = new JPanel();
-        lengthLabel = new JLabel("String Length (bytes): ");
-        this.add(lengthLabel);
+        FlowLayout detailsLayout = new FlowLayout();
+        detailsLayout.setAlignment(FlowLayout.LEADING);
+        detailsPanel.setLayout(detailsLayout);
 
+        lengthLabel = new JLabel("Max String Length (bytes): ");
         lengthValueLabel = new JLabel();
-        this.add(lengthValueLabel);
-
+        
         detailsPanel.add(lengthLabel);
         detailsPanel.add(lengthValueLabel);
-        this.add(detailsPanel, BorderLayout.WEST);
+        
         detailsPanel.setPreferredSize(new Dimension(400,200));
+        this.add(detailsPanel);
 
         // Textbox
         stringTextArea = new JTextArea();
@@ -64,7 +72,10 @@ public class StringEditorPanel extends JPanel{
             }
         });
 
-        this.add(stringTextArea, BorderLayout.CENTER);
+        stringTextArea.setPreferredSize(new Dimension(400,200));
+        stringTextArea.setBorder(BorderFactory.createTitledBorder(new LineBorder(Color.DARK_GRAY), "String"));
+        this.add(stringTextArea);
+
         // Save button
         saveButton = new JButton("Save");
         saveButton.addActionListener(new ActionListener (){
@@ -79,8 +90,35 @@ public class StringEditorPanel extends JPanel{
                 }
             }
         });
-        this.add(saveButton, BorderLayout.SOUTH);
+        this.add(saveButton);
         this.setEnabled(false);
+
+        GroupLayout layout = new GroupLayout(this);
+		this.setLayout(layout);
+		layout.setAutoCreateGaps(true);
+		layout.setAutoCreateContainerGaps(true);
+
+		layout.setHorizontalGroup(
+			layout.createSequentialGroup()
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+					.addComponent(detailsPanel))
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+					.addComponent(validationLabel)
+                    .addComponent(stringTextArea)
+					.addComponent(saveButton, GroupLayout.Alignment.TRAILING))
+		);
+
+		layout.setVerticalGroup(
+			layout.createSequentialGroup()
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+					.addComponent(validationLabel))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+					.addComponent(detailsPanel)
+                    .addComponent(stringTextArea))
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+					.addComponent(saveButton))
+		);
+
     }
 
     public void setSelectedString(Command selectedCommand) {
@@ -105,10 +143,8 @@ public class StringEditorPanel extends JPanel{
     private void handleTextChange() {
         if(!text.setFromString(stringTextArea.getText())) {
             setValidationError("Your string has too many characters.");
-            saveButton.setEnabled(false);
         } else {
             setValidationError("");
-            saveButton.setEnabled(true);
         }
     }
 
@@ -124,9 +160,13 @@ public class StringEditorPanel extends JPanel{
         if(message == null || message.isEmpty()) {
             this.validationLabel.setText("");
             validationLabel.setIcon(null);
+            saveButton.setEnabled(true);
         } else {
             this.validationLabel.setText(message);
-            validationLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
+            ImageIcon errorIconOrig = (ImageIcon) UIManager.getIcon("OptionPane.errorIcon");
+            ImageIcon errorIconScaled = new ImageIcon(errorIconOrig.getImage().getScaledInstance(16, 16, Image.SCALE_DEFAULT));
+            validationLabel.setIcon(errorIconScaled);
+            saveButton.setEnabled(false);
         }
 
     }

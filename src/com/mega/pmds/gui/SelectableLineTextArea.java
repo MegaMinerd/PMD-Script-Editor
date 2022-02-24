@@ -4,12 +4,10 @@ import javax.swing.JTextArea;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.Highlighter;
 
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.beans.*;
 
 public class SelectableLineTextArea extends JTextArea {
     private int selectedLine = -1;

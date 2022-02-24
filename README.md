@@ -19,7 +19,6 @@ Can view world maps, scripts, and script structure.
 ## Future Features
 These are Roughly in order of priority
 * Following 0x0C and 0x0D commands to their respective scripts.
-* String Editing
 * Add more names for script commands
 * Add more parameters for commands in decompiled window.
 

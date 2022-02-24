@@ -16,11 +16,13 @@ import java.util.prefs.Preferences;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -42,7 +44,9 @@ import com.mega.pmds.util.LoadTask;
 public class PmdScriptEditorWindow extends JFrame implements ActionListener, TreeSelectionListener{
 	JMenuBar menuBar;
 	JMenu fileMenu;
-	JMenuItem openFile, saveFile, reloadConfig;
+	JMenuItem openFile, reloadConfig;
+	JMenu helpMenu;
+	JMenuItem textTableHelp;
 	JFileChooser fc;
 	JSplitPane splitPane;
 	JTree scriptTree;
@@ -68,20 +72,24 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 		fileMenu.setMnemonic(KeyEvent.VK_F);
 		menuBar.add(fileMenu);
 		
-		openFile = new JMenuItem("Open", KeyEvent.VK_O);
-		openFile.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-		openFile.addActionListener(this);
-		fileMenu.add(openFile);
-		
-		saveFile = new JMenuItem("Save", KeyEvent.VK_S);
-		saveFile.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-		saveFile.addActionListener(this);
-		fileMenu.add(saveFile);
-		
-		reloadConfig = new JMenuItem("Reload Configs", KeyEvent.VK_R);
-		reloadConfig.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-		reloadConfig.addActionListener(this);
-		fileMenu.add(reloadConfig);
+			openFile = new JMenuItem("Open", KeyEvent.VK_O);
+			openFile.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+			openFile.addActionListener(this);
+			fileMenu.add(openFile);
+			
+			reloadConfig = new JMenuItem("Reload Configs", KeyEvent.VK_R);
+			reloadConfig.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+			reloadConfig.addActionListener(this);
+			fileMenu.add(reloadConfig);
+
+		helpMenu = new JMenu("Help");
+		helpMenu.setMnemonic(KeyEvent.VK_H);
+		menuBar.add(helpMenu);
+
+			textTableHelp = new JMenuItem("ROM Hacking Help", KeyEvent.VK_T);
+			textTableHelp.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+			textTableHelp.addActionListener(this);
+			helpMenu.add(textTableHelp);
 		
 		this.setJMenuBar(menuBar);
 
@@ -180,8 +188,8 @@ public class PmdScriptEditorWindow extends JFrame implements ActionListener, Tre
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}else if(event.getSource().equals(saveFile)) {
-			
+		} else if (event.getSource().equals(textTableHelp)) {
+			JOptionPane.showMessageDialog(this, "Nothing here yet...");
 		}
 	}
 

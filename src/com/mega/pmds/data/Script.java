@@ -34,9 +34,9 @@ public class Script {
 		byte[] data = new byte[Command.COMMAND_LENGTH];
 		RomManipulator.seek(offset);
 		do {
-			int curCommandOffset = RomManipulator.getFilePointer();
-			RomManipulator.read(data);
             try{
+                int curCommandOffset = RomManipulator.getFilePointer();
+                RomManipulator.read(data);
                 Command c = new Command(data, curCommandOffset);
                 // If we've already seen this command...
                 if(output.containsKey(curCommandOffset)) {
@@ -217,5 +217,40 @@ public class Script {
             sb.deleteCharAt(sb.length()-1);
         }
         return sb.toString();
+    }
+
+    public void updateCommands() {
+        TreeMap<Integer,Command> output = new TreeMap<Integer,Command>();
+        try {
+            commands = interpretCode(script_start_offset, output);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * TODO: Call this whenever we change anything. Make sure this is robust.
+     * Gets the updated command if it's in this script and updates the script to include it.
+     * @param offset The offset of the command in the ROM
+     * @return true if the command was updated successfully
+     */
+    public boolean updateCommand(int offset) {
+        Command c = commands.get(offset);
+        if(c != null) {
+            try {
+                RomManipulator.seek(offset);
+                byte[] data = new byte[Command.COMMAND_LENGTH];
+                int curCommandOffset = RomManipulator.getFilePointer();
+                RomManipulator.read(data);
+                c = new Command(data, curCommandOffset);
+                commands.replace(offset, c);
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        } else {
+            return false;
+        }
     }
 }

@@ -101,7 +101,7 @@ public class ScriptCodeHexComponent extends SelectableLineTextArea implements Un
             }
         }
     }
-
+    
     @Override
     public void undoableEditHappened(UndoableEditEvent evt) {
         undoManager.addEdit(evt.getEdit());
