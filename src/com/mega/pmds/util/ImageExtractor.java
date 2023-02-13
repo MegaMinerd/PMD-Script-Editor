@@ -23,21 +23,21 @@ public class ImageExtractor{
 		
 		try {
 			type = loadPointers(pointers, type, offset);
-			System.out.println(Integer.toHexString(blockDefPointer));
-			System.out.println(Integer.toHexString(chunkDefPointer));
-			System.out.println(Integer.toHexString(palPointer));
+			System.out.println("Palette: " + Integer.toHexString(palPointer).toUpperCase());
+			System.out.println("Tiles: " + Integer.toHexString(blockDefPointer).toUpperCase());
+			System.out.println("Mapping: " + Integer.toHexString(imgDefPointer).toUpperCase());
 			//Parse palettes
 			RomManipulator.seek(palPointer);
-			int palCount = type==8 ? 16 : RomManipulator.readShort();
-			if(type!=8)
+			int palCount = type%9==8 ? 16 : RomManipulator.readShort();
+			if(type%9!=8)
 				RomManipulator.skip(2);
 			palettes = new Palette[palCount];
 			for(int i=0; i<palCount; i++) {
-				palettes[i] = new Palette(type==8);
+				palettes[i] = new Palette(type%9==8);
 			}
 			
 			int animCount;
-			if(type==1 || type==4 || type==5) {
+			if(type%9==1 || type%9==4 || type%9==5) {
 				//Parse excerpt metadata
 				RomManipulator.seek(animDefPointer);
 				int animWidth = RomManipulator.readShort()&0xFFFF;
@@ -52,7 +52,7 @@ public class ImageExtractor{
 			chunkWidth = RomManipulator.readShort()&0xFFFF;
 			chunkHeight = RomManipulator.readShort()&0xFFFF;
 			blockCount = (RomManipulator.readShort()&0xFFFF)-1;
-			if(type==8)
+			if(type%9==8)
 				blockCount++;
 			//The use of these bytes is unknown
 			RomManipulator.skip(8);
@@ -72,7 +72,7 @@ public class ImageExtractor{
 				blocks[i] = new Block(blockData);
 			}
 			
-			if(type==1 || type==4 || type==5) {
+			if(type%9==1 || type%9==4 || type%9==5) {
 				chunkDefPointer = RomManipulator.getFilePointer();
 				
 				RomManipulator.seek(animDefPointer+ 2);
@@ -94,8 +94,8 @@ public class ImageExtractor{
 			
 			//Build chunks
 			chunks = new BufferedImage[chunkCount];
-			System.out.println("Offset: " + RomManipulator.getFilePointer());
-			System.out.println(palettes.length);
+			System.out.println("Offset: " + Integer.toHexString(RomManipulator.getFilePointer()));
+			//System.out.println(palettes.length);
 			for(int i=0; i<chunkCount; i++) {
 				BufferedImage chunk = new BufferedImage(chunkWidth*8, chunkHeight*8, BufferedImage.TYPE_INT_RGB);
 				Graphics g = chunk.getGraphics();
@@ -107,10 +107,14 @@ public class ImageExtractor{
 						boolean ver = ((meta&0x800)>>11)==1;
 						int id = (meta&0x3FF);
 						try {
-							System.out.println(pal);
-							g.drawImage(blocks[type==8 ? id : id-1].render(palettes[pal], hor, ver), k*8, j*8, null);
+							//System.out.println(pal);
+							if(type>8 && id-1<0)
+								continue;
+							g.drawImage(blocks[type%9==8 ? id : id-1].render(palettes[pal], hor, ver), k*8, j*8, null);
 						}catch(ArrayIndexOutOfBoundsException e) {
-							System.out.println("Error: " + e.getMessage());
+							System.out.println(String.format("Error in chunk %x block %x, %x: %s", i, j, k, e));
+							System.out.println(String.format("Block: %x/%x", type%9==8 ? id : id-1, blocks.length));
+							System.out.println(String.format("Palette: %x/%x", pal, palettes.length));
 						}
 					}
 				}
@@ -124,10 +128,11 @@ public class ImageExtractor{
 			RomManipulator.skip(6);
 			
 			//Build image
-			BufferedImage image = new BufferedImage(cols*chunkWidth*8, rows*chunkHeight*8, BufferedImage.TYPE_INT_RGB);
+			BufferedImage image = new BufferedImage(cols*chunkWidth*8, rows*chunkHeight*8*(type>8?2:1), BufferedImage.TYPE_INT_RGB);
+			System.out.println(String.format("%d: %d type %d layers", type, type>8?2:1, type%9));
 			Graphics g = image.getGraphics();
 			//Just output all of the chunks in order for testing purposes
-			if(type==7 || type==8) {
+			if(type%9==7 || type%9==8) {
                 for(int i=0; i<rows; i++) {
                     for(int j=0; j<cols; j++) {
                         try {
@@ -141,32 +146,35 @@ public class ImageExtractor{
 				RomManipulator.setLength(0x2000000);
                 return image;
             }
-			//Build first row
-			Integer[] blank = new Integer[(int)(Math.ceil(cols/2.0)*2)];
-			for(int i=0; i<blank.length; i++) {
-				blank[i] = 0;
-			}
-			Integer[] ids = buildRow(blank);
-			for(int i=0; i<cols; i++) {
-				try {
-					g.drawImage(chunks[ids[i]-1], i*chunkWidth*8, 0, null);
-				}catch(ArrayIndexOutOfBoundsException e) {
-				
+			for(int layer=0; layer<(type>8?2:1); layer++) {
+				System.out.println(layer);
+				//Build first row
+				Integer[] blank = new Integer[(int)(Math.ceil(cols/2.0)*2)];
+				for(int i=0; i<blank.length; i++) {
+					blank[i] = 0;
 				}
-			}
-			//Build subsequent rows
-			for(int i=1; i<rows; i++) {
-				ids = ((type == 7) ? buildRow(blank) : buildRow(ids));
-				for(int j=0; j<cols; j++){
+				Integer[] ids = buildRow(blank);
+				for(int i=0; i<cols; i++) {
 					try {
-						g.drawImage(chunks[ids[j]-1], j*chunkWidth*8, i*chunkHeight*8, null);
+						g.drawImage(chunks[ids[i]-1], i*chunkWidth*8, chunkHeight*8*rows*layer, null);
 					}catch(ArrayIndexOutOfBoundsException e) {
+				
+					}
+				}
+				//Build subsequent rows
+				for(int i=1; i<rows; i++) {
+					ids = ((type%9==7) ? buildRow(blank) : buildRow(ids));
+					for(int j=0; j<cols; j++){
+						try {
+							g.drawImage(chunks[ids[j]-1], j*chunkWidth*8, chunkHeight*8*(rows*layer+i), null);
+						}catch(ArrayIndexOutOfBoundsException e) {
 						
+						}
 					}
 				}
 			}
 			
-			
+			System.out.println("End: " + Integer.toHexString(RomManipulator.getFilePointer()));
 			return image;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -181,7 +189,7 @@ public class ImageExtractor{
 	}
 	
 	private static int loadPointers(int pointers, int type, int offset) throws IOException, InvalidPointerException, InvalidMapDefException {
-		switch(type) {
+		switch(type%9) {
 			case 0:
 			case 7:
 				RomManipulator.seek(pointers+4);
@@ -200,7 +208,7 @@ public class ImageExtractor{
 				blockDefPointer = RomManipulator.parsePointer();
 				RomManipulator.skip(4);
 				imgDefPointer = RomManipulator.parsePointer();
-				return 1;
+				return type;
 			case 2:
 				RomManipulator.seek(pointers+4);
 				palPointer = RomManipulator.parsePointer();
@@ -209,7 +217,7 @@ public class ImageExtractor{
 				blockDefPointer = RomManipulator.parsePointer();
 				RomManipulator.skip(4);
 				imgDefPointer = RomManipulator.parsePointer();
-				return 2;
+				return type;
 			case 3:
 				RomManipulator.seek(pointers+4);
 				palPointer = RomManipulator.parsePointer();
@@ -218,7 +226,7 @@ public class ImageExtractor{
 				blockDefPointer = RomManipulator.parsePointer();
 				RomManipulator.skip(4);
 				imgDefPointer = RomManipulator.parsePointer();
-				return 3;
+				return type;
 			case 4:
 				RomManipulator.seek(pointers+4);
 				palPointer = RomManipulator.parsePointer();
@@ -229,7 +237,7 @@ public class ImageExtractor{
 				blockDefPointer = RomManipulator.parsePointer();
 				RomManipulator.skip(4);
 				imgDefPointer = RomManipulator.parsePointer();
-				return 4;
+				return type;
 			case 5:
 				RomManipulator.seek(pointers+4);
 				palPointer = RomManipulator.parsePointer();
@@ -240,7 +248,7 @@ public class ImageExtractor{
 				blockDefPointer = RomManipulator.parsePointer();
 				RomManipulator.skip(4);
 				imgDefPointer = RomManipulator.parsePointer();
-				return 5;
+				return type;
 			case 6:
 				palPointer = -1;
 				animDefPointer = -1;
@@ -280,7 +288,7 @@ public class ImageExtractor{
 				if(imgDefPointer<0) {
 					throw new InvalidMapDefException("No arrangement data");
 				}
-				return animDefPointer<0 ? 0 : 1;
+				return (animDefPointer<0 ? 0 : 1) + (type>8?9:0);
 			case 8:
 				RomManipulator.seek(pointers+12);
 				blockDefPointer = RomManipulator.length();
@@ -293,10 +301,11 @@ public class ImageExtractor{
 				chunkDefPointer = RomManipulator.length();
 				at4px(off1, false);
 				imgDefPointer = ConfigHandler.getAssem(offset);
-				return 8;
+				return type;
 			default:
 				throw new InvalidMapDefException("Unsupported map def type");
 		}
+		
 	}
 	
 	//RomManipulator should already be pointing to the row def
