@@ -221,6 +221,27 @@ public class RomManipulator {
 		
 		return -1;
 	}
+
+	public static short[] readMask(int totalLen, Short ... partLens){
+		int mask = 0;
+		short[] parts = new short[partLens.length];
+		int runningTotal = 0;
+		for(int i=0; i<totalLen; i++){
+			mask <<= 8;
+			mask |= instance.readUnsignedByte();
+		}
+		for(int i=0; i<partLens.length; i++){
+ 			int submask = 0;
+ 			for(int j=0; j<partLens[i]; j++){
+				submask <<= 8;
+				submask |= 1;
+			}
+			submask <<= runningTotal;
+			parts[i] = (mask & submask) >> runningTotal;
+			runningTotal += partLens[i];
+		}
+		return parts;
+	}
 	
 	public static void writeStringAndReturn(String in, int offset) throws IOException {
 		int link = getFilePointer();
