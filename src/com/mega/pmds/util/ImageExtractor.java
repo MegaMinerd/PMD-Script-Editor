@@ -22,10 +22,11 @@ public class ImageExtractor{
 		int type = ConfigHandler.getMapDefType(offset);
 		
 		try {
-			type = loadPointers(pointers, type, offset);
+			type = loadPointers(pointers, type, offset);	
 			System.out.println("Palette: " + Integer.toHexString(palPointer).toUpperCase());
 			System.out.println("Tiles: " + Integer.toHexString(blockDefPointer).toUpperCase());
 			System.out.println("Mapping: " + Integer.toHexString(imgDefPointer).toUpperCase());
+
 			//Parse palettes
 			RomManipulator.seek(palPointer);
 			int palCount = type%9==8 ? 16 : RomManipulator.readShort();

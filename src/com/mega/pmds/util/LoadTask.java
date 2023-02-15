@@ -215,9 +215,9 @@ public class LoadTask implements Comparable<LoadTask>{
 				node.add(new ScriptTreeNode("Unknown data: " + CodeConverter.bytesToString(data)));
 				for(int j=0; j<3; j++) {
 					try {
-						ScriptTreeNode script = new ScriptTreeNode("Script " + j);
-						tasks.add(new LoadTask(Type.SCRIPT, script, 1, RomManipulator.parsePointer()));
-						node.add(script);
+						ScriptTreeNode scriptNode = new ScriptTreeNode("Script " + j);
+						tasks.add(new LoadTask(Type.SCRIPT, scriptNode, 1, RomManipulator.parsePointer()));
+						node.add(scriptNode);
 					}catch(InvalidPointerException ipe) {
 						
 					}

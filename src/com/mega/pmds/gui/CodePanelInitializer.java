@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.concurrent.Callable;
 
 import com.mega.pmds.CodeConverter;
+import com.mega.pmds.data.Script;
 
 public class CodePanelInitializer implements Callable<ScriptContentPanel>{
 	private final int offset;
@@ -14,12 +15,7 @@ public class CodePanelInitializer implements Callable<ScriptContentPanel>{
 	
 	@Override
 	public ScriptContentPanel call() {
-		try {
-			return new ScriptCodePanel(CodeConverter.interpretCode(offset));
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
+		return new ScriptCodePanel(new Script(offset));
 	}
 
 }
