@@ -231,11 +231,7 @@ public class RomManipulator {
 			mask |= instance.readUnsignedByte();
 		}
 		for(int i=0; i<partLens.length; i++){
- 			int submask = 0;
- 			for(int j=0; j<partLens[i]; j++){
-				submask <<= 8;
-				submask |= 1;
-			}
+ 			int submask = (1<<partLens[i]) - 1;
 			submask <<= runningTotal;
 			parts[i] = (mask & submask) >> runningTotal;
 			runningTotal += partLens[i];
