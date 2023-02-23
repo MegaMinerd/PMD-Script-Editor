@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import com.mega.pmds.InvalidMapDefException;
 import com.mega.pmds.InvalidPointerException;

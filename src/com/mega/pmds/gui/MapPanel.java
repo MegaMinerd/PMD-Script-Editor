@@ -7,9 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JScrollPane;
 
-import com.mega.pmds.util.ConfigHandler;
 import com.mega.pmds.util.ImageCache;
 import com.mega.pmds.util.ImageExtractor;
 

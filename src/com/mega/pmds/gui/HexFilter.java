@@ -1,12 +1,12 @@
 package com.mega.pmds.gui;
 
+import java.awt.Toolkit;
+
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
 import com.mega.pmds.data.Script;
-
-import java.awt.Toolkit;
 
 public class HexFilter extends DocumentFilter {
 

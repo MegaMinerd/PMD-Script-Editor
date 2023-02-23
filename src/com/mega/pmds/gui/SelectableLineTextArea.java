@@ -1,13 +1,13 @@
 package com.mega.pmds.gui;
 
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+
 import javax.swing.JTextArea;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
-
-import java.awt.Color;
-import java.awt.Point;
-import java.awt.event.MouseEvent;
 
 public class SelectableLineTextArea extends JTextArea {
     private int selectedLine = -1;
