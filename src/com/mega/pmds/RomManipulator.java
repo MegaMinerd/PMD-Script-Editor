@@ -222,13 +222,13 @@ public class RomManipulator {
 		return -1;
 	}
 
-	public static short[] readMask(int totalLen, Short ... partLens){
+	public static int[] readMask(int totalLen, Short ... partLens) throws IOException{
 		int mask = 0;
-		short[] parts = new short[partLens.length];
+		int[] parts = new int[partLens.length];
 		int runningTotal = 0;
 		for(int i=0; i<totalLen; i++){
 			mask <<= 8;
-			mask |= instance.readUnsignedByte();
+			mask |= readUnsignedByte();
 		}
 		for(int i=0; i<partLens.length; i++){
  			int submask = (1<<partLens[i]) - 1;
