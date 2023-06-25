@@ -36,7 +36,8 @@ public class Script {
             try{
                 int curCommandOffset = RomManipulator.getFilePointer();
                 RomManipulator.read(data);
-                Command c = new Command(data, curCommandOffset);
+              //Todo: add an absolute/relative toggle. Absolute is more useful for debugging, but relative is more friendly to end users.
+                Command c = new Command(data, RomManipulator.getFilePointer() - Command.COMMAND_LENGTH);
                 // If we've already seen this command...
                 if(output.containsKey(curCommandOffset)) {
                     break;
@@ -101,7 +102,7 @@ public class Script {
 
     private static boolean isJump(byte in) {
 		int command = ((int)in)&0xFF;
-		return ((0xCC<=command && command<=0xCE) || (0xB3<=command && command<=0xBF) || command==0x3A || command==0xE6 || command==0xE7);
+		return ((0xCC<=command && command<=0xCE) || (0xB3<=command && command<=0xBF) || command==0x3A || command==0xD9 || command==0xE6 || command==0xE7);
 	}
 
     private static int getJumpLabel(byte[] data) {
@@ -126,6 +127,7 @@ public class Script {
             case 0xCC:
             case 0xCD:
             case 0xCE:
+            case 0xD9:
             case 0xE6:
             case 0xE7:
                 label = CodeConverter.parseUnsignedShort(data, 2);
