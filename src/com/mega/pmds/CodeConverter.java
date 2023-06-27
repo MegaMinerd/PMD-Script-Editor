@@ -314,7 +314,7 @@ public class CodeConverter {
 	
 	private static boolean isTerminator(byte in) {
 		int command = ((int)in)&0xFF;
-		return (command==0xE7 || (0xEE<=command && command<=0xF1));
+		return (command==0xE7 || command==0xE9 || (0xEE<=command && command<=0xF1));
 	}
 	
 	public static String bytesToString(byte[] data) {

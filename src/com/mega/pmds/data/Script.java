@@ -36,8 +36,7 @@ public class Script {
             try{
                 int curCommandOffset = RomManipulator.getFilePointer();
                 RomManipulator.read(data);
-              //Todo: add an absolute/relative toggle. Absolute is more useful for debugging, but relative is more friendly to end users.
-                Command c = new Command(data, RomManipulator.getFilePointer() - Command.COMMAND_LENGTH);
+                Command c = new Command(data, curCommandOffset);
                 // If we've already seen this command...
                 if(output.containsKey(curCommandOffset)) {
                     break;

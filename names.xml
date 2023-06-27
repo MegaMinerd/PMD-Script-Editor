@@ -116,6 +116,19 @@ The debug attribute only serves to make note of selection in the debug room that
 		</area>
 		<area name="Luminous Cave" offset="19AD04" map="01891448" type="2" />
 		<area name="Team Base Exterior" offset="1E1940" map="01890188" type="1">
+			<scene name="Default State" offset="1DFC00">
+				<call name="Entry from Town" offset="1DFC00" />
+				<call name="Entry from Friend Area" offset="1DFC28" />
+				<call name="Entry from Dungeon" offset="1DFC50" />
+				<call name="Entry from Base" offset="1DFC78" />
+				<call name="Entry from Center" offset="1DFCA0" />
+				<call name="Warp to Center" offset="1DFCC8" />
+				<call name="Debug Change Tileset" offset="1DFCF0" />
+				<!--object0 name="Mailbox" offset="1DF628" / -->
+				<!--object1 name="Flag" offset="1DF628" / -->
+				<!--object2 name="Friend Area Loading Zone" offset="1DF628" / -->
+			</scene>
+			<scene name="Pelipper Brings Mail" offset="1DFD68" />
 			<scene name="Generic Mission Failure" offset="1DFE30" />
 			<scene name="Generic Mission Success" offset="1DFE80" />
 			<scene name="Generic Partner Greeting" offset="1DFEF8" />
@@ -129,13 +142,16 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Debug &quot;Gengar and Gardevoir&quot; Scenario" offset="1E0088" />
 			<scene name="Partner Shows Base" offset="1E00B0" />
 			<scene name="Player Wakes Partner" offset="1E0150" debug="Main 2A-2" />
-			<scene name="Read the Mail" offset="1E0178">
+			<scene name="Partner Says to Read the Mail" offset="1E0178">
 				<action name="Mailbox" offset="1DF6E8" />
 			</scene>
 			<scene name="Letter from Magnemite" offset="1E01C8" />
 			<scene name="Mission Failure" offset="1E0240" />
 			<scene name="Block Town Before Thunderwave Cave" offset="1E0268" />
 			<scene name="Thunderwave Cave Debrief" offset="1E02E0" debug="Main 2A-6c" />
+			<scene name="Player Says to Read the Mail" offset="1E0308">
+				<action name="Mailbox" offset="1DF700" />
+			</scene>
 			<scene name="Morning After Thunderwave Cave" offset="1E0358" />
 			<scene name="Partner Learns of Dugtrio Mission" offset="1E0380" />
 			<scene name="Mission Failure" offset="1E03D0" />
@@ -155,8 +171,18 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Great Canyon Brief" offset="1E06C8" />
 			<scene name="World's Balance" offset="1E0718" debug="Main 5B-2" />
 			<scene name="Partner Leaves Early" offset="1E0768" />
+			<scene name="Partner Heard Commotion in Square" offset="1E0790" />
+			<scene name="After the Accusation" offset="1E07B8" />
+			<scene name="Before Running Away as Fugitives" offset="1E0830" />
+			<scene name="Preparing to Run Away" offset="1E0858">
+				<call name="Partner Warns to be Quiet in the Square" offset="1E08A8" />
+				<call name="Ready to Go" offset="1E08D0" />
+			</scene>
+			<scene name="Begin Fugitive Sequence" offset="1E08F8" />
+			<scene name="Alakazam Tells You to Run" offset="1E0920" />
+			<scene name="Everyone Says Goodbye" offset="1E0948" />
 		</area>
-		<area name="Team Base Interior" offset="1EE214" map="01890210" >
+		<area name="Team Base Interior" offset="1EE214" map="01890210">
 			<scene name="First Morning" offset="1EDADC" debug="Main 2A-1" />
 			<scene name="First Morning (after nap)" offset="1EDB54" />
 			<scene name="Morning After First Dream" offset="1EDBA4" debug="Main 2B-1b" />
@@ -228,7 +254,7 @@ The debug attribute only serves to make note of selection in the debug room that
 		</area>
 		<area name="Dream Eater World" offset="21812C" map="01890020" type="15" parts="bip" />
 		<area name="Fugitive Cutscene Fissure" offset="21858C" map="01890038" />
-		<area name="Fugitive Cutscene Forest" offset="218BA8"  map="01890050"/>
+		<area name="Fugitive Cutscene Forest" offset="218BA8" map="01890050" />
 		<area name="Lapis Cave - Mt. Blaze" offset="219770" map="01890068" />
 		<area name="Mt. Blaze Distance" offset="21BA10" map="01890080" />
 		<area name="Snowy Trail" offset="21CE8C" map="01890098" />
@@ -243,7 +269,7 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="End Card" offset="22C234" map="01890170" />
 		<area name="Tiny Woods Entrance" offset="22FCA8" map="01890850">
 			<scene name="Map Script" offset="22FB30" />
-			<scene name="Intro"	offset="22FB58" debug="Main 1A-1" />
+			<scene name="Intro" offset="22FB58" debug="Main 1A-1" />
 			<scene name="Failure" offset="22FBA8" debug="Main 1A-2" />
 			<scene name="Butterfree thanks you" offset="22FBD0" debug="Main 1A-3b" />
 		</area>
@@ -314,7 +340,7 @@ The debug attribute only serves to make note of selection in the debug room that
 			<scene name="Map Script" offset="245C44" />
 			<scene name="Intro" offset="245C6C" debug="Main 7A-5" />
 		</area>
-		<area name="Mt. Blaze Entrance" offset="248A40"  map="018909D8">
+		<area name="Mt. Blaze Entrance" offset="248A40" map="018909D8">
 			<scene name="Map Script" offset="2487D8" />
 			<scene name="Intro" offset="2488C8" debug="Main 7B-1" />
 			<scene name="Mt. Blaze failure" offset="248940" debug="Main 7B-3" />
@@ -327,7 +353,7 @@ The debug attribute only serves to make note of selection in the debug room that
 		</area>
 		<area name="Mt. Blaze Summit" offset="24BBE8" map="01890A08">
 			<scene name="Map Script" offset="24BB80" />
-			<scene name="Boss defeat" offset="24BBA8" debug="Main 7B-5" 	/>
+			<scene name="Boss defeat" offset="24BBA8" debug="Main 7B-5" />
 		</area>
 		<area name="Frosty Forest Entrance" offset="24E700" map="01890A20">
 			<scene name="Map Script" offset="24E4B8" />
@@ -403,7 +429,7 @@ The debug attribute only serves to make note of selection in the debug room that
 		<area name="Northern Range Heart" offset="269D60" map="01890BE8" />
 		<area name="Pitfall Valley Depths" offset="26A590" map="01890C00" />
 		<area name="Wish Cave 20F" offset="26A9F8" map="01890C18" />
-		<area name="Murky Cave Depths" offset="26D720"  map="01890C30" />
+		<area name="Murky Cave Depths" offset="26D720" map="01890C30" />
 		<area name="Murky Cave Entrance" offset="26DB04" map="01890C48" />
 		<area name="Howling Forest Heart" offset="26DF6C" map="01890C60" />
 		<area name="Personality Test" offset="26E288" />
