@@ -78,18 +78,25 @@ public class LoadTask implements Comparable<LoadTask>{
 			ScriptTreeNode node = new ScriptTreeNode("Scenes (0x" + Integer.toHexString(offset) + ")", true);
 			parent.add(node);
 			RomManipulator.seek(offset);
-			for(int i=0; i<size; i++) {
+			for(int i=0; i<size; i++) {		
 				int nextSize = RomManipulator.readInt();
-				int pointer = RomManipulator.parsePointer();
-				String name = ConfigHandler.nameFromTypeAndOffset(type, pointer);
-				if(name.equals(""))
+				int pointer;
+				try{	
+					pointer = RomManipulator.parsePointer();
+				}catch(InvalidPointerException ipe){	
+					ScriptTreeNode scene = new ScriptTreeNode("Null Scene", true);
+					node.add(scene);
+					continue;
+				}	
+				String name = ConfigHandler.nameFromTypeAndOffset(type, pointer);	
+				if(name.equals(""))	
 					name = "Unknown Scene (0x" + Integer.toHexString(pointer) + ")";
-				else
+				else	
 					name += " (0x" + Integer.toHexString(pointer) + ")";
-				ScriptTreeNode scene = new ScriptTreeNode(name, true);
-				node.add(scene);
-				tasks.add(new LoadTask(Type.SCENE_DATA, scene, nextSize, pointer));
-			}
+				ScriptTreeNode scene = new ScriptTreeNode(name, true);	
+				node.add(scene);	
+				tasks.add(new LoadTask(Type.SCENE_DATA, scene, nextSize, pointer));	
+			}		
 		}else if(this.type==Type.SCENE_DATA) {
 			RomManipulator.seek(offset);
 			for(int i=0; i<size; i++) {
