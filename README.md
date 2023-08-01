@@ -1,6 +1,7 @@
 # PMD-Script-Editor
 
 PMD-Script-Editor is a java program for editing Pokemon Myster Dungeon: Red Rescue Team scripts. It was created by MegaMinerd.
+This project has been merged into https://github.com/MegaMinerd/RescueBulletin.
 
 ## Installation
 
